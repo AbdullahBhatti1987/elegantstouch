@@ -33,24 +33,6 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
-  const onEdit = (product) => {
-    console.log('Edit Product:', product);
-  };
-
-  const onDelete = async (id) => {
-    try {
-      await axios.delete(`/api/products/${id}`);
-
-      // refresh list after delete
-      fetchProducts();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  if (loading) {
-    return <div className="p-6">Loading products...</div>;
-  }
 
   return (
     <div>
@@ -67,14 +49,16 @@ export default function ProductsPage() {
       {view === 'grid' ? (
         <ProductGrid
           products={products}
-          onEdit={onEdit}
-          onDelete={onDelete}
+          loading={loading}
+          // onEdit={onEdit}
+          // onDelete={onDelete}
         />
       ) : (
         <ProductTable
           products={products}
-          onEdit={onEdit}
-          onDelete={onDelete}
+          loading={loading}
+          // onEdit={onEdit}
+          // onDelete={onDelete}
         />
       )}
     </div>

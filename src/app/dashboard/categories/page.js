@@ -4,59 +4,36 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
-import CategoryGrid from '@/components/admin/categories/CategoryGrid';
-import CategoryTable from '@/components/admin/categories/CategoryTable';
+import AdminCategoryGrid from '@/components/admin/categories/AdminCategoryGrid';
+import AdminCategoryTable from '@/components/admin/categories/AdminCategoryTable';
 import AdminPageHeader from '@/components/admin/common/AdminPageHeader';
 
 export default function CategoriesPage() {
   const router = useRouter();
-
   const [categories, setCategories] = useState([]);
-
   const [view, setView] = useState('grid');
+  const [loading, setLoading] = useState('false');
 
   // GET CATEGORIES
   useEffect(() => {
     async function getCategories() {
+      setLoading(true);
       try {
         const { data } = await axios.get('/api/categories');
 
         if (data.success) {
           setCategories(data.data);
+          setLoading(false);
         }
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     }
-
+    setLoading(false);
     getCategories();
   }, []);
 
-  // EDIT
-  const onEdit = (id) => {
-    router.push(`/dashboard/categories/edit/${id}`);
-  };
-
-  // DELETE
-  const onDelete = async (id) => {
-    const confirmDelete = confirm('Are you sure you want to delete?');
-
-    if (!confirmDelete) return;
-
-    try {
-      const { data } = await axios.delete(`/api/categories/${id}`);
-
-      if (data.success) {
-        setCategories((prev) =>
-          prev.filter((item) => item._id !== id),
-        );
-      }
-
-    
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div>
@@ -77,20 +54,11 @@ export default function CategoriesPage() {
       />
 
       {view === 'grid' ? (
-        <CategoryGrid
-          categories={categories}
-
-          onEdit={onEdit}
-
-          onDelete={onDelete}
-        />
+        <AdminCategoryGrid categories={categories} loading={loading} />
       ) : (
-        <CategoryTable
+        <AdminCategoryTable
           categories={categories}
-
-          onEdit={onEdit}
-
-          onDelete={onDelete}
+          loading={loading}
         />
       )}
     </div>

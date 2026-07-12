@@ -42,30 +42,126 @@ export default function AddCategoryPage() {
     }));
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   // VALIDATION
+  //   if (!formData.name.trim()) {
+  //     toast.error('Category name is required');
+  //     return;
+  //   }
+
+  //   if (!formData.slug.trim()) {
+  //     toast.error('Category slug is required');
+  //     return;
+  //   }
+
+  //   setLoading(true);
+
+  //   try {
+  //     const payload = {
+  //       ...formData,
+
+  //       keywords: formData.keywords
+  //         .split(',')
+  //         .map((item) => item.trim())
+  //         .filter(Boolean),
+
+  //       sortOrder: Number(formData.sortOrder) || 0,
+  //     };
+
+  //     const response = await axios.post('/api/categories', payload);
+
+  //     if (response.data.success) {
+  //       toast.success('Category added successfully');
+
+  //       setTimeout(() => {
+  //         router.push('/dashboard/categories');
+  //       }, 1500);
+  //     } else {
+  //       toast.error(
+  //         response.data.message || 'Category creation failed',
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+
+  //     toast.error(
+  //       error.response?.data?.message || 'Something went wrong',
+  //     );
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const uploadCategoryImage = async (file) => {
+    if (!file) {
+      throw new Error('Category image is required');
+    }
+
+    const formData = new FormData();
+
+    formData.append('files', file);
+
+    formData.append('folder', 'categories');
+
+    const res = await axios.post('/api/upload', formData);
+
+    if (!res.data.success) {
+      throw new Error(res.data.message || 'Image upload failed');
+    }
+
+    return res.data.images[0];
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // VALIDATION
-    if (!formData.name.trim()) {
-      toast.error('Category name is required');
-      return;
-    }
+    // Required fields validation
+    const requiredFields = [
+      {
+        field: 'name',
+        message: 'Category name is required',
+      },
+      {
+        field: 'slug',
+        message: 'Category slug is required',
+      },
+      {
+        field: 'description',
+        message: 'Category description is required',
+      },
+      {
+        field: 'image',
+        message: 'Category image is required',
+      },
+    ];
 
-    if (!formData.slug.trim()) {
-      toast.error('Category slug is required');
-      return;
+    for (const item of requiredFields) {
+      if (!formData[item.field]?.toString().trim()) {
+        toast.error(item.message);
+
+        return;
+      }
     }
 
     setLoading(true);
 
     try {
+      // Upload Image First
+      const imageUrl = await uploadCategoryImage(formData.image);
+
       const payload = {
         ...formData,
 
+        image: imageUrl,
+
         keywords: formData.keywords
-          .split(',')
-          .map((item) => item.trim())
-          .filter(Boolean),
+          ? formData.keywords
+              .split(',')
+              .map((item) => item.trim())
+              .filter(Boolean)
+          : [],
 
         sortOrder: Number(formData.sortOrder) || 0,
       };
@@ -87,7 +183,9 @@ export default function AddCategoryPage() {
       console.log(error);
 
       toast.error(
-        error.response?.data?.message || 'Something went wrong',
+        error.response?.data?.message ||
+          error.message ||
+          'Something went wrong',
       );
     } finally {
       setLoading(false);
@@ -183,10 +281,15 @@ export default function AddCategoryPage() {
 
             <div className="rounded-xl border bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
               <FileUpload
-                label="Upload Image"
+                label="Category Image"
                 name="image"
-                value={image}
-                onChange={setImage}
+                value={formData.image}
+                onChange={(file) =>
+                  setFormData({
+                    ...formData,
+                    image: file,
+                  })
+                }
               />
             </div>
 

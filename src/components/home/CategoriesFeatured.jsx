@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
-import CategorySkeleton from '@/components/admin/common/skeleton/CategorySkeleton';
+import AdminCategorySkeleton from '../admin/common/skeleton/AdminCategorySkeleton';
 
 export default function CategoriesFeatured() {
   const [categories, setCategories] = useState([]);
@@ -13,11 +13,11 @@ export default function CategoriesFeatured() {
   const fetchCategories = async () => {
     try {
       const response = await axios.get('/api/categories');
-      console.log("Response from /api/categories:", response.data); // Log the response data for debugging
+      console.log("Response from /api/categories:", response.data); 
 
       
       if (response.data.success) {
-
+        console.log("Fetched categories:", response.data.data);
         setCategories(response.data.data);
       }
     } catch (error) {
@@ -49,7 +49,7 @@ export default function CategoriesFeatured() {
         {loading
           ? // Skeleton Loading
             [...Array(8)].map((_, index) => (
-              <CategorySkeleton key={index} />
+              <AdminCategorySkeleton key={index} />
             ))
           : // Actual Data
             categories.map((cat) => (
@@ -62,7 +62,9 @@ export default function CategoriesFeatured() {
                   <Image
                     src={cat?.image || '/images/default-category.jpg'}
                     alt={cat?.name || 'Category image not available'}
-                    fill
+                    width={500}
+                    height={500}
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     className="object-cover transition duration-300 group-hover:scale-110"
                   />
                 </div>

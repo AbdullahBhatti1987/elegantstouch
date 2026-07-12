@@ -8,7 +8,7 @@ export default function Home() {
   return (
   <div>
     <HeroCarousel slides={slides} />
-    <CategoriesFeatured />
+    {/* <CategoriesFeatured /> */}
     {/* <FeaturedProducts title="Trending Now" products={products} /> */}
   </div>
   );

@@ -8,23 +8,24 @@ export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function getCategories() {
-      try {
-        const res = await fetch('/api/categories');
+  const getCategories = async () => {
+    console.log('Fetching Categories...');
+    try {
+      const res = await fetch('/api/categories');
 
-        const data = await res.json();
+      const data = await res.json();
 
-        if (data.success) {
-          setCategories(data.data);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
+      if (data.success) {
+        setCategories(data.data);
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     getCategories();
   }, []);
 
@@ -65,12 +66,11 @@ export default function CategoriesPage() {
 
             <div className="relative h-40 w-full overflow-hidden">
               <Image
-                src={cat.image || '/placeholder.jpg'}
-
+                src={cat.image || '/images/placeholder.jpg'}
                 alt={cat.alt || cat.name}
-
-                fill
-
+                width={500}
+                height={500}
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="object-cover transition duration-300 group-hover:scale-110"
               />
             </div>

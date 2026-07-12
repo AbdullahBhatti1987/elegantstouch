@@ -6,8 +6,6 @@ import { Toaster } from 'react-hot-toast';
 import { connectDB } from '@/lib/mongodb';
 import Setting from '@/models/Setting';
 
-
-
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -35,7 +33,7 @@ async function getSettings() {
 
 // DYNAMIC SEO
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export async function generateMetadata() {
   const settings = await getSettings();
 
@@ -68,9 +66,8 @@ export async function generateMetadata() {
 // };
 
 export default async function RootLayout({ children }) {
-
   const settings = await getSettings();
-  
+
   return (
     <html
       lang="en"
@@ -180,4 +177,3 @@ export default async function RootLayout({ children }) {
     </html>
   );
 }
-
