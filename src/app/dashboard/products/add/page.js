@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
@@ -87,15 +86,20 @@ export default function AddProductPage() {
       const { data } = await axios.post('/api/products', payload);
 
       if (data.success) {
-        toast.success('Product added successfully');
+        toast.success(data.message || 'Product added successfully');
 
         setTimeout(() => {
           router.push('/dashboard/products');
         }, 1500);
+      } else {
+        toast.error(data.message || 'Product creation failed');
       }
     } catch (error) {
+      console.error('Add Product Error:', error);
+
       toast.error(
-        error.response?.data?.message || 'Something went wrong',
+        error.response?.data?.message ||
+          'Something went wrong while adding product',
       );
     } finally {
       setLoading(false);
@@ -129,13 +133,14 @@ export default function AddProductPage() {
           <p className="text-gray-500">Create new store product</p>
         </div>
 
-        <Link
-          href="/dashboard/products"
+        <button
+          type="button"
+          onClick={() => router.back()}
           className="flex items-center gap-2 rounded-lg border bg-black px-4 py-2 text-white"
         >
           <ArrowLeft size={18} />
           Back
-        </Link>
+        </button>
       </div>
 
       <form
@@ -346,8 +351,11 @@ export default function AddProductPage() {
           />
         </Section>
 
-        <button className="rounded-lg bg-black px-6 py-3 text-white">
-          Save Product
+        <button
+          disabled={loading}
+          className="rounded-lg bg-black px-6 py-3 text-white disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {loading ? 'Saving...' : 'Save Product'}
         </button>
       </form>
     </div>

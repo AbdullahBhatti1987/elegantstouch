@@ -7,347 +7,349 @@ export const navLinks = [
 ];
 
 // Categories
-export const categories = [
-  {
-    id: "hair-bands",
-    name: "Hair Bands",
-    slug: "hair-bands",
-    image: "/categories/hair-bands.jpg",
-    alt: "Cute Hair Bands for Baby Girls",
-    description: "Premium quality baby girl hair bands suitable for everyday and party wear.",
-    keywords: ["hair bands", "baby hair bands", "girls hair accessories"],
-    status: "active",
-    featured: true,
-    sortOrder: 1,
-    productCount: 25,
-    seoTitle: "Baby Girl Hair Bands Collection",
-    seoDescription: "Shop premium baby girl hair bands online.",
-    createdAt: "2026-07-07",
-    updatedAt: "2026-07-07",
-  },
+// export const categories = [
+//   {
+//     id: "hair-bands",
+//     name: "Hair Bands",
+//     slug: "hair-bands",
+//     image: "/categories/hair-bands.jpg",
+//     alt: "Cute Hair Bands for Baby Girls",
+//     description: "Premium quality baby girl hair bands suitable for everyday and party wear.",
+//     keywords: ["hair bands", "baby hair bands", "girls hair accessories"],
+//     status: "active",
+//     featured: true,
+//     sortOrder: 1,
+//     productCount: 25,
+//     seoTitle: "Baby Girl Hair Bands Collection",
+//     seoDescription: "Shop premium baby girl hair bands online.",
+//     createdAt: "2026-07-07",
+//     updatedAt: "2026-07-07",
+//   },
 
-  {
-    id: "hair-clips",
-    name: "Hair Clips",
-    slug: "hair-clips",
-    image: "/categories/hair-clips.jpg",
-    alt: "Fashion Hair Clips",
-    description: "Stylish and colorful hair clips designed for girls of all ages.",
-    keywords: ["hair clips", "baby clips", "girls accessories"],
-    status: "active",
-    featured: true,
-    sortOrder: 2,
-    productCount: 40,
-    seoTitle: "Cute Hair Clips Collection",
-    seoDescription: "Beautiful hair clips for baby girls.",
-    createdAt: "2026-07-07",
-    updatedAt: "2026-07-07",
-  },
+//   {
+//     id: "hair-clips",
+//     name: "Hair Clips",
+//     slug: "hair-clips",
+//     image: "/categories/hair-clips.jpg",
+//     alt: "Fashion Hair Clips",
+//     description: "Stylish and colorful hair clips designed for girls of all ages.",
+//     keywords: ["hair clips", "baby clips", "girls accessories"],
+//     status: "active",
+//     featured: true,
+//     sortOrder: 2,
+//     productCount: 40,
+//     seoTitle: "Cute Hair Clips Collection",
+//     seoDescription: "Beautiful hair clips for baby girls.",
+//     createdAt: "2026-07-07",
+//     updatedAt: "2026-07-07",
+//   },
 
-  {
-    id: "jewellery",
-    name: "Jewellery",
-    slug: "baby-jewellery",
-    image: "/categories/jewellery.jpg",
-    alt: "Kids Jewellery",
-    description: "Safe and elegant jewellery collection for baby girls.",
-    keywords: ["kids jewellery", "baby jewellery"],
-    status: "active",
-    featured: true,
-    sortOrder: 3,
-    productCount: 35,
-    seoTitle: "Baby Jewellery Collection",
-    seoDescription: "Premium jewellery for kids.",
-    createdAt: "2026-07-07",
-    updatedAt: "2026-07-07",
-  },
+//   {
+//     id: "jewellery",
+//     name: "Jewellery",
+//     slug: "baby-jewellery",
+//     image: "/categories/jewellery.jpg",
+//     alt: "Kids Jewellery",
+//     description: "Safe and elegant jewellery collection for baby girls.",
+//     keywords: ["kids jewellery", "baby jewellery"],
+//     status: "active",
+//     featured: true,
+//     sortOrder: 3,
+//     productCount: 35,
+//     seoTitle: "Baby Jewellery Collection",
+//     seoDescription: "Premium jewellery for kids.",
+//     createdAt: "2026-07-07",
+//     updatedAt: "2026-07-07",
+//   },
 
-  {
-    id: "gift-sets",
-    name: "Gift Sets",
-    slug: "gift-sets",
-    image: "/categories/gift-sets.jpg",
-    alt: "Baby Gift Sets",
-    description: "Luxury gift sets for birthdays and special occasions.",
-    keywords: ["gift set", "baby gifts"],
-    status: "active",
-    featured: false,
-    sortOrder: 4,
-    productCount: 18,
-    seoTitle: "Baby Gift Sets",
-    seoDescription: "Beautiful gift sets for baby girls.",
-    createdAt: "2026-07-07",
-    updatedAt: "2026-07-07",
-  },
+//   {
+//     id: "gift-sets",
+//     name: "Gift Sets",
+//     slug: "gift-sets",
+//     image: "/categories/gift-sets.jpg",
+//     alt: "Baby Gift Sets",
+//     description: "Luxury gift sets for birthdays and special occasions.",
+//     keywords: ["gift set", "baby gifts"],
+//     status: "active",
+//     featured: false,
+//     sortOrder: 4,
+//     productCount: 18,
+//     seoTitle: "Baby Gift Sets",
+//     seoDescription: "Beautiful gift sets for baby girls.",
+//     createdAt: "2026-07-07",
+//     updatedAt: "2026-07-07",
+//   },
 
-  {
-    id: "hair-bows",
-    name: "Hair Bows",
-    slug: "hair-bows",
-    image: "/categories/hair-bows.jpg",
-    alt: "Cute Hair Bows",
-    description: "Premium handmade hair bows for girls.",
-    keywords: ["hair bows", "baby bows"],
-    status: "active",
-    featured: false,
-    sortOrder: 5,
-    productCount: 30,
-  },
+//   {
+//     id: "hair-bows",
+//     name: "Hair Bows",
+//     slug: "hair-bows",
+//     image: "/categories/hair-bows.jpg",
+//     alt: "Cute Hair Bows",
+//     description: "Premium handmade hair bows for girls.",
+//     keywords: ["hair bows", "baby bows"],
+//     status: "active",
+//     featured: false,
+//     sortOrder: 5,
+//     productCount: 30,
+//   },
 
-  {
-    id: "scrunchies",
-    name: "Scrunchies",
-    slug: "scrunchies",
-    image: "/categories/scrunchies.jpg",
-    alt: "Colorful Scrunchies",
-    description: "Soft and comfortable scrunchies collection.",
-    keywords: ["scrunchies", "hair bands"],
-    status: "active",
-    featured: false,
-    sortOrder: 6,
-    productCount: 22,
-  },
+//   {
+//     id: "scrunchies",
+//     name: "Scrunchies",
+//     slug: "scrunchies",
+//     image: "/categories/scrunchies.jpg",
+//     alt: "Colorful Scrunchies",
+//     description: "Soft and comfortable scrunchies collection.",
+//     keywords: ["scrunchies", "hair bands"],
+//     status: "active",
+//     featured: false,
+//     sortOrder: 6,
+//     productCount: 22,
+//   },
 
-  {
-    id: "bracelets",
-    name: "Bracelets",
-    slug: "bracelets",
-    image: "/categories/bracelets.jpg",
-    alt: "Kids Bracelets",
-    description: "Beautiful bracelets designed for kids.",
-    keywords: ["kids bracelets", "baby accessories"],
-    status: "inactive",
-    featured: false,
-    sortOrder: 7,
-    productCount: 15,
-  },
+//   {
+//     id: "bracelets",
+//     name: "Bracelets",
+//     slug: "bracelets",
+//     image: "/categories/bracelets.jpg",
+//     alt: "Kids Bracelets",
+//     description: "Beautiful bracelets designed for kids.",
+//     keywords: ["kids bracelets", "baby accessories"],
+//     status: "inactive",
+//     featured: false,
+//     sortOrder: 7,
+//     productCount: 15,
+//   },
 
-  {
-    id: "necklaces",
-    name: "Necklaces",
-    slug: "necklaces",
-    image: "/categories/necklaces.jpg",
-    alt: "Kids Necklaces",
-    description: "Elegant necklaces for special events.",
-    keywords: ["kids necklace", "baby jewellery"],
-    status: "active",
-    featured: false,
-    sortOrder: 8,
-    productCount: 12,
-  },
+//   {
+//     id: "necklaces",
+//     name: "Necklaces",
+//     slug: "necklaces",
+//     image: "/categories/necklaces.jpg",
+//     alt: "Kids Necklaces",
+//     description: "Elegant necklaces for special events.",
+//     keywords: ["kids necklace", "baby jewellery"],
+//     status: "active",
+//     featured: false,
+//     sortOrder: 8,
+//     productCount: 12,
+//   },
 
-  {
-    id: "hair-combs",
-    name: "Hair Combs",
-    slug: "hair-combs",
-    image: "/categories/hair-combs.jpg",
-    alt: "Baby Hair Combs",
-    description: "Gentle hair combs specially designed for babies.",
-    keywords: ["baby comb", "hair care"],
-    status: "active",
-    featured: false,
-    sortOrder: 9,
-    productCount: 10,
-  },
+//   {
+//     id: "hair-combs",
+//     name: "Hair Combs",
+//     slug: "hair-combs",
+//     image: "/categories/hair-combs.jpg",
+//     alt: "Baby Hair Combs",
+//     description: "Gentle hair combs specially designed for babies.",
+//     keywords: ["baby comb", "hair care"],
+//     status: "active",
+//     featured: false,
+//     sortOrder: 9,
+//     productCount: 10,
+//   },
 
-  {
-    id: "party-accessories",
-    name: "Party Accessories",
-    slug: "party-accessories",
-    image: "/categories/party-accessories.jpg",
-    alt: "Party Accessories",
-    description: "Cute accessories for birthdays and celebrations.",
-    keywords: ["party accessories", "birthday accessories"],
-    status: "active",
-    featured: true,
-    sortOrder: 10,
-    productCount: 28,
-  },
-];
+//   {
+//     id: "party-accessories",
+//     name: "Party Accessories",
+//     slug: "party-accessories",
+//     image: "/categories/party-accessories.jpg",
+//     alt: "Party Accessories",
+//     description: "Cute accessories for birthdays and celebrations.",
+//     keywords: ["party accessories", "birthday accessories"],
+//     status: "active",
+//     featured: true,
+//     sortOrder: 10,
+//     productCount: 28,
+//   },
+// ];
+
+
 // Featured Products
-export const products = [
-  {
-    id: 101,
-    sku: "HB-001",
-    name: "Elegant Pearl Hair Band",
-    slug: "elegant-pearl-hair-band",
+// export const products = [
+//   {
+//     id: 101,
+//     sku: "HB-001",
+//     name: "Elegant Pearl Hair Band",
+//     slug: "elegant-pearl-hair-band",
 
-    categoryId: "hair-bands",
-    category: "Hair Bands",
+//     categoryId: "hair-bands",
+//     category: "Hair Bands",
 
-    brand: "Baby Princess",
-    collection: "Luxury Collection",
+//     brand: "Baby Princess",
+//     collection: "Luxury Collection",
 
-    price: 499,
-    salePrice: 399,
-    currency: "PKR",
+//     price: 499,
+//     salePrice: 399,
+//     currency: "PKR",
 
-    image: "/products/hair-band-1.jpg",
+//     image: "/products/hair-band-1.jpg",
 
-    images: [
-      "/products/hair-band-1.jpg",
-      "/products/hair-band-1-2.jpg",
-      "/products/hair-band-1-3.jpg",
-    ],
+//     images: [
+//       "/products/hair-band-1.jpg",
+//       "/products/hair-band-1-2.jpg",
+//       "/products/hair-band-1-3.jpg",
+//     ],
 
-    stock: 25,
-    inStock: true,
+//     stock: 25,
+//     inStock: true,
 
-    rating: 4.9,
-    reviews: 56,
+//     rating: 4.9,
+//     reviews: 56,
 
-    badge: "Best Seller",
+//     badge: "Best Seller",
 
-    shortDescription: "Soft pearl hair band for baby girls.",
+//     shortDescription: "Soft pearl hair band for baby girls.",
 
-    description:
-      "Premium quality pearl hair band made with soft elastic for maximum comfort. Perfect for birthdays, weddings and everyday use.",
+//     description:
+//       "Premium quality pearl hair band made with soft elastic for maximum comfort. Perfect for birthdays, weddings and everyday use.",
 
-    features: ["Premium Fabric", "Soft Elastic", "Light Weight", "Comfortable"],
+//     features: ["Premium Fabric", "Soft Elastic", "Light Weight", "Comfortable"],
 
-    specifications: {
-      material: "Cotton + Pearl",
-      color: "Pink",
-      ageGroup: "0-8 Years",
-      weight: "45g",
-    },
+//     specifications: {
+//       material: "Cotton + Pearl",
+//       color: "Pink",
+//       ageGroup: "0-8 Years",
+//       weight: "45g",
+//     },
 
-    tags: ["hair band", "baby girl", "party wear", "premium"],
+//     tags: ["hair band", "baby girl", "party wear", "premium"],
 
-    seo: {
-      title: "Elegant Pearl Hair Band | Baby Princess Pakistan",
-      description:
-        "Buy premium pearl hair band for baby girls in Pakistan with fast delivery.",
-      keywords: [
-        "baby hair band",
-        "girls hair accessories",
-        "pearl hair band",
-        "hair bands pakistan",
-      ],
-    },
-  },
+//     seo: {
+//       title: "Elegant Pearl Hair Band | Baby Princess Pakistan",
+//       description:
+//         "Buy premium pearl hair band for baby girls in Pakistan with fast delivery.",
+//       keywords: [
+//         "baby hair band",
+//         "girls hair accessories",
+//         "pearl hair band",
+//         "hair bands pakistan",
+//       ],
+//     },
+//   },
 
-  {
-    id: 102,
-    sku: "HC-001",
-    name: "Golden Butterfly Hair Clips",
-    slug: "golden-butterfly-hair-clips",
+//   {
+//     id: 102,
+//     sku: "HC-001",
+//     name: "Golden Butterfly Hair Clips",
+//     slug: "golden-butterfly-hair-clips",
 
-    categoryId: "hair-clips",
-    category: "Hair Clips",
+//     categoryId: "hair-clips",
+//     category: "Hair Clips",
 
-    brand: "Baby Princess",
+//     brand: "Baby Princess",
 
-    price: 699,
-    salePrice: 599,
+//     price: 699,
+//     salePrice: 599,
 
-    currency: "PKR",
+//     currency: "PKR",
 
-    image: "/products/clip-1.jpg",
+//     image: "/products/clip-1.jpg",
 
-    stock: 30,
+//     stock: 30,
 
-    rating: 4.8,
+//     rating: 4.8,
 
-    reviews: 41,
+//     reviews: 41,
 
-    badge: "Trending",
+//     badge: "Trending",
 
-    shortDescription: "Golden butterfly clips set for girls.",
+//     shortDescription: "Golden butterfly clips set for girls.",
 
-    description: "Beautiful butterfly clips with premium finishing for kids.",
+//     description: "Beautiful butterfly clips with premium finishing for kids.",
 
-    features: ["Premium Finish", "Strong Grip", "Light Weight"],
+//     features: ["Premium Finish", "Strong Grip", "Light Weight"],
 
-    specifications: {
-      material: "Metal",
-      color: "Golden",
-      ageGroup: "2-12 Years",
-    },
+//     specifications: {
+//       material: "Metal",
+//       color: "Golden",
+//       ageGroup: "2-12 Years",
+//     },
 
-    seo: {
-      title: "Golden Butterfly Hair Clips Pakistan",
-      description: "Stylish butterfly clips for girls at affordable prices.",
-      keywords: ["hair clips", "butterfly clips", "baby clips"],
-    },
-  },
+//     seo: {
+//       title: "Golden Butterfly Hair Clips Pakistan",
+//       description: "Stylish butterfly clips for girls at affordable prices.",
+//       keywords: ["hair clips", "butterfly clips", "baby clips"],
+//     },
+//   },
 
-  {
-    id: 103,
-    sku: "JW-001",
-    name: "Princess Jewellery Box",
-    slug: "princess-jewellery-box",
+//   {
+//     id: 103,
+//     sku: "JW-001",
+//     name: "Princess Jewellery Box",
+//     slug: "princess-jewellery-box",
 
-    categoryId: "jewellery",
-    category: "Jewellery",
+//     categoryId: "jewellery",
+//     category: "Jewellery",
 
-    brand: "Baby Princess",
+//     brand: "Baby Princess",
 
-    price: 1499,
+//     price: 1499,
 
-    currency: "PKR",
+//     currency: "PKR",
 
-    image: "/products/jewellery.jpg",
+//     image: "/products/jewellery.jpg",
 
-    stock: 15,
+//     stock: 15,
 
-    rating: 5,
+//     rating: 5,
 
-    reviews: 19,
+//     reviews: 19,
 
-    badge: "Premium",
+//     badge: "Premium",
 
-    createdAt:"2026-06-25",
+//     createdAt:"2026-06-25",
 
-    description: "Luxury jewellery box with matching accessories.",
+//     description: "Luxury jewellery box with matching accessories.",
 
-    seo: {
-      title: "Princess Jewellery Box Pakistan",
-      description: "Premium jewellery gift box for baby girls.",
-      keywords: ["kids jewellery", "gift box", "baby jewellery"],
-    },
-  },
+//     seo: {
+//       title: "Princess Jewellery Box Pakistan",
+//       description: "Premium jewellery gift box for baby girls.",
+//       keywords: ["kids jewellery", "gift box", "baby jewellery"],
+//     },
+//   },
 
-  {
-    id: 104,
-    sku: "GS-001",
-    name: "Luxury Gift Combo",
-    slug: "luxury-gift-combo",
+//   {
+//     id: 104,
+//     sku: "GS-001",
+//     name: "Luxury Gift Combo",
+//     slug: "luxury-gift-combo",
 
-    categoryId: "gift-sets",
-    category: "Gift Sets",
+//     categoryId: "gift-sets",
+//     category: "Gift Sets",
 
-    brand: "Baby Princess",
+//     brand: "Baby Princess",
 
-    price: 999,
+//     price: 999,
 
-    salePrice: 849,
+//     salePrice: 849,
 
-    currency: "PKR",
+//     currency: "PKR",
 
-    image: "/products/gift-set.jpg",
+//     image: "/products/gift-set.jpg",
 
-    stock: 20,
+//     stock: 20,
 
-    rating: 4.7,
+//     rating: 4.7,
 
-    reviews: 33,
+//     reviews: 33,
 
-    isNew:true,
+//     isNew:true,
 
-    badge: "New Arrival",
+//     badge: "New Arrival",
 
-    createdAt:"2026-07-01",
+//     createdAt:"2026-07-01",
 
-    description: "Luxury gift combo including clips, hair band and jewellery.",
+//     description: "Luxury gift combo including clips, hair band and jewellery.",
 
-    seo: {
-      title: "Luxury Baby Gift Set Pakistan",
-      description: "Beautiful gift combo for birthdays and baby showers.",
-      keywords: ["baby gift", "gift set", "girls accessories"],
-    },
-  },
-];
+//     seo: {
+//       title: "Luxury Baby Gift Set Pakistan",
+//       description: "Beautiful gift combo for birthdays and baby showers.",
+//       keywords: ["baby gift", "gift set", "girls accessories"],
+//     },
+//   },
+// ];
 
 export const footerLinks = {
   shop: [

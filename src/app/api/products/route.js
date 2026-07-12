@@ -54,14 +54,41 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import Product from '@/models/Product';
+import Category from '@/models/Category';
 
 // GET ALL PRODUCTS
 
-export async function GET() {
+export async function GET(request) {
   try {
     await connectDB();
 
-    const products = await Product.find()
+    const { searchParams } = new URL(request.url);
+
+    const categorySlug = searchParams.get('category');
+
+    let query = {};
+
+    if (categorySlug) {
+      const category = await Category.findOne({
+        slug: categorySlug,
+      });
+
+      if (!category) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Category not found',
+          },
+          {
+            status: 404,
+          },
+        );
+      }
+
+      query.categoryId = category._id;
+    }
+
+    const products = await Product.find(query)
       .populate('categoryId')
       .sort({
         createdAt: -1,
@@ -69,16 +96,16 @@ export async function GET() {
 
     return NextResponse.json({
       success: true,
-
       data: products,
     });
   } catch (error) {
+    console.error('PRODUCT API ERROR:', error);
+
     return NextResponse.json(
       {
         success: false,
         message: error.message,
       },
-
       {
         status: 500,
       },

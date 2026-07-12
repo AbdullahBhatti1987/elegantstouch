@@ -3,9 +3,14 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
+
+import Input from '@/components/admin/common/form/Input';
+import Textarea from '@/components/admin/common/form/Textarea';
+import Select from '@/components/admin/common/form/Select';
+import Checkbox from '@/components/admin/common/form/Checkbox';
+import FileUpload from '@/components/admin/common/form/FileUpload';
 
 const initialForm = {
   name: '',
@@ -24,6 +29,7 @@ export default function AddCategoryPage() {
   const router = useRouter();
 
   const [formData, setFormData] = useState(initialForm);
+  const [image, setImage] = useState(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -39,9 +45,20 @@ export default function AddCategoryPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
+    // VALIDATION
+    if (!formData.name.trim()) {
+      toast.error('Category name is required');
+      return;
+    }
 
+    if (!formData.slug.trim()) {
+      toast.error('Category slug is required');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
       const payload = {
         ...formData,
 
@@ -60,7 +77,11 @@ export default function AddCategoryPage() {
 
         setTimeout(() => {
           router.push('/dashboard/categories');
-        }, 2000);
+        }, 1500);
+      } else {
+        toast.error(
+          response.data.message || 'Category creation failed',
+        );
       }
     } catch (error) {
       console.log(error);
@@ -74,197 +95,240 @@ export default function AddCategoryPage() {
   };
 
   return (
-    <div>
+    <div className="mx-auto max-w-6xl">
       {/* Header */}
-
       <div className="my-4 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Add Category</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Add Category
+          </h1>
 
-          <p className="text-sm text-gray-500">
-            Create new product category
+          <p className="mt-1 text-sm text-gray-500">
+            Create and manage your product categories
           </p>
         </div>
 
-        <div
+        <button
+          type="button"
           onClick={() => router.push('/dashboard/categories')}
-          className="flex items-center gap-2 rounded-lg border bg-black px-4 py-2 text-white"
+          className="flex items-center gap-2 rounded-lg border bg-white px-4 py-2.5 text-sm font-medium shadow-sm transition hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
         >
           <ArrowLeft size={18} />
           Back
-        </div>
+        </button>
       </div>
 
       <form
         onSubmit={handleSubmit}
-
-        className="space-y-6 rounded-xl border bg-white p-6 dark:bg-gray-900"
+        className="space-y-8 rounded-2xl border bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900"
       >
-        <div className="grid gap-6 md:grid-cols-2">
-          <Input
-            label="Category Name"
+        {/* Basic Information */}
 
-            name="name"
+        <section>
+          <div className="mb-5">
+            <h2 className="text-lg font-semibold">
+              Basic Information
+            </h2>
 
-            value={formData.name}
+            <p className="text-sm text-gray-500">
+              Add basic category details
+            </p>
+          </div>
 
-            onChange={handleChange}
-          />
+          <div className="grid gap-5 md:grid-cols-3">
+            <Input
+              label="Category Name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Example: Hair Accessories"
+              required
+            />
 
-          <Input
-            label="Slug"
+            <Input
+              label="Slug"
+              name="slug"
+              value={formData.slug}
+              onChange={handleChange}
+              placeholder="hair-accessories"
+              required
+            />
 
-            name="slug"
+            <Input
+              label="Sort Order"
+              name="sortOrder"
+              type="number"
+              value={formData.sortOrder}
+              onChange={handleChange}
+              placeholder="0"
+            />
+          </div>
+        </section>
 
-            value={formData.slug}
+        {/* Image Section */}
 
-            onChange={handleChange}
-          />
+        {/* Image Section */}
 
-          <Input
-            label="Image Alt Text"
+        <section className="rounded-xl border bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-950">
+          <div className="mb-5">
+            <h2 className="text-lg font-semibold">Category Image</h2>
 
-            name="alt"
+            <p className="text-sm text-gray-500">
+              Upload category thumbnail and optimize image SEO
+            </p>
+          </div>
 
-            value={formData.alt}
+          <div className="grid items-start gap-8 md:grid-cols-2">
+            {/* Upload Box */}
 
-            onChange={handleChange}
-          />
+            <div className="rounded-xl border bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+              <FileUpload
+                label="Upload Image"
+                name="image"
+                value={image}
+                onChange={setImage}
+              />
+            </div>
 
-          <Input
-            label="Sort Order"
+            {/* Image Details */}
 
-            name="sortOrder"
+            <div className="flex h-full flex-col justify-center rounded-xl border bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+              <div className="space-y-5">
+                <Input
+                  label="Image Alt Text"
+                  name="alt"
+                  value={formData.alt}
+                  onChange={handleChange}
+                  placeholder="Example: Pink hair accessories"
+                />
 
-            value={formData.sortOrder}
+                <div>
+                  <p className="mb-2 text-sm font-medium">
+                    Image Guidelines
+                  </p>
 
-            onChange={handleChange}
-          />
-        </div>
+                  <ul className="space-y-2 text-sm text-gray-500">
+                    <li>✓ Recommended size: 800x800px</li>
 
-        <div>
-          <label className="mb-2 block font-medium">
-            Category Image
-          </label>
+                    <li>✓ Format: JPG, PNG, WEBP</li>
 
-          <input
-            type="file"
+                    <li>✓ Maximum size: 5MB</li>
 
-            className="w-full rounded-lg border p-2"
-          />
-        </div>
+                    <li>✓ Use SEO friendly alt text</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        <div>
-          <label className="mb-2 block font-medium">
-            Description
-          </label>
+        {/* Description */}
 
-          <textarea
+        <section>
+          <div className="mb-5">
+            <h2 className="text-lg font-semibold">Description</h2>
+
+            <p className="text-sm text-gray-500">
+              Describe your category
+            </p>
+          </div>
+
+          <Textarea
+            label="Category Description"
             name="description"
-
             value={formData.description}
-
             onChange={handleChange}
-
-            rows="4"
-
-            className="w-full rounded-lg border p-3"
-          />
-        </div>
-
-        <Input
-          label="Keywords (comma separated)"
-
-          name="keywords"
-
-          value={formData.keywords}
-
-          onChange={handleChange}
-        />
-
-        <div className="border-t pt-6">
-          <h3 className="mb-4 font-semibold">SEO Settings</h3>
-
-          <Input
-            label="SEO Title"
-
-            name="seoTitle"
-
-            value={formData.seoTitle}
-
-            onChange={handleChange}
+            rows={5}
+            placeholder="Write category description..."
           />
 
-          <textarea
-            name="seoDescription"
+          <div className="mt-5">
+            <Input
+              label="Keywords"
+              name="keywords"
+              value={formData.keywords}
+              onChange={handleChange}
+              placeholder="hair, clips, bands"
+            />
+          </div>
+        </section>
 
-            value={formData.seoDescription}
+        {/* SEO */}
 
-            onChange={handleChange}
+        <section className="rounded-xl border p-6 dark:border-gray-800">
+          <h2 className="mb-1 text-lg font-semibold">SEO Settings</h2>
 
-            placeholder="SEO Description"
+          <p className="mb-5 text-sm text-gray-500">
+            Optimize category for search engines
+          </p>
 
-            rows="3"
+          <div className="space-y-5">
+            <Input
+              label="SEO Title"
+              name="seoTitle"
+              value={formData.seoTitle}
+              onChange={handleChange}
+              placeholder="SEO friendly title"
+            />
 
-            className="mt-4 w-full rounded-lg border p-3"
-          />
-        </div>
+            <Textarea
+              label="SEO Description"
+              name="seoDescription"
+              value={formData.seoDescription}
+              onChange={handleChange}
+              rows={4}
+              placeholder="Meta description"
+            />
+          </div>
+        </section>
 
-        <div className="flex gap-8">
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
+        {/* Settings */}
 
+        <section>
+          <div className="mb-5">
+            <h2 className="text-lg font-semibold">Settings</h2>
+          </div>
+
+          <div className="flex flex-col gap-5 rounded-xl border p-5 md:flex-row md:items-center md:justify-between dark:border-gray-800">
+            <Checkbox
+              label="Featured Category"
               name="featured"
-
               checked={formData.featured}
-
               onChange={handleChange}
             />
-            Featured Category
-          </label>
 
-          <select
-            name="status"
+            <div className="w-full md:w-64">
+              <Select
+                label="Status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                options={[
+                  {
+                    value: 'active',
+                    label: 'Active',
+                  },
+                  {
+                    value: 'inactive',
+                    label: 'Inactive',
+                  },
+                ]}
+              />
+            </div>
+          </div>
+        </section>
 
-            value={formData.status}
+        {/* Submit */}
 
-            onChange={handleChange}
-
-            className="rounded-lg border px-3"
+        <div className="flex justify-end border-t pt-6">
+          <button
+            disabled={loading}
+            className="rounded-lg bg-black px-8 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-gray-800 disabled:opacity-50"
           >
-            <option value="active">Active</option>
-
-            <option value="inactive">Inactive</option>
-          </select>
+            {loading ? 'Saving Category...' : 'Save Category'}
+          </button>
         </div>
-
-        <button
-          disabled={loading}
-
-          className="rounded-lg bg-black px-6 py-3 text-white disabled:opacity-50"
-        >
-          {loading ? 'Saving...' : 'Save Category'}
-        </button>
       </form>
-    </div>
-  );
-}
-
-function Input({ label, name, value, onChange }) {
-  return (
-    <div>
-      <label className="mb-2 block font-medium">{label}</label>
-
-      <input
-        name={name}
-
-        value={value}
-
-        onChange={onChange}
-
-        className="w-full rounded-lg border px-3 py-2"
-      />
     </div>
   );
 }
