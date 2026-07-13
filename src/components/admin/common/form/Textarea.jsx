@@ -5,8 +5,8 @@ export default function Textarea({
   onChange,
   placeholder = '',
   rows = 4,
-  required = false,
-  disabled = false,
+  required,
+  loading,
   error = '',
   className = '',
 }) {
@@ -30,7 +30,7 @@ export default function Textarea({
         onChange={onChange}
         placeholder={placeholder}
         rows={rows}
-        disabled={disabled}
+        disabled={loading}
         required={required}
         className={`w-full rounded-lg border p-3 outline-none focus:border-black dark:bg-gray-800 dark:text-white ${className}`}
       />

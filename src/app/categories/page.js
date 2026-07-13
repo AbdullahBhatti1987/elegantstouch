@@ -1,5 +1,7 @@
 'use client';
 
+import CategoryCard from '@/components/client/categories/CategoryCard';
+import CategoryCardSkeleton from '@/components/common/skeletons/CategoryCardSkeleton';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -14,6 +16,7 @@ export default function CategoriesPage() {
       const res = await fetch('/api/categories');
 
       const data = await res.json();
+      console.log('Categories fetched:', data);
 
       if (data.success) {
         setCategories(data.data);
@@ -53,41 +56,14 @@ export default function CategoriesPage() {
 
       {/* Categories Grid */}
 
-      <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-        {categories.map((cat) => (
-          <Link
-            key={cat._id}
-
-            href={`/categories/${cat.slug}`}
-
-            className="group overflow-hidden rounded-xl bg-white shadow-sm transition hover:shadow-xl dark:bg-zinc-900"
-          >
-            {/* Image */}
-
-            <div className="relative h-40 w-full overflow-hidden">
-              <Image
-                src={cat.image || '/images/placeholder.jpg'}
-                alt={cat.alt || cat.name}
-                width={500}
-                height={500}
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover transition duration-300 group-hover:scale-110"
-              />
-            </div>
-
-            {/* Info */}
-
-            <div className="p-4 text-center">
-              <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
-                {cat.name}
-              </h2>
-
-              {/* <p className="mt-1 text-sm text-gray-500">
-                {cat.productCount || 0} Products
-              </p> */}
-            </div>
-          </Link>
-        ))}
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
+        {loading
+          ? Array.from({ length: 8 }).map((_, i) => (
+              <CategoryCardSkeleton key={i} />
+            ))
+          : categories.map((cat) => (
+              <CategoryCard key={cat._id} category={cat} />
+            ))}
       </div>
     </main>
   );

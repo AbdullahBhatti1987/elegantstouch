@@ -9,9 +9,9 @@ export default function AdminCategoryCard({ category }) {
       onClick={() =>
         router.push(`/dashboard/categories/${category._id}`)
       }
-      className="group overflow-hidden rounded-xl border bg-white transition hover:shadow-lg"
+      className="group overflow-hidden rounded-xl border-2 border-gray-300 shadow-md bg-white transition hover:shadow-xl"
     >
-      <div className="relative h-52 w-full">
+      <div className="relative h-52 w-full shadow-sm">
         {category?.image ? (
           <Image
             src={category.image}
@@ -24,10 +24,10 @@ export default function AdminCategoryCard({ category }) {
         )}
       </div>
 
-      <div className="p-4">
+      <div className="p-4 flex flex-col justify-between">
         <h3 className="text-lg font-semibold">{category.name}</h3>
 
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 line-clamp-2 text-sm text-gray-500 dark:text-gray-400">
           {category.description}
         </p>
 
