@@ -87,7 +87,13 @@ export default function CategoriesPage() {
   const router = useRouter();
 
   const [categories, setCategories] = useState([]);
-  const [view, setView] = useState('grid');
+  const [view, setView] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('categoryView') || 'grid';
+    }
+
+    return 'grid';
+  });
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
 
@@ -115,6 +121,10 @@ export default function CategoriesPage() {
   useEffect(() => {
     getCategories();
   }, []);
+
+  useEffect(() => {
+  localStorage.setItem('categoryView', view);
+}, [view]);
 
   return (
     <div>
