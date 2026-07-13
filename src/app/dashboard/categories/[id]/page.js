@@ -3,8 +3,10 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Edit, Trash2 } from 'lucide-react';
+import {  Edit, Trash2 } from 'lucide-react';
 import axios from 'axios';
+import ConfirmModal from '@/components/admin/common/ConfirmModal';
+import BackButton from '@/components/admin/common/BackButton';
 
 export default function CategoryDetailPage() {
   const params = useParams();
@@ -14,6 +16,10 @@ export default function CategoryDetailPage() {
 
   const [category, setCategory] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     async function getCategory() {
@@ -38,24 +44,20 @@ export default function CategoryDetailPage() {
   }, [id]);
 
   const handleDelete = async () => {
-    const confirmDelete = confirm(
-      'Are you sure you want to delete this category?',
-    );
-
-    if (!confirmDelete) return;
+    setDeleteLoading(true);
 
     try {
-      const res = await fetch(`/api/categories/${id}`, {
-        method: 'DELETE',
-      });
-
-      const data = await res.json();
+      const { data } = await axios.delete(`/api/categories/${id}`);
 
       if (data.success) {
         router.push('/dashboard/categories');
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setDeleteLoading(false);
+
+      setShowDeleteModal(false);
     }
   };
 
@@ -68,102 +70,117 @@ export default function CategoryDetailPage() {
   }
 
   return (
-    <div className="p-6">
-      {/* Header */}
+    <>
+      <div className="mt-4">
+        {/* Header */}
 
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">{category.name}</h1>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">{category.name}</h1>
 
-          <p className="text-gray-500">Category Details</p>
+            <p className="text-gray-500">Category Details</p>
+          </div>
+
+          <BackButton onClick={() => router.back()} />
+
         </div>
 
-        <div className="flex gap-3">
-          <button
-            onClick={() => router.back()}
+        <div className="grid gap-6 md:grid-cols-3">
+          {/* Image */}
 
-            className="flex items-center gap-2 rounded-lg border px-4 py-2"
-          >
-            <ArrowLeft size={18} />
-            Back
-          </button>
+          <div className="relative h-84 overflow-hidden rounded-xl border">
+            {category?.image && (
+              <Image
+                src={category.image || '/images/placeholder.jpg'}
+                alt={category.alt || category.name}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-cover"
+              />
+            )}
+          </div>
 
-          <button
-            onClick={() =>
-              router.push(`/dashboard/categories/edit/${id}`)
-            }
+          {/* Information */}
 
-            className="flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-white"
-          >
-            <Edit size={18} />
-            Edit
-          </button>
+          <div className="relative space-y-4 rounded-xl border bg-white p-6 md:col-span-2 dark:bg-zinc-900">
+            {/* Action Icons */}
+            <div className="absolute top-4 right-4 flex gap-2">
+              {/* Edit */}
+              <button
+                onClick={() =>
+                  router.push(`/dashboard/categories/update/${id}`)
+                }
+                className="rounded-lg bg-black p-2 text-white transition hover:bg-gray-800"
+                title="Edit Category"
+              >
+                <Edit size={17} />
+              </button>
 
-          <button
-            onClick={handleDelete}
+              {/* Delete */}
+              <button
+                onClick={() => setShowDeleteModal(true)}
+                className="rounded-lg bg-red-600 p-2 text-white transition hover:bg-red-700"
+                title="Delete Category"
+              >
+                <Trash2 size={17} />
+              </button>
+            </div>
 
-            className="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-white"
-          >
-            <Trash2 size={18} />
-            Delete
-          </button>
-        </div>
-      </div>
+            {/* Information */}
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {/* Image */}
+            <Info label="Name" value={category.name} />
 
-        <div className="relative h-80 overflow-hidden rounded-xl border">
-          {category?.image && (
-            <Image
-              src={category.image}
-              alt={category.alt || category.name}
-              fill
-              className="object-cover"
+            <Info label="Slug" value={category.slug} />
+
+            <Info label="Description" value={category.description} />
+
+            <Info label="Status" value={category.status} />
+
+            <Info
+              label="Featured"
+              value={category.featured ? 'Yes' : 'No'}
             />
-          )}
+          </div>
         </div>
 
-        {/* Information */}
+        {/* SEO */}
 
-        <div className="space-y-4 rounded-xl border bg-white p-6 md:col-span-2 dark:bg-zinc-900">
-          <Info label="Name" value={category.name} />
+        <div className="mt-6 rounded-xl border bg-white p-6 dark:bg-zinc-900">
+          <h2 className="mb-4 text-xl font-semibold">
+            SEO Information
+          </h2>
 
-          <Info label="Slug" value={category.slug} />
-
-          <Info label="Description" value={category.description} />
-
-          <Info label="Products" value={category.productCount} />
-
-          <Info label="Status" value={category.status} />
+          <Info label="SEO Title" value={category.seoTitle} />
 
           <Info
-            label="Featured"
-            value={category.featured ? 'Yes' : 'No'}
+            label="SEO Description"
+            value={category.seoDescription}
+          />
+
+          <Info
+            label="Keywords"
+            value={category.keywords?.join(', ')}
           />
         </div>
       </div>
+      <ConfirmModal
+        open={showDeleteModal}
 
-      {/* SEO */}
+        title="Delete Category"
 
-      <div className="mt-6 rounded-xl border bg-white p-6 dark:bg-zinc-900">
-        <h2 className="mb-4 text-xl font-semibold">
-          SEO Information
-        </h2>
+        message="This category and related data will be permanently deleted."
 
-        <Info label="SEO Title" value={category.seoTitle} />
+        requireText={category.name}
 
-        <Info
-          label="SEO Description"
-          value={category.seoDescription}
-        />
+        confirmText="Delete Category"
 
-        <Info
-          label="Keywords"
-          value={category.keywords?.join(', ')}
-        />
-      </div>
-    </div>
+        loading={deleteLoading}
+
+        onCancel={() => setShowDeleteModal(false)}
+
+        onConfirm={handleDelete}
+      />
+    </>
   );
 }
 
@@ -172,7 +189,9 @@ function Info({ label, value }) {
     <div>
       <p className="text-sm text-gray-500">{label}</p>
 
-      <p className="font-medium">{value || '-'}</p>
+      <p className="max-w-full overflow-hidden font-medium text-ellipsis whitespace-nowrap">
+        {value || '-'}
+      </p>
     </div>
   );
 }

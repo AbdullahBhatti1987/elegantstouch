@@ -36,9 +36,12 @@ export default function AdminCategoryTable({ categories, loading }) {
                 <td className="p-4">
                   <div className="relative h-12 w-12 overflow-hidden rounded-lg">
                     <Image
-                      src={category.image}
-                      alt={category.alt}
+                      src={
+                        category.image || '/images/placeholder.jpg'
+                      }
+                      alt={category.alt || category.name}
                       fill
+                      sizes="48px"
                       className="object-cover"
                     />
                   </div>

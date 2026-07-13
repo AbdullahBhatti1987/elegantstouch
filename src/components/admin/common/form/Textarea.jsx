@@ -6,7 +6,7 @@ export default function Textarea({
   placeholder = '',
   rows = 4,
   required,
-  loading,
+  loading= false,
   error = '',
   className = '',
 }) {

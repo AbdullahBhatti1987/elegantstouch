@@ -227,18 +227,10 @@
 //   );
 // }
 
-
-
-
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
-import {
-  UploadCloud,
-  X,
-  RefreshCw,
-  Loader2,
-} from 'lucide-react';
+import { UploadCloud, X, RefreshCw, Loader2 } from 'lucide-react';
 
 export default function FileUpload({
   label,
@@ -253,19 +245,58 @@ export default function FileUpload({
   const inputRef = useRef(null);
   const [preview, setPreview] = useState(null);
 
+  // useEffect(() => {
+  //   if (!value) {
+  //     setPreview(null);
+  //     return;
+  //   }
+
+  //   const url = URL.createObjectURL(value);
+
+  //   setPreview(url);
+
+  //   return () => {
+  //     URL.revokeObjectURL(url);
+  //   };
+  // }, [value]);
+
+  // useEffect(() => {
+  //   if (!value) {
+  //     setPreview(null);
+  //     return;
+  //   }
+
+  //   // Existing image URL
+  //   if (typeof value === 'string') {
+  //     setPreview(value);
+  //     return;
+  //   }
+
+  //   // New uploaded file
+  //   const url = URL.createObjectURL(value);
+
+  //   setPreview(url);
+
+  //   return () => {
+  //     URL.revokeObjectURL(url);
+  //   };
+  // }, [value]);
+
   useEffect(() => {
     if (!value) {
       setPreview(null);
       return;
     }
 
-    const url = URL.createObjectURL(value);
+    if (typeof value === 'string') {
+      setPreview(value);
+    } else {
+      const objectUrl = URL.createObjectURL(value);
 
-    setPreview(url);
+      setPreview(objectUrl);
 
-    return () => {
-      URL.revokeObjectURL(url);
-    };
+      return () => URL.revokeObjectURL(objectUrl);
+    }
   }, [value]);
 
   const handleClick = () => {
@@ -314,25 +345,15 @@ export default function FileUpload({
 
       <div
         onClick={handleClick}
-        className={`
-          group relative flex h-[260px]
-          items-center justify-center overflow-hidden
-          rounded-xl border-2 border-dashed
-          bg-gray-50 transition
-          dark:bg-gray-900
-
-          ${
-            error
-              ? 'border-red-500'
-              : 'border-gray-300 hover:border-black dark:border-gray-700'
-          }
-
-          ${
-            loading || disabled
-              ? 'cursor-not-allowed opacity-70'
-              : 'cursor-pointer'
-          }
-        `}
+        className={`group relative flex h-[260px] items-center justify-center overflow-hidden rounded-xl border-2 border-dashed bg-gray-50 transition dark:bg-gray-900 ${
+          error
+            ? 'border-red-500'
+            : 'border-gray-300 hover:border-black dark:border-gray-700'
+        } ${
+          loading || disabled
+            ? 'cursor-not-allowed opacity-70'
+            : 'cursor-pointer'
+        } `}
       >
         <input
           ref={inputRef}
@@ -373,7 +394,7 @@ export default function FileUpload({
             <button
               type="button"
               onClick={removeImage}
-              className="absolute right-3 top-3 rounded-full bg-black p-2 text-white transition hover:bg-red-600"
+              className="absolute top-3 right-3 rounded-full bg-black p-2 text-white transition hover:bg-red-600"
             >
               <X size={16} />
             </button>
@@ -381,15 +402,10 @@ export default function FileUpload({
         ) : (
           <div className="flex flex-col items-center text-center">
             <div className="mb-4 rounded-full bg-gray-200 p-5 dark:bg-gray-800">
-              <UploadCloud
-                size={42}
-                className="text-gray-500"
-              />
+              <UploadCloud size={42} className="text-gray-500" />
             </div>
 
-            <p className="font-medium">
-              Upload Category Image
-            </p>
+            <p className="font-medium">Upload Category Image</p>
 
             <p className="mt-1 text-sm text-gray-500">
               Click to browse image
@@ -402,11 +418,7 @@ export default function FileUpload({
         )}
       </div>
 
-      {error && (
-        <p className="mt-2 text-sm text-red-500">
-          {error}
-        </p>
-      )}
+      {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
     </div>
   );
 }

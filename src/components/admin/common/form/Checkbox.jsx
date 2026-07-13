@@ -36,17 +36,15 @@ export default function Checkbox({
   name,
   checked,
   onChange,
-  disabled = false,
   loading = false,
   error = '',
 }) {
-  const isDisabled = disabled || loading;
 
   return (
     <div className="w-full">
       <label
         className={`flex items-center gap-3 ${
-          isDisabled
+          loading
             ? 'cursor-not-allowed opacity-60'
             : 'cursor-pointer'
         } `}
@@ -59,7 +57,7 @@ export default function Checkbox({
             name={name}
             checked={checked}
             onChange={onChange}
-            disabled={isDisabled}
+            disabled={loading}
             aria-invalid={!!error}
             className={`h-4 w-4 rounded accent-black dark:accent-white ${
               error ? 'ring-2 ring-red-500' : ''

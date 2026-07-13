@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-appbg border-t border-secondary mt-16">
+    <footer className="bg-app border-t border-secondary mt-16">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-12">
 
         {/* Top Section */}
@@ -74,7 +74,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-secondary mt-10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="border-t border-primery mt-10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
 
           <p className="text-sm text-textcolor">
             © 2026 Elegant Touch. All rights reserved.
@@ -82,13 +82,13 @@ export default function Footer() {
 
           {/* Social Icons (simple placeholders) */}
           <div className="flex gap-4 text-sm">
-            <a href="#" className="hover:text-primary text-textcolor transition">
+            <a href="#" className="hover:text-primary text-app transition">
               Instagram
             </a>
-            <a href="#" className="hover:text-primary text-textcolor transition">
+            <a href="#" className="hover:text-primary text-app transition">
               Facebook
             </a>
-            <a href="#" className="hover:text-primary text-textcolor transition">
+            <a href="#" className="hover:text-primary text-app transition">
               WhatsApp
             </a>
           </div>

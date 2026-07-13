@@ -1,22 +1,35 @@
-import { connectDB } from "@/lib/mongodb";
-import Category from "@/models/Category";
+import { connectDB } from '@/lib/mongodb';
+import Category from '@/models/Category';
 
-
-// GET ALL CATEGORIES
-export async function GET() {
+// GET ALL + SEARCH CATEGORIES
+export async function GET(req) {
   try {
     await connectDB();
 
-    const categories = await Category.find()
-      .sort({ sortOrder: 1 });
+    const { searchParams } = new URL(req.url);
+
+    const search = searchParams.get('search') || '';
+
+    let query = {};
+
+    if (search) {
+      query = {
+        name: {
+          $regex: search,
+          $options: 'i',
+        },
+      };
+    }
+
+    const categories = await Category.find(query).sort({
+      sortOrder: 1,
+    });
 
     return Response.json({
       success: true,
       data: categories,
     });
-
   } catch (error) {
-
     return Response.json(
       {
         success: false,
@@ -24,12 +37,10 @@ export async function GET() {
       },
       {
         status: 500,
-      }
+      },
     );
-
   }
 }
-
 
 // CREATE CATEGORY
 export async function POST(request) {
@@ -47,11 +58,9 @@ export async function POST(request) {
       },
       {
         status: 201,
-      }
+      },
     );
-
   } catch (error) {
-
     return Response.json(
       {
         success: false,
@@ -59,8 +68,7 @@ export async function POST(request) {
       },
       {
         status: 500,
-      }
+      },
     );
-
   }
 }

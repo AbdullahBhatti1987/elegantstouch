@@ -1,25 +1,27 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import { Menu, X, Search, Heart, ShoppingCart } from "lucide-react";
-import { navLinks } from "@/content/data";
+import { useState } from 'react';
+import Link from 'next/link';
+import { Menu, X, Search, Heart, ShoppingCart } from 'lucide-react';
+import { navLinks } from '@/content/data';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-appbg/80 backdrop-blur-md border-b border-secondary shadow-sm">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 lg:px-8 h-16">
-
+    <header className="bg-app/80 border-primary sticky top-0 z-50 border-b shadow-sm backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-8">
         {/* Logo */}
-        <Link href="/dashboard" className="text-primary font-bold text-xl">
-        {/* <Link href="/" className="text-primary font-bold text-xl"> */}
+        <Link
+          href="/dashboard"
+          className="text-primary text-xl font-bold"
+        >
+          {/* <Link href="/" className="text-primary font-bold text-xl"> */}
           Elegant Touch
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex gap-8 text-sm font-medium text-textcolor">
+        <nav className="text-textcolor hidden gap-8 text-sm font-medium lg:flex">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -32,32 +34,31 @@ export default function Header() {
         </nav>
 
         {/* Right Icons */}
-        <div className="flex items-center gap-4 text-textcolor">
-
+        <div className="text-textcolor flex items-center gap-4">
           {/* Search */}
           <button className="hover:text-primary transition">
             <Search size={20} />
           </button>
 
           {/* Wishlist */}
-          <button className="relative hover:text-primary transition">
+          <button className="hover:text-primary relative transition">
             <Heart size={20} />
-            <span className="absolute -top-2 -right-2 text-xs bg-primary text-white rounded-full px-1">
+            <span className="bg-primary absolute -top-2 -right-2 rounded-full px-1 text-xs text-white">
               2
             </span>
           </button>
 
           {/* Cart */}
-          <button className="relative hover:text-primary transition">
+          <button className="hover:text-primary relative transition">
             <ShoppingCart size={20} />
-            <span className="absolute -top-2 -right-2 text-xs bg-primary text-white rounded-full px-1">
+            <span className="bg-primary absolute -top-2 -right-2 rounded-full px-1 text-xs text-white">
               3
             </span>
           </button>
 
           {/* Mobile Menu */}
           <button
-            className="lg:hidden hover:text-primary transition"
+            className="hover:text-primary transition lg:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -67,8 +68,8 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="lg:hidden px-4 pb-4 bg-appbg border-t border-secondary">
-          <nav className="flex flex-col gap-4 mt-3 text-textcolor">
+        <div className="bg-app border-primary border-t px-4 pb-4 lg:hidden">
+          <nav className="text-app mt-3 flex flex-col gap-4">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
