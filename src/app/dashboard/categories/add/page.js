@@ -154,155 +154,7 @@
 //     }
 //   };
 
-'use client';
-
-import { useState } from 'react';
-import axios from 'axios';
-import { ArrowLeft, Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-hot-toast';
-
-import Input from '@/components/admin/common/form/Input';
-import Textarea from '@/components/admin/common/form/Textarea';
-import Select from '@/components/admin/common/form/Select';
-import Checkbox from '@/components/admin/common/form/Checkbox';
-import FileUpload from '@/components/admin/common/form/FileUpload';
-
-const initialForm = {
-  name: '',
-  slug: '',
-  alt: '',
-  description: '',
-  keywords: '',
-  status: 'active',
-  featured: false,
-  sortOrder: '',
-  seoTitle: '',
-  seoDescription: '',
-};
-
-export default function AddCategoryPage() {
-  const router = useRouter();
-
-  const [formData, setFormData] = useState(initialForm);
-
-  const [image, setImage] = useState(null);
-
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
-
-  const uploadCategoryImage = async (file) => {
-    if (!file) {
-      throw new Error('Category image is required');
-    }
-
-    const data = new FormData();
-
-    data.append('files', file);
-
-    data.append('folder', 'categories');
-
-    const res = await axios.post('/api/upload', data);
-
-    if (!res.data.success) {
-      throw new Error(res.data.message || 'Image upload failed');
-    }
-
-    return res.data.images[0];
-  };
-
-  const validateForm = () => {
-    const errors = [];
-
-    if (!formData.name.trim()) {
-      errors.push('Category name is required');
-    }
-
-    if (!formData.slug.trim()) {
-      errors.push('Category slug is required');
-    }
-
-    if (!formData.description.trim()) {
-      errors.push('Category description is required');
-    }
-
-    if (!image) {
-      errors.push('Category image is required');
-    }
-
-    return errors;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const validationErrors = validateForm();
-
-    if (validationErrors.length) {
-      validationErrors.forEach((error) => {
-        toast.error(error);
-      });
-
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      // Upload Image
-
-      const imageUrl = await uploadCategoryImage(image);
-
-      const payload = {
-        ...formData,
-
-        image: imageUrl,
-
-        keywords: formData.keywords
-          ? formData.keywords
-              .split(',')
-              .map((item) => item.trim())
-              .filter(Boolean)
-          : [],
-
-        sortOrder: Number(formData.sortOrder) || 0,
-      };
-
-      const response = await axios.post('/api/categories', payload);
-
-      if (response.data.success) {
-        toast.success('Category added successfully');
-
-        setTimeout(() => {
-          router.push('/dashboard/categories');
-        }, 1000);
-      } else {
-        toast.error(
-          response.data.message || 'Category creation failed',
-        );
-      }
-    } catch (error) {
-      console.log(error);
-
-      toast.error(
-        error.response?.data?.message ||
-          error.message ||
-          'Something went wrong',
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // return (
+// return (
 
   // <div className="mx-auto max-w-6xl">
   //   {/* Header */}
@@ -559,6 +411,156 @@ export default function AddCategoryPage() {
   // </div>
   // );
   // }
+
+'use client';
+
+import { useState } from 'react';
+import axios from 'axios';
+import { ArrowLeft, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
+
+import Input from '@/components/admin/common/form/Input';
+import Textarea from '@/components/admin/common/form/Textarea';
+import Select from '@/components/admin/common/form/Select';
+import Checkbox from '@/components/admin/common/form/Checkbox';
+import FileUpload from '@/components/admin/common/form/FileUpload';
+
+const initialForm = {
+  name: '',
+  slug: '',
+  alt: '',
+  description: '',
+  keywords: '',
+  status: 'active',
+  featured: false,
+  sortOrder: '',
+  seoTitle: '',
+  seoDescription: '',
+};
+
+export default function AddCategoryPage() {
+  const router = useRouter();
+
+  const [formData, setFormData] = useState(initialForm);
+
+  const [image, setImage] = useState(null);
+
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const uploadCategoryImage = async (file) => {
+    if (!file) {
+      throw new Error('Category image is required');
+    }
+
+    const data = new FormData();
+
+    data.append('files', file);
+
+    data.append('folder', 'categories');
+
+    const res = await axios.post('/api/upload', data);
+
+    if (!res.data.success) {
+      throw new Error(res.data.message || 'Image upload failed');
+    }
+
+    return res.data.images[0];
+  };
+
+  const validateForm = () => {
+    const errors = [];
+
+    if (!formData.name.trim()) {
+      errors.push('Category name is required');
+    }
+
+    if (!formData.slug.trim()) {
+      errors.push('Category slug is required');
+    }
+
+    if (!formData.description.trim()) {
+      errors.push('Category description is required');
+    }
+
+    if (!image) {
+      errors.push('Category image is required');
+    }
+
+    return errors;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const validationErrors = validateForm();
+
+    if (validationErrors.length) {
+      validationErrors.forEach((error) => {
+        toast.error(error);
+      });
+
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      // Upload Image
+
+      const imageUrl = await uploadCategoryImage(image);
+
+      const payload = {
+        ...formData,
+
+        image: imageUrl,
+
+        keywords: formData.keywords
+          ? formData.keywords
+              .split(',')
+              .map((item) => item.trim())
+              .filter(Boolean)
+          : [],
+
+        sortOrder: Number(formData.sortOrder) || 0,
+      };
+
+      const response = await axios.post('/api/categories', payload);
+
+      if (response.data.success) {
+        toast.success('Category added successfully');
+
+        setTimeout(() => {
+          router.push('/dashboard/categories');
+        }, 1000);
+      } else {
+        toast.error(
+          response.data.message || 'Category creation failed',
+        );
+      }
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        error.response?.data?.message ||
+          error.message ||
+          'Something went wrong',
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
 
   return (
     <div className="mx-auto max-w-6xl">
