@@ -34,7 +34,7 @@ export default function AdminCategoryTable({ categories, loading }) {
 
         <tbody>
           {loading ? (
-            <AdminCategoryTableSkeleton rows={8} />
+            <AdminCategoryTableSkeleton rows={4} />
           ) : (
             categories.map((category) => (
               <tr
