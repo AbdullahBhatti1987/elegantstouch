@@ -1,33 +1,22 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import Header from './Header';
+import Footer from './Footer';
 
 export default function MainLayout({ children }) {
   const pathname = usePathname();
 
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return <>{children}</>;
-  }
-
   const isDashboard = pathname.startsWith('/dashboard');
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       {!isDashboard && <Header />}
 
-      {children}
+      <main className="flex-1">{children}</main>
 
       {!isDashboard && <Footer />}
-    </>
+    </div>
   );
 }

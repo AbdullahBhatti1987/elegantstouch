@@ -1,9 +1,37 @@
 // Navigation
+import { Home, Layers, Flame, Sparkles, Tag } from 'lucide-react';
+
 export const navLinks = [
-  { id: 1, name: "Home", href: "/" },
-  { id: 2, name: "Categories", href: "/categories" },
-  { id: 3, name: "Best Selling", href: "/best-selling" },
-  { id: 4, name: "New Arrivals", href: "/new-arrivals" },
+  {
+    id: 1,
+    name: 'Home',
+    href: '/',
+    icon: Home,
+  },
+  {
+    id: 2,
+    name: 'Categories',
+    href: '/categories',
+    icon: Layers,
+  },
+  {
+    id: 3,
+    name: 'Best Selling',
+    href: '/best-selling',
+    icon: Flame,
+  },
+  {
+    id: 4,
+    name: 'New Arrivals',
+    href: '/new-arrivals',
+    icon: Sparkles,
+  },
+  {
+    id: 5,
+    name: 'Offers',
+    href: '/offers',
+    icon: Tag,
+  },
 ];
 
 // Categories
@@ -164,7 +192,6 @@ export const navLinks = [
 //     productCount: 28,
 //   },
 // ];
-
 
 // Featured Products
 // export const products = [
@@ -355,119 +382,119 @@ export const footerLinks = {
   shop: [
     {
       id: 1,
-      name: "All Products",
-      href: "/products",
-      title: "Browse All Products",
+      name: 'All Products',
+      href: '/products',
+      title: 'Browse All Products',
     },
     {
       id: 2,
-      name: "New Arrivals",
-      href: "/new-arrivals",
-      title: "Latest Baby Accessories",
+      name: 'New Arrivals',
+      href: '/new-arrivals',
+      title: 'Latest Baby Accessories',
     },
     {
       id: 3,
-      name: "Best Selling",
-      href: "/best-selling",
-      title: "Best Selling Products",
+      name: 'Best Selling',
+      href: '/best-selling',
+      title: 'Best Selling Products',
     },
     {
       id: 4,
-      name: "Categories",
-      href: "/categories",
-      title: "Shop by Category",
+      name: 'Categories',
+      href: '/categories',
+      title: 'Shop by Category',
     },
   ],
 
   company: [
     {
       id: 1,
-      name: "About Us",
-      href: "/about",
-      title: "Learn About Our Brand",
+      name: 'About Us',
+      href: '/about',
+      title: 'Learn About Our Brand',
     },
     {
       id: 2,
-      name: "Contact Us",
-      href: "/contact",
-      title: "Get in Touch",
+      name: 'Contact Us',
+      href: '/contact',
+      title: 'Get in Touch',
     },
     {
       id: 3,
-      name: "Our Blog",
-      href: "/blog",
-      title: "Baby Fashion & Parenting Tips",
+      name: 'Our Blog',
+      href: '/blog',
+      title: 'Baby Fashion & Parenting Tips',
     },
     {
       id: 4,
-      name: "Careers",
-      href: "/careers",
-      title: "Join Our Team",
+      name: 'Careers',
+      href: '/careers',
+      title: 'Join Our Team',
     },
   ],
 
   support: [
     {
       id: 1,
-      name: "FAQ",
-      href: "/faq",
-      title: "Frequently Asked Questions",
+      name: 'FAQ',
+      href: '/faq',
+      title: 'Frequently Asked Questions',
     },
     {
       id: 2,
-      name: "Shipping Policy",
-      href: "/shipping",
-      title: "Shipping Information",
+      name: 'Shipping Policy',
+      href: '/shipping',
+      title: 'Shipping Information',
     },
     {
       id: 3,
-      name: "Return & Refund",
-      href: "/returns",
-      title: "Returns and Refund Policy",
+      name: 'Return & Refund',
+      href: '/returns',
+      title: 'Returns and Refund Policy',
     },
     {
       id: 4,
-      name: "Privacy Policy",
-      href: "/privacy-policy",
-      title: "Privacy Policy",
+      name: 'Privacy Policy',
+      href: '/privacy-policy',
+      title: 'Privacy Policy',
     },
     {
       id: 5,
-      name: "Terms & Conditions",
-      href: "/terms-and-conditions",
-      title: "Terms and Conditions",
+      name: 'Terms & Conditions',
+      href: '/terms-and-conditions',
+      title: 'Terms and Conditions',
     },
     {
       id: 6,
-      name: "Help Center",
-      href: "/help",
-      title: "Customer Support",
+      name: 'Help Center',
+      href: '/help',
+      title: 'Customer Support',
     },
   ],
 
   social: [
     {
       id: 1,
-      name: "Facebook",
-      href: "https://facebook.com/yourpage",
+      name: 'Facebook',
+      href: 'https://facebook.com/yourpage',
       external: true,
     },
     {
       id: 2,
-      name: "Instagram",
-      href: "https://instagram.com/yourpage",
+      name: 'Instagram',
+      href: 'https://instagram.com/yourpage',
       external: true,
     },
     {
       id: 3,
-      name: "TikTok",
-      href: "https://tiktok.com/@yourpage",
+      name: 'TikTok',
+      href: 'https://tiktok.com/@yourpage',
       external: true,
     },
     {
       id: 4,
-      name: "WhatsApp",
-      href: "https://wa.me/923001234567",
+      name: 'WhatsApp',
+      href: 'https://wa.me/923001234567',
       external: true,
     },
   ],
@@ -475,91 +502,88 @@ export const footerLinks = {
 
 export const slides = [
   {
-    title: "Baby Princess Collection",
-    subtitle: "New Arrival 2026",
-    description: "Soft & premium accessories for kids",
+    title: 'Baby Princess Collection',
+    subtitle: 'New Arrival 2026',
+    description: 'Soft & premium accessories for kids',
     image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6ru_AFbX3p4n4EEfHJK1Asv6GQoFMVILq9JZrjn0T3bFsC5OAUWvwqaxr&s=10",
-    primaryBtnText: "Shop Now",
-    primaryBtnLink: "/products",
-    secondaryBtnText: "Explore",
-    secondaryBtnLink: "/categories",
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6ru_AFbX3p4n4EEfHJK1Asv6GQoFMVILq9JZrjn0T3bFsC5OAUWvwqaxr&s=10',
+    primaryBtnText: 'Shop Now',
+    primaryBtnLink: '/products',
+    secondaryBtnText: 'Explore',
+    secondaryBtnLink: '/categories',
   },
   {
-    title: "Elegant Hair Clips",
-    subtitle: "Trending Now",
-    description: "Stylish clips for every occasion",
+    title: 'Elegant Hair Clips',
+    subtitle: 'Trending Now',
+    description: 'Stylish clips for every occasion',
     image:
-      "https://bachaaparty.com/cdn/shop/files/IMG_2382_7a832479-3996-4295-b837-38a029214662.jpg?v=1690280546",
-    primaryBtnText: "Buy Now",
-    primaryBtnLink: "/products",
-    secondaryBtnText: "View More",
-    secondaryBtnLink: "/categories",
+      'https://bachaaparty.com/cdn/shop/files/IMG_2382_7a832479-3996-4295-b837-38a029214662.jpg?v=1690280546',
+    primaryBtnText: 'Buy Now',
+    primaryBtnLink: '/products',
+    secondaryBtnText: 'View More',
+    secondaryBtnLink: '/categories',
   },
   {
-    title: "Luxury Baby Jewellery",
-    subtitle: "Premium Collection",
-    description: "Safe & beautiful jewellery for kids",
+    title: 'Luxury Baby Jewellery',
+    subtitle: 'Premium Collection',
+    description: 'Safe & beautiful jewellery for kids',
     image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbA5vVlw40fYd3e2dUUDh9RtqPm_33Hmd4IgGcf72wpA&s",
-    primaryBtnText: "Shop Collection",
-    primaryBtnLink: "/products",
-    secondaryBtnText: "Discover",
-    secondaryBtnLink: "/categories",
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbA5vVlw40fYd3e2dUUDh9RtqPm_33Hmd4IgGcf72wpA&s',
+    primaryBtnText: 'Shop Collection',
+    primaryBtnLink: '/products',
+    secondaryBtnText: 'Discover',
+    secondaryBtnLink: '/categories',
   },
 ];
 
-
 export const metadata = {
-  title: "Best Selling Baby Accessories | Baby Princess",
+  title: 'Best Selling Baby Accessories | Baby Princess',
   description:
-    "Shop our best-selling baby girl hair accessories, jewellery, gift sets, and premium fashion essentials.",
+    'Shop our best-selling baby girl hair accessories, jewellery, gift sets, and premium fashion essentials.',
 };
-
 
 export const orders = [
   {
-    id: "ORD-1001",
-    customer: "Ali Ahmed",
-    email: "ali@gmail.com",
+    id: 'ORD-1001',
+    customer: 'Ali Ahmed',
+    email: 'ali@gmail.com',
 
     products: [
       {
-        name: "Elegant Pearl Hair Band",
+        name: 'Elegant Pearl Hair Band',
         qty: 2,
       },
     ],
 
     total: 798,
-    currency: "PKR",
+    currency: 'PKR',
 
-    payment: "Paid",
+    payment: 'Paid',
 
-    status: "processing",
+    status: 'processing',
 
-    createdAt: "2026-07-07",
+    createdAt: '2026-07-07',
   },
 
   {
-    id: "ORD-1002",
-    customer: "Sara Khan",
-    email: "sara@gmail.com",
+    id: 'ORD-1002',
+    customer: 'Sara Khan',
+    email: 'sara@gmail.com',
 
     products: [
       {
-        name: "Baby Hair Clips",
+        name: 'Baby Hair Clips',
         qty: 1,
       },
     ],
 
     total: 499,
-    currency: "PKR",
+    currency: 'PKR',
 
-    payment: "COD",
+    payment: 'COD',
 
-    status: "pending",
+    status: 'pending',
 
-    createdAt: "2026-07-07",
+    createdAt: '2026-07-07',
   },
 ];
-
