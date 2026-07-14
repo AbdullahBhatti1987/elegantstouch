@@ -6,6 +6,7 @@ import { Menu, X, Search, Heart, ShoppingCart } from 'lucide-react';
 import { navLinks } from '@/content/data';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const searchRef = useRef(null);
+  const pathname = usePathname();
 
   const handleSearch = () => {
     const query = searchQuery.trim();
@@ -22,8 +24,6 @@ export default function Header() {
     if (!query) return;
 
     router.push(`/products?search=${encodeURIComponent(query)}`);
-
-    setSearchOpen(false);
   };
 
   const fetchCounts = async () => {
@@ -40,28 +40,24 @@ export default function Header() {
     }
   };
 
-useEffect(() => {
-  fetchCounts();
+  useEffect(() => {
+    fetchCounts();
 
-  const handleClickOutside = (event) => {
-    if (
-      searchRef.current &&
-      !searchRef.current.contains(event.target)
-    ) {
-      setSearchOpen(false);
-    }
-  };
+    const handleClickOutside = (event) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target)
+      ) {
+        setSearchOpen(false);
+      }
+    };
 
-  document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
-  return () => {
-    document.removeEventListener(
-      'mousedown',
-      handleClickOutside
-    );
-  };
-}, []);
-
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="bg-app/80 border-primary sticky top-0 z-50 border-b shadow-sm backdrop-blur-md">
@@ -81,9 +77,13 @@ useEffect(() => {
             <Link
               key={link.name}
               href={link.href}
-              className="hover:text-primary transition"
+              className={`group hover:text-primary relative inline-block transition ${
+                pathname === link.href ? 'font-bold' : ''
+              } `}
             >
               {link.name}
+
+              <span className="bg-primary absolute bottom-[-4px] left-0 h-[3px] w-full origin-right scale-x-0 transition-transform duration-300 group-hover:origin-left group-hover:scale-x-100" />
             </Link>
           ))}
         </nav>
@@ -91,102 +91,83 @@ useEffect(() => {
         {/* Right Icons */}
         <div className="text-textcolor flex items-center gap-4">
           {/* Search */}
-
-          {/* Search */}
-          <div ref={searchRef} className="relative">
-            <button
-              type="button"
-              aria-label="Search"
-              onClick={() => setSearchOpen((prev) => !prev)}
-              className="group hover:text-primary relative z-10 transition"
-            >
-              <Search
-                size={20}
-                className="transition-all duration-300 group-hover:scale-125"
-              />
-            </button>
-
-            <div
-              className={`bg-app absolute top-1/2 right-8 flex h-11 -translate-y-1/2 items-center overflow-hidden rounded-full border shadow-lg transition-all duration-300 ${
-                searchOpen
-                  ? 'w-72 opacity-100'
-                  : 'pointer-events-none w-0 opacity-0'
-              }`}
-            >
-              <input
-                autoFocus={searchOpen}
-                type="text"
-                value={searchQuery}
-                placeholder="Search products..."
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSearch();
-                  }
-                }}
-                className="flex-1 bg-transparent px-4 text-sm outline-none"
-              />
-
+          <div
+            ref={searchRef}
+            className={`relative overflow-hidden transition-all duration-300 ${
+              searchOpen ? 'w-72' : 'w-5'
+            }`}
+          >
+            {!searchOpen ? (
               <button
                 type="button"
-                onClick={handleSearch}
-                className="hover:text-primary mr-3 transition"
+                aria-label="Search"
+                onClick={() => setSearchOpen(true)}
+                className="group hover:text-primary transition"
               >
-                <Search size={18} />
+                <Search
+                  size={20}
+                  className="mt-2 transition-transform duration-300 group-hover:scale-125"
+                />
               </button>
-            </div>
+            ) : (
+              <div
+                className={`flex h-10 origin-right items-center rounded-xl border border-gray-400 bg-white shadow-sm transition-all duration-300 ${searchOpen ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'} `}
+              >
+                <input
+                  autoFocus
+                  type="text"
+                  value={searchQuery}
+                  placeholder="Search ..."
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch();
+                    }
+                  }}
+                  className={
+                    'flex-1 bg-white px-2 text-sm outline-none'
+                  }
+                />
+
+                <button
+                  type="button"
+                  onClick={handleSearch}
+                  className="hover:text-primary mr-3 transition"
+                >
+                  <Search size={20} />
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Wishlist */}
           <button
             type="button"
-            aria-label={`Wishlist (${wishlistCount} items)`}
             onClick={() => router.push('/wish')}
-            className="group hover:text-primary relative transition"
+            className={`group hover:text-primary relative transition ${
+              pathname === '/wish' ? 'text-primary' : ''
+            } `}
           >
             <Heart
               size={20}
+              fill={pathname === '/wish' ? 'currentColor' : 'none'}
               className="transition-transform duration-300 group-hover:scale-125"
             />
-
-            {wishlistCount > 0 && (
-              <span
-                className="bg-primary absolute -top-2 -right-2 min-w-[18px] rounded-full px-1 text-center text-xs text-white"
-                aria-hidden="true"
-              >
-                {wishlistCount}
-              </span>
-            )}
           </button>
 
           {/* Cart */}
           <button
             type="button"
-            aria-label={`Cart (${cartCount} items)`}
             onClick={() => router.push('/cart')}
-            className="group hover:text-primary relative transition"
+            className={`group hover:text-primary relative transition ${
+              pathname === '/cart' ? 'text-primary' : ''
+            } `}
           >
             <ShoppingCart
               size={20}
+              fill={pathname === '/cart' ? 'currentColor' : 'none'}
               className="transition-transform duration-300 group-hover:scale-125"
             />
-
-            {cartCount > 0 && (
-              <span
-                className="bg-primary absolute -top-2 -right-2 min-w-[18px] rounded-full px-1 text-center text-xs text-white"
-                aria-hidden="true"
-              >
-                {cartCount}
-              </span>
-            )}
-          </button>
-
-          {/* Mobile Menu */}
-          <button
-            className="hover:text-primary aria-label transition lg:hidden"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
