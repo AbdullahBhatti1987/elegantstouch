@@ -240,47 +240,9 @@ export default function FileUpload({
   accept = 'image/*',
   loading = false,
   error = '',
-  disabled = false,
 }) {
   const inputRef = useRef(null);
   const [preview, setPreview] = useState(null);
-
-  // useEffect(() => {
-  //   if (!value) {
-  //     setPreview(null);
-  //     return;
-  //   }
-
-  //   const url = URL.createObjectURL(value);
-
-  //   setPreview(url);
-
-  //   return () => {
-  //     URL.revokeObjectURL(url);
-  //   };
-  // }, [value]);
-
-  // useEffect(() => {
-  //   if (!value) {
-  //     setPreview(null);
-  //     return;
-  //   }
-
-  //   // Existing image URL
-  //   if (typeof value === 'string') {
-  //     setPreview(value);
-  //     return;
-  //   }
-
-  //   // New uploaded file
-  //   const url = URL.createObjectURL(value);
-
-  //   setPreview(url);
-
-  //   return () => {
-  //     URL.revokeObjectURL(url);
-  //   };
-  // }, [value]);
 
   useEffect(() => {
     if (!value) {
@@ -288,9 +250,20 @@ export default function FileUpload({
       return;
     }
 
+    // Existing Cloudinary image
     if (typeof value === 'string') {
       setPreview(value);
-    } else {
+      return;
+    }
+
+    // Existing image object from database
+    if (value?.url) {
+      setPreview(value.url);
+      return;
+    }
+
+    // New uploaded File
+    if (value instanceof File) {
       const objectUrl = URL.createObjectURL(value);
 
       setPreview(objectUrl);
@@ -300,7 +273,7 @@ export default function FileUpload({
   }, [value]);
 
   const handleClick = () => {
-    if (loading || disabled) return;
+    if (loading) return;
 
     inputRef.current?.click();
   };
@@ -350,9 +323,7 @@ export default function FileUpload({
             ? 'border-red-500'
             : 'border-gray-300 hover:border-black dark:border-gray-700'
         } ${
-          loading || disabled
-            ? 'cursor-not-allowed opacity-70'
-            : 'cursor-pointer'
+          loading ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'
         } `}
       >
         <input
@@ -361,7 +332,7 @@ export default function FileUpload({
           name={name}
           accept={accept}
           onChange={handleChange}
-          disabled={loading || disabled}
+          disabled={loading}
           className="hidden"
         />
 

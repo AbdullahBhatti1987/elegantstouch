@@ -90,7 +90,7 @@ export default function Input({
           onChange={onChange}
           placeholder={placeholder}
           required={required}
-          disabled={loading || disabled}
+          disabled={loading}
           readOnly={readOnly}
           autoComplete={autoComplete}
           min={min}

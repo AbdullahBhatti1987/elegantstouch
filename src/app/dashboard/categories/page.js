@@ -95,23 +95,14 @@ export default function CategoriesPage() {
     <div>
       <AdminPageHeader
         title="Categories"
-
         description="Manage your store categories"
-
         searchPlaceholder="Search categories..."
-
         search={search}
-
         onChange={(value) => setSearch(value)}
-
         onSearch={(value) => getCategories(value)}
-
         addText="Add Category"
-
         onAdd={() => router.push('/dashboard/categories/add')}
-
         view={view}
-
         setView={setView}
       />
       {view === 'grid' ? (

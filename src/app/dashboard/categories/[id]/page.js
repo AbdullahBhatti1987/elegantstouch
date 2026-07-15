@@ -3,10 +3,11 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import {  Edit, Trash2 } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
 import axios from 'axios';
 import ConfirmModal from '@/components/admin/common/ConfirmModal';
 import BackButton from '@/components/admin/common/BackButton';
+import CategoryDetailSkeleton from '@/components/admin/common/skeleton/CategoryDetailSkeleton';
 
 export default function CategoryDetailPage() {
   const params = useParams();
@@ -15,14 +16,13 @@ export default function CategoryDetailPage() {
   const router = useRouter();
 
   const [category, setCategory] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const [deleteLoading, setDeleteLoading] = useState(false);
-
   useEffect(() => {
     async function getCategory() {
+      setLoading(true);
       try {
         const { data } = await axios.get(`/api/categories/${id}`);
 
@@ -34,7 +34,9 @@ export default function CategoryDetailPage() {
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
       }
     }
 
@@ -44,8 +46,6 @@ export default function CategoryDetailPage() {
   }, [id]);
 
   const handleDelete = async () => {
-    setDeleteLoading(true);
-
     try {
       const { data } = await axios.delete(`/api/categories/${id}`);
 
@@ -55,15 +55,15 @@ export default function CategoryDetailPage() {
     } catch (error) {
       console.log(error);
     } finally {
-      setDeleteLoading(false);
+      setLoading(false);
 
       setShowDeleteModal(false);
     }
   };
 
-  if (loading) {
-    return <p className="p-6">Loading...</p>;
-  }
+if (loading) {
+  return <CategoryDetailSkeleton />;
+}
 
   if (!category) {
     return <p className="p-6">Category not found</p>;
@@ -82,7 +82,6 @@ export default function CategoryDetailPage() {
           </div>
 
           <BackButton onClick={() => router.back()} />
-
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
@@ -91,7 +90,7 @@ export default function CategoryDetailPage() {
           <div className="relative h-84 overflow-hidden rounded-xl border">
             {category?.image && (
               <Image
-                src={category.image || '/images/placeholder.jpg'}
+                src={category.image.url || '/images/placeholder.jpg'}
                 alt={category.alt || category.name}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -174,7 +173,7 @@ export default function CategoryDetailPage() {
 
         confirmText="Delete Category"
 
-        loading={deleteLoading}
+        loading={loading}
 
         onCancel={() => setShowDeleteModal(false)}
 

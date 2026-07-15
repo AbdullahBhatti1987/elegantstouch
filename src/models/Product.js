@@ -71,7 +71,8 @@ const ProductSchema = new mongoose.Schema(
 
     images: [
       {
-        type: String,
+        url: String,
+        public_id: String,
       },
     ],
 
@@ -87,7 +88,7 @@ const ProductSchema = new mongoose.Schema(
 
     features: {
       type: String,
-       default: '',
+      default: '',
     },
 
     material: {

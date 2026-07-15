@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from 'next/image';
@@ -49,9 +48,8 @@ export default function AdminCategoryTable({ categories, loading }) {
                 <td className="px-4">
                   <div className="relative h-10 w-10 overflow-hidden rounded-lg border">
                     <Image
-                      src={
-                        category.image || '/images/placeholder.jpg'
-                      }
+                      src={category.image.url}
+                      
                       alt={category.alt || category.name}
                       fill
                       sizes="40px"

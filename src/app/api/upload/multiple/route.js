@@ -6,7 +6,6 @@ export async function POST(request) {
     const formData = await request.formData();
 
     const files = formData.getAll('files');
-
     const folder = formData.get('folder');
 
     if (!files.length) {
@@ -21,18 +20,11 @@ export async function POST(request) {
       );
     }
 
-    const urls = [];
-
-    for (const file of files) {
-      const url = await multipleFilesToCloudinary(file, folder);
-
-      urls.push(url);
-    }
+    const images = await multipleFilesToCloudinary(files, folder);
 
     return NextResponse.json({
       success: true,
-
-      images: urls,
+      images,
     });
   } catch (error) {
     return NextResponse.json(

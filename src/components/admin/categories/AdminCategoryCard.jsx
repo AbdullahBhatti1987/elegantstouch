@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from 'next/image';
@@ -19,7 +18,7 @@ export default function AdminCategoryCard({ category }) {
       >
         {category?.image ? (
           <Image
-            src={category.image}
+            src={category.image.url}
             alt={category.alt || category.name}
             fill
             sizes="(max-width:640px)100vw,50vw"
@@ -56,7 +55,7 @@ export default function AdminCategoryCard({ category }) {
       {/* Content */}
       <div className="p-5">
         <div className="mb-2 flex items-start justify-between gap-3">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white truncate">
             {category.name}
           </h3>
 
@@ -85,7 +84,7 @@ export default function AdminCategoryCard({ category }) {
 
         {/* Stats */}
         <div className="mt-5 grid grid-cols-2 gap-3">
-          <div className="rounded-xl bg-gray-50 p-3 dark:bg-gray-800">
+          {/* <div className="rounded-xl bg-gray-50 p-3 dark:bg-gray-800">
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <Package size={15} />
               Products
@@ -94,7 +93,7 @@ export default function AdminCategoryCard({ category }) {
             <p className="mt-1 font-bold">
               {category.productCount || 0}
             </p>
-          </div>
+          </div> */}
 
           <div className="rounded-xl bg-gray-50 p-3 dark:bg-gray-800">
             <div className="flex items-center gap-2 text-sm text-gray-500">

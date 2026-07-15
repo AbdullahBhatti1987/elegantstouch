@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const CategorySchema = new mongoose.Schema(
   {
@@ -18,18 +18,18 @@ const CategorySchema = new mongoose.Schema(
     },
 
     image: {
-      type: String,
-      default: "",
+      url: String,
+      public_id: String,
     },
 
     alt: {
       type: String,
-      default: "",
+      default: '',
     },
 
     description: {
       type: String,
-      default: "",
+      default: '',
     },
 
     keywords: [
@@ -41,8 +41,8 @@ const CategorySchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["active", "inactive"],
-      default: "active",
+      enum: ['active', 'inactive'],
+      default: 'active',
     },
 
     featured: {
@@ -57,12 +57,12 @@ const CategorySchema = new mongoose.Schema(
 
     seoTitle: {
       type: String,
-      default: "",
+      default: '',
     },
 
     seoDescription: {
       type: String,
-      default: "",
+      default: '',
     },
 
     productCount: {
@@ -72,8 +72,8 @@ const CategorySchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default mongoose.models.Category ||
-  mongoose.model("Category", CategorySchema);
+  mongoose.model('Category', CategorySchema);

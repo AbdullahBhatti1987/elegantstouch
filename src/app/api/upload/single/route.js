@@ -1,19 +1,18 @@
 import { NextResponse } from 'next/server';
-import { multipleFilesToCloudinary } from '@/lib/multipleFilesToCloudinary';
+import { singleFileToCloudinary } from '@/lib/singleFileToCloudinary';
 
 export async function POST(request) {
   try {
     const formData = await request.formData();
 
-    const files = formData.getAll('files');
-
+    const file = formData.get('file');
     const folder = formData.get('folder');
 
-    if (!files.length) {
+    if (!file) {
       return NextResponse.json(
         {
           success: false,
-          message: 'No files found',
+          message: 'No file found',
         },
         {
           status: 400,
@@ -21,18 +20,11 @@ export async function POST(request) {
       );
     }
 
-    const urls = [];
-
-    for (const file of files) {
-      const url = await multipleFilesToCloudinary(file, folder);
-
-      urls.push(url);
-    }
+    const image = await singleFileToCloudinary(file, folder);
 
     return NextResponse.json({
       success: true,
-
-      images: urls,
+      image,
     });
   } catch (error) {
     return NextResponse.json(

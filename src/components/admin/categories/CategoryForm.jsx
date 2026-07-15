@@ -29,12 +29,13 @@ export default function CategoryForm({
   initialData = null,
   onSubmit,
   submitText = 'Save Category',
+  loading,
+  setLoading,
 }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(defaultForm);
 
-  const [image, setImage] = useState(null);
+  const [uploadImage, setUploadImage] = useState(null);
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -56,8 +57,8 @@ export default function CategoryForm({
       seoDescription: initialData.seoDescription || '',
     });
 
-    if (initialData.image) {
-      setImage(initialData.image);
+    if (initialData.image?.url) {
+      setUploadImage(initialData.image.url);
     }
   }, [initialData]);
 
@@ -74,20 +75,20 @@ export default function CategoryForm({
     if (!file || typeof file === 'string') {
       return file;
     }
+    
 
     const data = new FormData();
 
-    data.append('files', file);
-
+    data.append('file', file);
     data.append('folder', 'categories');
 
-    const response = await axios.post('/api/upload', data);
+    const response = await axios.post('/api/upload/single', data);
 
     if (!response.data.success) {
       throw new Error('Image upload failed');
     }
 
-    return response.data.images[0];
+    return response.data.image;
   };
 
   const validateForm = () => {
@@ -129,7 +130,7 @@ export default function CategoryForm({
       errors.push('Status is required');
     }
 
-    if (!image) {
+    if (!uploadImage) {
       errors.push('Category image is required');
     }
 
@@ -138,24 +139,29 @@ export default function CategoryForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
- setLoading(true);
+
     const errors = validateForm();
 
     if (errors.length > 0) {
       errors.forEach((error) => toast.error(error));
-      setLoading(false);
       return;
     }
 
     try {
+      setLoading(true);
       setSubmitting(true);
 
-      const imageUrl = await uploadCategoryImage(image);
+      // Upload image only after validation success
+      const image = await uploadCategoryImage(uploadImage);
+      console.log('IMAGE DATA:', image);
 
       const payload = {
         ...formData,
 
-        image: imageUrl,
+        image: {
+          url: image.url,
+          public_id: image.public_id,
+        },
 
         sortOrder: Number(formData.sortOrder) || 0,
 
@@ -170,8 +176,6 @@ export default function CategoryForm({
       await onSubmit(payload);
     } catch (error) {
       console.log(error);
-      
-
       toast.error(error.message || 'Something went wrong');
     } finally {
       setSubmitting(false);
@@ -254,9 +258,9 @@ export default function CategoryForm({
             <FileUpload
               label="Image"
               name="image"
-              value={image}
+              value={uploadImage}
               loading={loading}
-              onChange={setImage}
+              onChange={setUploadImage}
             />
 
             <Input
@@ -359,7 +363,7 @@ export default function CategoryForm({
         <div className="flex justify-end border-t pt-6">
           <button
             type="submit"
-            loading={loading}
+            disabled={loading}
             className="flex items-center gap-2 rounded-lg bg-black px-8 py-3 text-white"
           >
             {loading ? (

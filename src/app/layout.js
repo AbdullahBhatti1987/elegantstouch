@@ -16,6 +16,11 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+// export const metadata = {
+//   title: 'Elegant Touch',
+//   description: '...',
+// };
+
 // GET SETTINGS FROM DATABASE
 async function getSettings() {
   try {
@@ -57,6 +62,17 @@ export async function generateMetadata() {
 
       images: [settings.logo || '/logo.png'],
     },
+
+    metadataBase: new URL('http://localhost:3000'),
+    // metadataBase: new URL('https://www.elegantstouch.com')
+
+    title: {
+      default: 'Elegant Touch',
+      template: '%s | Elegant Touch',
+    },
+
+    description:
+      'Premium hair accessories and jewellery for girls and kids.',
   };
 }
 
@@ -72,7 +88,8 @@ export default async function RootLayout({ children }) {
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-      suppressHydrationWarning
+      suppressHydrationWarning={true}
+      type={typeof window === 'undefined' ? 'text/javascript' : 'text/plain'}
       // hydrationWarning={false}
       // name="google-site-verification"
       // content="xxxxxxxxxxx"

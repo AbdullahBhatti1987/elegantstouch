@@ -1,10 +1,10 @@
 import cloudinary from './cloudinary';
 
-export async function uploadToCloudinary(file, folder) {
+export async function singleFileToCloudinary(file, folder) {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
+
   const result = await new Promise((resolve, reject) => {
-    
     cloudinary.uploader
       .upload_stream(
         {
@@ -29,6 +29,7 @@ export async function uploadToCloudinary(file, folder) {
       )
       .end(buffer);
   });
+
   return {
     url: result.secure_url,
     public_id: result.public_id,

@@ -46,7 +46,7 @@ const menuItems = [
   },
 ];
 
-export default function AdminSidebar({ collapsed, setCollapsed }) {
+export default function AdminSidebar({ collapsed, onToggle }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -61,9 +61,7 @@ export default function AdminSidebar({ collapsed, setCollapsed }) {
       </button>
 
       <aside
-        className={`fixed top-0 left-0 z-40 h-screen bg-white shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] transition-all duration-300 md:static dark:bg-gray-900 dark:shadow-[4px_0_6px_-1px_rgba(0,0,0,0.4)]
-        ${collapsed ? 'w-20' : 'w-64'}
-        ${
+        className={`fixed top-0 left-0 z-40 h-screen bg-white shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] transition-all duration-300 md:static dark:bg-gray-900 dark:shadow-[4px_0_6px_-1px_rgba(0,0,0,0.4)] ${collapsed ? 'w-20' : 'w-64'} ${
           mobileOpen
             ? 'translate-x-0'
             : '-translate-x-full md:translate-x-0'
@@ -72,13 +70,11 @@ export default function AdminSidebar({ collapsed, setCollapsed }) {
         {/* Header */}
         <div className="flex h-16 items-center justify-between px-4">
           {!collapsed && (
-            <h2 className="text-xl font-bold">
-              Admin Panel
-            </h2>
+            <h2 className="text-xl font-bold">Admin Panel</h2>
           )}
 
           <button
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={onToggle}
             className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             <Menu size={20} />
@@ -107,9 +103,7 @@ export default function AdminSidebar({ collapsed, setCollapsed }) {
               >
                 <Icon size={20} />
 
-                {!collapsed && (
-                  <span>{item.title}</span>
-                )}
+                {!collapsed && <span>{item.title}</span>}
               </Link>
             );
           })}
