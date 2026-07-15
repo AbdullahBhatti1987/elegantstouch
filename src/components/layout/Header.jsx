@@ -60,8 +60,8 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="bg-app/80 sticky top-0 z-[999] shadow-sm backdrop-blur-3xl">
-      <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between px-4 md:min-h-20 lg:px-8">
+    <header className="bg-app/80 sticky top-0 z-50 shadow-sm backdrop-blur-3xl">
+      <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between px-4 md:min-h-16 lg:px-8">
         {/* Logo */}
         <Link
           href="/dashboard"
@@ -103,7 +103,7 @@ export default function Header() {
 
                 {/* Active underline + Hover underline */}
                 <span
-                  className={`bg-primary absolute bottom-[-5px] left-0 h-[2px] w-full transition-transform duration-300 ${
+                  className={`bg-primary absolute -bottom-1 left-0 h-0.5 w-full transition-transform duration-300 ${
                     isActive
                       ? 'scale-x-100'
                       : 'origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100'
@@ -132,7 +132,7 @@ export default function Header() {
                   />
                 </button>
               ) : (
-                <div className="flex h-10 w-72 items-center rounded-xl border border-gray-400 bg-white shadow-sm">
+                <div className="absolute  flex h-10 w-72 items-center rounded-xl border border-gray-400 bg-white shadow-sm">
                   <input
                     autoFocus
                     type="text"
@@ -192,7 +192,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setMobileOpen((prev) => !prev)}
-            className="hover:text-primary relative z-[1000] transition lg:hidden"
+            className="hover:text-primary relative z-50 transition lg:hidden"
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>

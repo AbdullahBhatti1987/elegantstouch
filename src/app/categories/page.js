@@ -42,7 +42,7 @@ export default function CategoriesPage() {
   }
 
   return (
-    <main className="min-h-screen w-full bg-cyan-200 px-6 py-12 md:px-12 dark:bg-zinc-950">
+    <main className="min-h-screen w-full bg-white px-6 py-12 md:px-12 dark:bg-zinc-950">
       {/* Header */}
 
       <div className="mb-12 text-center">
