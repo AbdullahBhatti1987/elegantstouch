@@ -11,18 +11,23 @@ export default function CategoriesFeatured() {
   const [loading, setLoading] = useState(true);
 
   const fetchCategories = async () => {
+    console.log('Fetching categories start');
+
+    setLoading(true);
+
     try {
       const response = await axios.get('/api/categories');
-      console.log("Response from /api/categories:", response.data); 
 
-      
+      console.log('API Response:', response);
+
       if (response.data.success) {
-        console.log("Fetched categories:", response.data.data);
         setCategories(response.data.data);
       }
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.log('API ERROR:', error);
     } finally {
+      console.log('Loading false');
+
       setLoading(false);
     }
   };
@@ -60,7 +65,10 @@ export default function CategoriesFeatured() {
               >
                 <div className="relative h-28 w-full">
                   <Image
-                    src={cat?.image || '/images/default-category.jpg'}
+                    src={
+                      cat?.image?.url ||
+                      '/images/default-category.jpg'
+                    }
                     alt={cat?.name || 'Category image not available'}
                     width={500}
                     height={500}

@@ -40,8 +40,8 @@ export default function HeroCarousel({ slides = [] }) {
   const slide = slides[current];
 
   return (
-    <section className="bg-appbg border-b border-secondary">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-16 grid grid-cols-1 lg:grid-cols-2 items-center gap-10">
+    <section className="bg-bg-app border-b border-secondar">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-4 grid grid-cols-1 lg:grid-cols-2 items-center gap-10">
 
         {/* Left Content (Fade) */}
         <div

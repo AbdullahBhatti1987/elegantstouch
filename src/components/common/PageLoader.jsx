@@ -1,16 +1,11 @@
 'use client';
 
-import { ClipLoader } from 'react-spinners';
-
 export default function PageLoader() {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <ClipLoader
-        size={50}
-        speedMultiplier={0.8}
-        color="#005b96"
-        aria-label="Loading Spinner"
-      />
+      <div className="flex h-16 w-16 animate-spin items-center justify-center rounded-full border-4 border-gray-300 border-t-[#005b96]">
+        <div className="h-12 w-12 reverse-spin rounded-full border-4 border-gray-300 border-t-[#005b96] [animation-direction:reverse]" />
+      </div>
     </div>
   );
 }

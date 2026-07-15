@@ -4,7 +4,7 @@ theme: {
       primary: "var(--primary)"
       secondary: "var(--secondary)"
       accent: "var(--accent)"
-      appbg: "var(--background)"
+      bg-app: "var(--background)"
       textcolor: "var(--text)"
       darkMode: "class"
         }

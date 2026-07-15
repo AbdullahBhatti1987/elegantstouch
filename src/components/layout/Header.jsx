@@ -60,8 +60,8 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="bg-app/80  sticky top-0 z-50  shadow-sm backdrop-blur-3xl">
-      <div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between px-4 lg:px-8">
+    <header className="bg-app/80 sticky top-0 z-[999] shadow-sm backdrop-blur-3xl">
+      <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between px-4 md:min-h-20 lg:px-8">
         {/* Logo */}
         <Link
           href="/dashboard"
@@ -191,8 +191,8 @@ export default function Header() {
 
           <button
             type="button"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="hover:text-primary transition lg:hidden"
+            onClick={() => setMobileOpen((prev) => !prev)}
+            className="hover:text-primary relative z-[1000] transition lg:hidden"
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -228,7 +228,9 @@ export default function Header() {
       {/* Mobile Menu */}
       <div
         className={`border-primary bg-app overflow-hidden border-t transition-all duration-500 ease-in-out lg:hidden ${
-          mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          mobileOpen
+            ? 'pointer-events-auto max-h-96 opacity-100'
+            : 'pointer-events-none max-h-0 opacity-0'
         }`}
       >
         <nav className="text-app flex flex-col gap-4 px-4 py-4">
@@ -237,7 +239,7 @@ export default function Header() {
 
             return (
               <Link
-                key={link.id}
+                key={link.name}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={`group hover:text-primary flex items-center gap-3 transition-all duration-500 ${

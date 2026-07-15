@@ -75,6 +75,12 @@ export async function generateMetadata() {
       'Premium hair accessories and jewellery for girls and kids.',
   };
 }
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 // export const metadata = {
 //   title: 'Elegant Touch',
@@ -89,7 +95,11 @@ export default async function RootLayout({ children }) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning={true}
-      type={typeof window === 'undefined' ? 'text/javascript' : 'text/plain'}
+      // type={
+      //   typeof window === 'undefined'
+      //     ? 'text/javascript'
+      //     : 'text/plain'
+      // }
       // hydrationWarning={false}
       // name="google-site-verification"
       // content="xxxxxxxxxxx"
@@ -187,7 +197,7 @@ export default async function RootLayout({ children }) {
         )}
       </head>
 
-      <body className="bg-appbg text-textcolor min-h-screen">
+      <body className="bg-bg-app text-textcolor min-h-screen">
         <MainLayout>{children}</MainLayout>
         <Toaster position="top-right" reverseOrder={false} />
       </body>

@@ -2,8 +2,9 @@
 
 import { usePathname } from 'next/navigation';
 
-import Header from './Header';
+// import Header from './Header';
 import Footer from './Footer';
+import Header from './Header';
 
 export default function MainLayout({ children }) {
   const pathname = usePathname();
@@ -11,7 +12,7 @@ export default function MainLayout({ children }) {
   const isDashboard = pathname.startsWith('/dashboard');
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex flex-col">
       {!isDashboard && <Header />}
 
       <main className="flex-1">{children}</main>

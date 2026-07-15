@@ -20,7 +20,7 @@ export default function CategoryCard({ category }) {
         )}
 
         <Image
-          src={category.image || '/images/placeholder.jpg'}
+          src={category.image.url || '/images/placeholder.jpg'}
 
           alt={category.alt || category.name}
 

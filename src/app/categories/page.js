@@ -1,9 +1,8 @@
 'use client';
 
 import CategoryCard from '@/components/client/categories/CategoryCard';
+import PageLoader from '@/components/common/PageLoader';
 import CategoryCardSkeleton from '@/components/common/skeletons/CategoryCardSkeleton';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function CategoriesPage() {
@@ -29,19 +28,21 @@ export default function CategoriesPage() {
   };
 
   useEffect(() => {
-    getCategories();
+
+    setTimeout(() => {
+      getCategories();
+      
+    }, 2000);
   }, []);
 
   if (loading) {
     return (
-      <main className="min-h-screen w-full bg-gray-50 px-6 py-12 md:px-12 dark:bg-zinc-950">
-        <p className="text-center">Loading categories...</p>
-      </main>
+      <PageLoader />
     );
   }
 
   return (
-    <main className="min-h-screen w-full bg-gray-50 px-6 py-12 md:px-12 dark:bg-zinc-950">
+    <main className="min-h-screen w-full bg-cyan-200 px-6 py-12 md:px-12 dark:bg-zinc-950">
       {/* Header */}
 
       <div className="mb-12 text-center">
@@ -56,7 +57,7 @@ export default function CategoriesPage() {
 
       {/* Categories Grid */}
 
-      <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2  gap-6 md:grid-cols-3 lg:grid-cols-4">
         {loading
           ? Array.from({ length: 8 }).map((_, i) => (
               <CategoryCardSkeleton key={i} />
