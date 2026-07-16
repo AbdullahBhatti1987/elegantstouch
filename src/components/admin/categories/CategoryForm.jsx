@@ -20,7 +20,7 @@ const defaultForm = {
   keywords: '',
   status: 'active',
   featured: false,
-  sortOrder: '',
+  sortOrder: 0,
   seoTitle: '',
   seoDescription: '',
 };
@@ -52,7 +52,7 @@ export default function CategoryForm({
         : '',
       status: initialData.status || 'active',
       featured: initialData.featured || false,
-      sortOrder: initialData.sortOrder || '',
+      sortOrder: initialData.sortOrder ?? 0,
       seoTitle: initialData.seoTitle || '',
       seoDescription: initialData.seoDescription || '',
     });
@@ -65,17 +65,28 @@ export default function CategoryForm({
   const handleChange = (e) => {
     const { name, value, checked, type } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
+    setFormData((prev) => {
+      const updated = {
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+      };
+
+      if (name === 'name') {
+        updated.slug = value
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, '-')
+          .replace(/[^a-z0-9-]/g, '');
+      }
+
+      return updated;
+    });
   };
 
   const uploadCategoryImage = async (file) => {
     if (!file || typeof file === 'string') {
       return file;
     }
-    
 
     const data = new FormData();
 
@@ -122,7 +133,11 @@ export default function CategoryForm({
       errors.push('SEO description is required');
     }
 
-    if (!formData.sortOrder) {
+    if (
+      formData.sortOrder === '' ||
+      formData.sortOrder === null ||
+      formData.sortOrder === undefined
+    ) {
       errors.push('Sort order is required');
     }
 
@@ -160,6 +175,7 @@ export default function CategoryForm({
 
         image: {
           url: image.url,
+          thumbnail: image.thumbnail,
           public_id: image.public_id,
         },
 
@@ -234,6 +250,7 @@ export default function CategoryForm({
               value={formData.slug}
               loading={loading}
               onChange={handleChange}
+              readOnly
             />
 
             <Input

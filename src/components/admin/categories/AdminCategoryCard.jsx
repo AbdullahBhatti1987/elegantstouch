@@ -18,7 +18,7 @@ export default function AdminCategoryCard({ category }) {
       >
         {category?.image ? (
           <Image
-            src={category.image.url}
+            src={category.image.thumbnail}
             alt={category.alt || category.name}
             fill
             sizes="(max-width:640px)100vw,50vw"

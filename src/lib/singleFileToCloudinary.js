@@ -30,8 +30,14 @@ export async function singleFileToCloudinary(file, folder) {
       .end(buffer);
   });
 
-  return {
-    url: result.secure_url,
-    public_id: result.public_id,
-  };
+ return {
+  url: result.secure_url,
+
+  thumbnail: result.secure_url.replace(
+    '/upload/',
+    '/upload/w_300,h_300,c_fill,q_auto/'
+  ),
+
+  public_id: result.public_id,
+};
 }

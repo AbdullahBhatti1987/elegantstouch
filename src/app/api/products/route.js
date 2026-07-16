@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import Product from '@/models/Product';
 import Category from '@/models/Category';
+import { multipleFilesToCloudinary } from '@/lib/multipleFilesToCloudinary';
 
 // GET ALL PRODUCTS
 
@@ -172,18 +173,6 @@ export async function POST(req) {
 
     const body = await req.json();
 
-    if (!body.categoryId) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Category is required',
-        },
-        {
-          status: 400,
-        },
-      );
-    }
-
     const product = await Product.create({
       ...body,
 
@@ -193,39 +182,22 @@ export async function POST(req) {
 
       stock: Number(body.stock),
 
-      features: body.features || '',
+      tags: body.tags || [],
 
-      tags: Array.isArray(body.tags)
-        ? body.tags
-        : body.tags
-          ? body.tags.split(',').map((i) => i.trim())
-          : [],
-
-      keywords: Array.isArray(body.keywords)
-        ? body.keywords
-        : body.keywords
-          ? body.keywords.split(',').map((i) => i.trim())
-          : [],
+      keywords: body.keywords || [],
     });
 
-    return NextResponse.json(
-      {
-        success: true,
-        data: product,
-        message: 'Product created successfully',
-      },
-
-      {
-        status: 201,
-      },
-    );
+    return NextResponse.json({
+      success: true,
+      data: product,
+      message: 'Product created successfully',
+    });
   } catch (error) {
     return NextResponse.json(
       {
         success: false,
         message: error.message,
       },
-
       {
         status: 500,
       },

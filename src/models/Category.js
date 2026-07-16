@@ -20,6 +20,7 @@ const CategorySchema = new mongoose.Schema(
     image: {
       url: String,
       public_id: String,
+      thumbnail: String,
     },
 
     alt: {

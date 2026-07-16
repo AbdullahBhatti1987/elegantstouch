@@ -5,11 +5,17 @@ import { ArrowLeft } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import MultiImageUpload from '@/components/admin/common/form/MultiImageUpload';
+import Input from '@/components/admin/common/form/Input';
+import Textarea from '@/components/admin/common/form/Textarea';
+import Checkbox from '@/components/admin/common/form/Checkbox';
 
 export default function AddProductPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [images, setImages] = useState([]);
+  const [thumbnailId, setThumbnailId] = useState(null);
 
   const [formData, setFormData] = useState({
     sku: '',
@@ -23,7 +29,7 @@ export default function AddProductPage() {
     price: '',
     salePrice: '',
     currency: 'PKR',
-
+    images: '',
     stock: '',
     inStock: true,
 
@@ -55,14 +61,125 @@ export default function AddProductPage() {
     });
   };
 
+  const validateForm = () => {
+    const errors = [];
+
+    if (!formData.name.trim()) {
+      errors.push('Product name is required');
+    }
+
+    if (!formData.sku.trim()) {
+      errors.push('SKU is required');
+    }
+
+    if (!formData.slug.trim()) {
+      errors.push('Product slug is required');
+    }
+
+    if (!formData.categoryId) {
+      errors.push('Category is required');
+    }
+
+    if (!formData.brand.trim()) {
+      errors.push('Brand is required');
+    }
+
+    if (!formData.price) {
+      errors.push('Price is required');
+    }
+
+    if (!formData.stock) {
+      errors.push('Stock is required');
+    }
+
+    if (!images || images.length === 0) {
+      errors.push('Product images are required');
+    }
+
+    if (!formData.shortDescription.trim()) {
+      errors.push('Short description is required');
+    }
+
+    if (!formData.description.trim()) {
+      errors.push('Product description is required');
+    }
+
+    if (!formData.material.trim()) {
+      errors.push('Material is required');
+    }
+
+    if (!formData.color.trim()) {
+      errors.push('Color is required');
+    }
+
+    if (!formData.ageGroup.trim()) {
+      errors.push('Age group is required');
+    }
+
+    if (!formData.weight.trim()) {
+      errors.push('Weight is required');
+    }
+
+    if (!formData.seoTitle.trim()) {
+      errors.push('SEO title is required');
+    }
+
+    if (!formData.seoDescription.trim()) {
+      errors.push('SEO description is required');
+    }
+
+    if (!formData.keywords.trim()) {
+      errors.push('Keywords are required');
+    }
+
+    return errors;
+  };
+
+  const uploadProductImages = async () => {
+    const formData = new FormData();
+
+    images.forEach((item) => {
+      formData.append('files', item.file);
+    });
+
+    formData.append('folder', 'products');
+
+    const { data } = await axios.post(
+      '/api/upload/multiple',
+      formData,
+    );
+
+    if (!data.success) {
+      throw new Error('Images upload failed');
+    }
+
+    return data.images;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const errors = validateForm();
+
+    if (errors.length > 0) {
+      errors.forEach((error) => toast.error(error));
+      return;
+    }
 
     setLoading(true);
 
     try {
+      const uploadedImages = await uploadProductImages();
+
       const payload = {
         ...formData,
+
+        images: uploadedImages,
+
+        thumbnail:
+          uploadedImages.find(
+            (_, index) => images[index]?.id === thumbnailId,
+          ) || uploadedImages[0],
 
         price: Number(formData.price),
 
@@ -71,8 +188,6 @@ export default function AddProductPage() {
           : null,
 
         stock: Number(formData.stock),
-
-        features: formData.features || '',
 
         tags: formData.tags
           ? formData.tags.split(',').map((item) => item.trim())
@@ -149,7 +264,7 @@ export default function AddProductPage() {
       >
         {/* Basic Information */}
 
-        <Section title="Basic Information">
+        <section title="Basic Information">
           <div className="grid gap-6 md:grid-cols-2">
             <Input
               label="Product Name"
@@ -207,14 +322,15 @@ export default function AddProductPage() {
               onChange={handleChange}
             />
           </div>
-        </Section>
+        </section>
 
         {/* Pricing */}
 
-        <Section title="Pricing & Stock">
+        <section title="Pricing & Stock">
           <div className="grid gap-6 md:grid-cols-3">
             <Input
               label="Price"
+              type="number"
               name="price"
               value={formData.price}
               onChange={handleChange}
@@ -222,6 +338,7 @@ export default function AddProductPage() {
 
             <Input
               label="Sale Price"
+              type="number"
               name="salePrice"
               value={formData.salePrice}
               onChange={handleChange}
@@ -229,36 +346,34 @@ export default function AddProductPage() {
 
             <Input
               label="Stock"
+              type="number"
               name="stock"
               value={formData.stock}
               onChange={handleChange}
             />
           </div>
 
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="inStock"
-              checked={formData.inStock}
-              onChange={handleChange}
-            />
-            Available In Stock
-          </label>
-        </Section>
+          <Checkbox
+            label="Available In Stock"
+            type="checkbox"
+            name="inStock"
+            checked={formData.inStock}
+            onChange={handleChange}
+          />
+        </section>
 
         {/* Images */}
 
-        <Section title="Product Images">
-          <input
-            type="file"
-            multiple
-            className="w-full rounded-lg border p-2"
-          />
-        </Section>
+        <MultiImageUpload
+          value={images}
+          onChange={setImages}
+          thumbnailId={thumbnailId}
+          setThumbnail={setThumbnailId}
+        />
 
         {/* Description */}
 
-        <Section title="Description">
+        <section title="Description">
           <Textarea
             label="Short Description"
             name="shortDescription"
@@ -279,11 +394,11 @@ export default function AddProductPage() {
             value={formData.features}
             onChange={handleChange}
           />
-        </Section>
+        </section>
 
         {/* Specifications */}
 
-        <Section title="Specifications">
+        <section title="Specifications">
           <div className="grid gap-6 md:grid-cols-2">
             <Input
               label="Material"
@@ -313,22 +428,22 @@ export default function AddProductPage() {
               onChange={handleChange}
             />
           </div>
-        </Section>
+        </section>
 
         {/* Tags */}
 
-        <Section title="Tags">
+        <section title="Tags">
           <Input
             label="Tags (comma separated)"
             name="tags"
             value={formData.tags}
             onChange={handleChange}
           />
-        </Section>
+        </section>
 
         {/* SEO */}
 
-        <Section title="SEO">
+        <section title="SEO">
           <Input
             label="SEO Title"
             name="seoTitle"
@@ -349,7 +464,7 @@ export default function AddProductPage() {
             value={formData.keywords}
             onChange={handleChange}
           />
-        </Section>
+        </section>
 
         <button
           disabled={loading}
@@ -358,47 +473,6 @@ export default function AddProductPage() {
           {loading ? 'Saving...' : 'Save Product'}
         </button>
       </form>
-    </div>
-  );
-}
-
-function Section({ title, children }) {
-  return (
-    <div className="">
-      <h2 className="mb-5 text-lg font-semibold">{title}</h2>
-
-      {children}
-    </div>
-  );
-}
-
-function Input({ label, name, value, onChange }) {
-  return (
-    <div>
-      <label className="mb-2 block font-medium">{label}</label>
-
-      <input
-        name={name}
-        value={value}
-        onChange={onChange}
-        className="w-full rounded-lg border px-3 py-2"
-      />
-    </div>
-  );
-}
-
-function Textarea({ label, name, value, onChange }) {
-  return (
-    <div>
-      <label className="mb-2 block font-medium">{label}</label>
-
-      <textarea
-        name={name}
-        value={value}
-        onChange={onChange}
-        rows="4"
-        className="w-full rounded-lg border p-3"
-      />
     </div>
   );
 }
