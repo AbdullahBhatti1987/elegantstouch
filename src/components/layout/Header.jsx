@@ -119,7 +119,7 @@ export default function Header() {
           {/* Search */}
           <div ref={searchRef} className="relative">
             {/* Desktop Search */}
-            <div className="hidden lg:block">
+            <div className="hidden lg:block relative ">
               {!searchOpen ? (
                 <button
                   type="button"
@@ -132,7 +132,7 @@ export default function Header() {
                   />
                 </button>
               ) : (
-                <div className="absolute  flex h-10 w-72 items-center rounded-xl border border-gray-400 bg-white shadow-sm">
+                <div className="absolute -right-2.5 -top-4.5 flex h-10 w-64 items-center rounded-xl border border-gray-400 bg-white shadow-sm">
                   <input
                     autoFocus
                     type="text"
