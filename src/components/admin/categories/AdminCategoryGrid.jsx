@@ -2,6 +2,8 @@
 
 import Loader from '@/components/common/Loader';
 import AdminCategoryCard from './AdminCategoryCard';
+import EmptyCategoryState from './EmptyCategoryState';
+import Link from 'next/link';
 
 export default function CategoryGrid({ categories = [], loading }) {
   return (
@@ -13,11 +15,16 @@ export default function CategoryGrid({ categories = [], loading }) {
           <AdminCategoryCard key={category._id} category={category} />
         ))
       ) : (
-        <div className="col-span-full flex min-h-60 items-center justify-center rounded-xl border bg-white dark:border-gray-800 dark:bg-gray-900">
-          <p className="text-gray-500 dark:text-gray-400">
-            No Categories Available
-          </p>
-        </div>
+        <EmptyCategoryState
+          action={
+            <Link
+              href="/dashboard/categories/create"
+              className="rounded-lg bg-[#005b96] px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90"
+            >
+              Add New Category
+            </Link>
+          }
+        />
       )}
     </div>
   );

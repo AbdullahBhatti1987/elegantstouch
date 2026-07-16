@@ -106,60 +106,7 @@ export async function DELETE(request, { params }) {
   }
 }
 
-// export async function PUT(req, context) {
-//   try {
-//     await connectDB();
 
-//     const body = await req.json();
-
-//     const { id } = await context.params;
-
-//     const category = await Category.findByIdAndUpdate(id, body, {
-//       returnDocument: 'after',
-//     });
-
-//      const oldCategory = await Category.findById(id);
-
-//     if (!oldCategory) {
-//       return Response.json(
-//         {
-//           success: false,
-//           message: 'Category not found',
-//         },
-//         {
-//           status: 404,
-//         },
-//       );
-//     }
-
-//     if (!category) {
-//       return Response.json(
-//         {
-//           success: false,
-//           message: 'Category not found',
-//         },
-//         {
-//           status: 404,
-//         },
-//       );
-//     }
-
-//     return Response.json({
-//       success: true,
-//       data: category,
-//     });
-//   } catch (error) {
-//     return Response.json(
-//       {
-//         success: false,
-//         message: error.message,
-//       },
-//       {
-//         status: 500,
-//       },
-//     );
-//   }
-// }
 
 export async function PUT(req, context) {
   try {

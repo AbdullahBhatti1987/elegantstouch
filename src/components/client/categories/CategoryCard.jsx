@@ -41,7 +41,7 @@ export default function CategoryCard({ category }) {
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
-        <h2 className="absolute bottom-5 left-5 text-xl font-bold text-white">
+        <h2 className="absolute bottom-5 left-5 text-xl font-bold text-white capitalize">
           {category.name}
         </h2>
       </div>

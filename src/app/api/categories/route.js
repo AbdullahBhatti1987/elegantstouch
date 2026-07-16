@@ -1,5 +1,4 @@
 import { connectDB } from '@/lib/mongodb';
-import { singleFileToCloudinary } from '@/lib/singleFileToCloudinary';
 import Category from '@/models/Category';
 
 export async function GET(req) {
@@ -86,10 +85,7 @@ export async function POST(request) {
 
     const body = await request.json();
 
-    // const image = await singleFileToCloudinary(
-    //   body.image,
-    //   'categories',
-    // );
+  
     console.log('Cloudinary Image==>', body);
 
     const category = await Category.create({

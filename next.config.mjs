@@ -2,7 +2,8 @@
 const nextConfig = {
   /* config options here */
 
-  allowedDevOrigins: ['192.168.100.12', 'localhost'],
+  allowedDevOrigins: ['192.168.100.12', '10.233.4.208', 'localhost'],
+  
 
   reactStrictMode: true,
   images: {
