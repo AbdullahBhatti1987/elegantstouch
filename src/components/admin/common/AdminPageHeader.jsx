@@ -102,7 +102,7 @@ export default function AdminPageHeader({
   setView,
 }) {
   return (
-    <div className="my-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <div>
         <h1 className="text-2xl font-bold">{title}</h1>
 
