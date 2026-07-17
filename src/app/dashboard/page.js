@@ -7,12 +7,11 @@ import DashboardStats from '@/components/admin/dashboard/DashboardStats';
 
 export default function AdminDashboard() {
   return (
-    <div className="space-y-8">
-      <h1 className="text-3xl font-bold">Dashboard</h1>
+    <div className="space-y-4">
 
       <DashboardStats />
 
-      <div className="grid gap-6 p-6 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-2 grid-cols-1">
         <CategoryRadialChart />
 
         <RevenueChart />

@@ -11,8 +11,9 @@ import {
   ShoppingCart,
   Users,
   Settings,
+  ClipboardList,
+  UserRound,
 } from 'lucide-react';
-
 
 export const menuItems = [
   {
@@ -631,5 +632,47 @@ export const orders = [
     status: 'pending',
 
     createdAt: '2026-07-07',
+  },
+];
+
+
+
+
+export const dashboardStats = [
+  {
+    title: 'Categories',
+    key: 'categories',
+    icon: Layers,
+    gradient: 'bg-gradient-to-br from-blue-100 to-blue-200',
+  },
+  {
+    title: 'Products',
+    key: 'products',
+    icon: Package,
+    gradient: 'bg-gradient-to-br from-green-100 to-green-200',
+  },
+  {
+    title: 'Customers',
+    key: 'customers',
+    icon: Users,
+    gradient: 'bg-gradient-to-br from-purple-100 to-purple-200',
+  },
+  {
+    title: 'Orders',
+    key: 'orders',
+    icon: ClipboardList,
+    gradient: 'bg-gradient-to-br from-orange-100 to-orange-200',
+  },
+  {
+    title: 'Carts',
+    key: 'carts',
+    icon: ShoppingCart,
+    gradient: 'bg-gradient-to-br from-orange-100 to-orange-200',
+  },
+  {
+    title: 'Users',
+    value: 'users',
+    icon: UserRound,
+    gradient: 'bg-gradient-to-br from-red-100 to-red-200',
   },
 ];

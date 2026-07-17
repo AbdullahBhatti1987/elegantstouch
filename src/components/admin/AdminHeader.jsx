@@ -127,46 +127,49 @@ export default function AdminHeader({ onMenuClick }) {
         </button>
 
         {profileOpen && (
-          <div className="absolute top-12 right-0 z-50 w-64 rounded-xl border bg-white p-3 shadow-xl dark:border-gray-800 dark:bg-gray-900">
+          <div className="absolute top-12 right-0 z-50 w-56 rounded-xl border bg-white p-2 shadow-xl dark:border-gray-800 dark:bg-gray-900">
             {/* User */}
 
-            <div className="flex items-center gap-3 border-b pb-3 dark:border-gray-800">
-              <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-black font-semibold text-white">
+            <div className="flex items-center gap-2 border-b pb-2 dark:border-gray-800">
+              <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-black text-sm font-semibold text-white">
                 {getAvatar()}
               </div>
 
-              <div>
-                <p className="font-semibold">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold">
                   {user.name || 'ElegantTouch'}
                 </p>
 
-                <p className="text-sm text-gray-500">
+                <p className="truncate text-xs text-gray-500">
                   {user.email || 'Admin'}
                 </p>
               </div>
             </div>
 
-            <div className="mt-3 space-y-1">
+            {/* Menu */}
+
+            <div className="mt-2 space-y-1">
               <button
-                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
                 onClick={() => router.push('/dashboard/profile')}
+                className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
               >
-                <User size={18} />
+                <User size={16} />
                 Profile
               </button>
 
               <button
-                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
                 onClick={() => router.push('/dashboard/settings')}
+                className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
               >
-                <Settings size={18} />
+                <Settings size={16} />
                 Settings
               </button>
 
               <button
                 onClick={() => router.push('/')}
-              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-950">
-                <LogOut size={18} />
+                className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
+              >
+                <LogOut size={16} />
                 Logout
               </button>
             </div>
