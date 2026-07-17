@@ -1,47 +1,46 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
+
+// import CategoryCard from './CategoryCard';
 import AdminCategorySkeleton from '../admin/common/skeleton/AdminCategorySkeleton';
+import CategoryCard from '../category/CategoryCard';
 
 export default function CategoriesFeatured() {
   const [categories, setCategories] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
-  const fetchCategories = async () => {
-    console.log('Fetching categories start');
-
-    setLoading(true);
-
+  const fetchCategories = useCallback(async () => {
     try {
-      const response = await axios.get('/api/categories');
+      setLoading(true);
 
-      console.log('API Response:', response);
+      const { data } = await axios.get(
+        '/api/categories?featured=true',
+      );
 
-      if (response.data.success) {
-        setCategories(response.data.data);
+      if (data.success) {
+        setCategories(data.data);
       }
     } catch (error) {
-      console.log('API ERROR:', error);
+      console.error('Categories Fetch Error:', error);
     } finally {
-      console.log('Loading false');
-
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [fetchCategories]);
 
   return (
     <section className="w-full bg-white px-6 py-16 md:px-12 dark:bg-black">
-      {/* Heading */}
+      {/* Header */}
+
       <div className="mb-10 text-center">
         <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
-          Explore Categories & Trending Products
+          Explore Categories
         </h2>
 
         <p className="mt-2 text-gray-500">
@@ -49,39 +48,22 @@ export default function CategoriesFeatured() {
         </p>
       </div>
 
-      {/* Categories */}
-      <div className="mb-14 grid grid-cols-2 gap-6 md:grid-cols-4">
-        {loading
-          ? // Skeleton Loading
-            [...Array(8)].map((_, index) => (
-              <AdminCategorySkeleton key={index} />
-            ))
-          : // Actual Data
-            categories.map((cat) => (
-              <Link
-                href={`/categories/${cat.slug}`}
-                key={cat._id}
-                className="group overflow-hidden rounded-xl bg-gray-100 transition hover:shadow-lg dark:bg-zinc-900"
-              >
-                <div className="relative h-28 w-full">
-                  <Image
-                    src={
-                      cat?.image?.url ||
-                      '/images/default-category.jpg'
-                    }
-                    alt={cat?.name || 'Category image not available'}
-                    width={500}
-                    height={500}
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    className="object-cover transition duration-300 group-hover:scale-110"
-                  />
-                </div>
+      {/* Grid */}
 
-                <div className="p-3 text-center font-medium text-gray-800 dark:text-white">
-                  {cat.name}
-                </div>
-              </Link>
-            ))}
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+        {loading ? (
+          [...Array(8)].map((_, index) => (
+            <AdminCategorySkeleton key={index} />
+          ))
+        ) : categories.length > 0 ? (
+          categories.map((category) => (
+            <CategoryCard key={category._id} category={category} />
+          ))
+        ) : (
+          <p className="col-span-full text-center text-gray-500">
+            No categories found
+          </p>
+        )}
       </div>
     </section>
   );

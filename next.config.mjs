@@ -3,9 +3,9 @@ const nextConfig = {
   /* config options here */
 
   allowedDevOrigins: ['192.168.100.12', '10.233.4.208', 'localhost'],
-  
 
-  reactStrictMode: true,
+  reactStrictMode: false,
+  // reactStrictMode: true,
   images: {
     remotePatterns: [
       {
