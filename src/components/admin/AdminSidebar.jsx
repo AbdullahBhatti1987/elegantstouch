@@ -3,52 +3,16 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import {
-  LayoutDashboard,
-  Package,
-  Grid3X3,
-  ShoppingCart,
-  Users,
-  Settings,
-  Menu,
-} from 'lucide-react';
+import { Menu } from 'lucide-react';
+import { menuItems } from '@/content/data';
 
-const menuItems = [
-  {
-    title: 'Dashboard',
-    href: '/dashboard',
-    icon: LayoutDashboard,
-  },
-  {
-    title: 'Categories',
-    href: '/dashboard/categories',
-    icon: Grid3X3,
-  },
-  {
-    title: 'Products',
-    href: '/dashboard/products',
-    icon: Package,
-  },
-  {
-    title: 'Orders',
-    href: '/dashboard/orders',
-    icon: ShoppingCart,
-  },
-  {
-    title: 'Customers',
-    href: '/dashboard/customers',
-    icon: Users,
-  },
-  {
-    title: 'Settings',
-    href: '/dashboard/settings',
-    icon: Settings,
-  },
-];
-
-export default function AdminSidebar({ collapsed, onToggle }) {
+export default function AdminSidebar({
+  collapsed,
+  onToggle,
+  mobileOpen,
+  setMobileOpen,
+}) {
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <>
@@ -59,13 +23,17 @@ export default function AdminSidebar({ collapsed, onToggle }) {
       >
         <Menu size={20} />
       </button>
+      {mobileOpen && (
+        <div
+          onClick={() => setMobileOpen(false)}
 
+          className="fixed inset-0 z-40 bg-black/40 md:hidden"
+        />
+      )}
       <aside
-        className={`fixed top-0 left-0 z-40 h-screen bg-white shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] transition-all duration-300 md:static dark:bg-gray-900 dark:shadow-[4px_0_6px_-1px_rgba(0,0,0,0.4)] ${collapsed ? 'w-20' : 'w-64'} ${
-          mobileOpen
-            ? 'translate-x-0'
-            : '-translate-x-full md:translate-x-0'
-        }`}
+        className={`fixed top-0 left-0 z-50 h-screen w-64 bg-white transition-transform duration-300 md:static md:translate-x-0 dark:bg-gray-900 ${
+          mobileOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:${collapsed ? 'w-20' : 'w-64'} `}
       >
         {/* Header */}
         <div className="flex h-16 items-center justify-between px-4">

@@ -390,8 +390,8 @@ export default function ProductDetailPage() {
   }
 
   async function deleteProduct() {
-
     try {
+      setLoading(true);
       const { data } = await axios.delete(
         `/api/products/${params.id}`,
       );

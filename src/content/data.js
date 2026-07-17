@@ -1,5 +1,51 @@
 // Navigation
-import { Home, Layers, Flame, Sparkles, Tag } from 'lucide-react';
+import {
+  Home,
+  Layers,
+  Flame,
+  Sparkles,
+  Tag,
+  LayoutDashboard,
+  Grid3X3,
+  Package,
+  ShoppingCart,
+  Users,
+  Settings,
+} from 'lucide-react';
+
+
+export const menuItems = [
+  {
+    title: 'Dashboard',
+    href: '/dashboard',
+    icon: LayoutDashboard,
+  },
+  {
+    title: 'Categories',
+    href: '/dashboard/categories',
+    icon: Grid3X3,
+  },
+  {
+    title: 'Products',
+    href: '/dashboard/products',
+    icon: Package,
+  },
+  {
+    title: 'Orders',
+    href: '/dashboard/orders',
+    icon: ShoppingCart,
+  },
+  {
+    title: 'Customers',
+    href: '/dashboard/customers',
+    icon: Users,
+  },
+  {
+    title: 'Settings',
+    href: '/dashboard/settings',
+    icon: Settings,
+  },
+];
 
 export const navLinks = [
   {
