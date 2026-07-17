@@ -8,6 +8,7 @@ import axios from 'axios';
 import ConfirmModal from '@/components/admin/common/ConfirmModal';
 import BackButton from '@/components/admin/common/BackButton';
 import CategoryDetailSkeleton from '@/components/admin/common/skeleton/CategoryDetailSkeleton';
+import { Info } from '@/components/admin/common/form/Info';
 
 export default function CategoryDetailPage() {
   const params = useParams();
@@ -34,9 +35,7 @@ export default function CategoryDetailPage() {
       } catch (error) {
         console.log(error);
       } finally {
-        setTimeout(() => {
           setLoading(false);
-        }, 2000);
       }
     }
 
@@ -184,14 +183,3 @@ if (loading) {
   );
 }
 
-function Info({ label, value }) {
-  return (
-    <div>
-      <p className="text-sm text-gray-500">{label}</p>
-
-      <p className="max-w-full overflow-hidden font-medium text-ellipsis whitespace-nowrap">
-        {value || '-'}
-      </p>
-    </div>
-  );
-}

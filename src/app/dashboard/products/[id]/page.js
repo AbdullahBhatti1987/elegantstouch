@@ -363,14 +363,15 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Info } from '@/components/admin/common/form/Info';
+import ConfirmModal from '@/components/admin/common/ConfirmModal';
 
 export default function ProductDetailPage() {
   const params = useParams();
   const router = useRouter();
-
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   async function getProduct() {
     try {
@@ -389,11 +390,6 @@ export default function ProductDetailPage() {
   }
 
   async function deleteProduct() {
-    const confirmDelete = confirm(
-      'Are you sure you want to delete this product?',
-    );
-
-    if (!confirmDelete) return;
 
     try {
       const { data } = await axios.delete(
@@ -407,6 +403,10 @@ export default function ProductDetailPage() {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Delete failed');
+    } finally {
+      setLoading(false);
+
+      setShowDeleteModal(false);
     }
   }
 
@@ -512,7 +512,7 @@ export default function ProductDetailPage() {
               {/* Edit */}
               <button
                 onClick={() =>
-                  router.push(`/dashboard/categories/update/${id}`)
+                  router.push(`/dashboard/product/update/${id}`)
                 }
                 className="rounded-lg bg-black p-2 text-white transition hover:bg-gray-800"
                 title="Edit Category"
@@ -533,8 +533,6 @@ export default function ProductDetailPage() {
               <h2 className="text-xl font-semibold">
                 Product Summary
               </h2>
-
-             
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
@@ -635,30 +633,16 @@ export default function ProductDetailPage() {
           <Info label="Tags" value={product.tags?.join(', ')} />
         </div>
       </div>
-
-      {/* Actions */}
-
-      <div className="flex gap-3">
-        <button
-          onClick={() =>
-            router.push(`/dashboard/products/${product._id}/edit`)
-          }
-
-          className="flex items-center gap-2 rounded-lg bg-black px-5 py-2 text-white"
-        >
-          <Edit size={18} />
-          Edit
-        </button>
-
-        <button
-          onClick={deleteProduct}
-
-          className="flex items-center gap-2 rounded-lg bg-red-600 px-5 py-2 text-white"
-        >
-          <Trash size={18} />
-          Delete
-        </button>
-      </div>
+      <ConfirmModal
+        open={showDeleteModal}
+        title="Delete Product"
+        message="This product and related data will be permanently deleted."
+        requireText={product.name}
+        confirmText="Delete Product"
+        loading={loading}
+        onCancel={() => setShowDeleteModal(false)}
+        onConfirm={deleteProduct}
+      />
     </div>
   );
 }
