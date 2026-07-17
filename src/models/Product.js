@@ -34,7 +34,7 @@ const ProductSchema = new mongoose.Schema(
       default: '',
     },
 
-    collection: {
+    collectionName: {
       type: String,
       default: '',
     },

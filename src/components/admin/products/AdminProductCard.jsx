@@ -66,11 +66,7 @@ export default function AdminProductCard({ product }) {
 
       <div className="relative h-48">
         <Image
-<<<<<<< HEAD
           src={product.thumbnail?.url || '/images/placeholder.jpg'}
-=======
-          src={product.image?.url || '/images/placeholder.jpg'}
->>>>>>> 8f3a641f482831c195c464d9f2ca70c19b15e7e4
           alt={product.name}
           fill
           className="object-cover"

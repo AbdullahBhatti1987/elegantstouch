@@ -15,12 +15,8 @@ export default function AddProductPage() {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [images, setImages] = useState([]);
-<<<<<<< HEAD
   const [thumbnailId, setThumbnailId] = useState(null);
 
-=======
-  const [thumbnailId, setThumbnailId] = useState([]);
->>>>>>> 8f3a641f482831c195c464d9f2ca70c19b15e7e4
   const [formData, setFormData] = useState({
     sku: '',
     name: '',
@@ -28,7 +24,7 @@ export default function AddProductPage() {
 
     categoryId: '',
     brand: '',
-    collection: '',
+    collectionName: '',
 
     price: '',
     salePrice: '',
@@ -59,9 +55,21 @@ export default function AddProductPage() {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+    setFormData((prev) => {
+      const updated = {
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+      };
+
+      if (name === 'name') {
+        updated.slug = value
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, '-')
+          .replace(/[^a-z0-9-]/g, '');
+      }
+
+      return updated;
     });
   };
 
@@ -275,6 +283,7 @@ export default function AddProductPage() {
               name="name"
               value={formData.name}
               onChange={handleChange}
+              loading={loading}
             />
 
             <Input
@@ -282,6 +291,7 @@ export default function AddProductPage() {
               name="sku"
               value={formData.sku}
               onChange={handleChange}
+              loading={loading}
             />
 
             <Input
@@ -289,6 +299,8 @@ export default function AddProductPage() {
               name="slug"
               value={formData.slug}
               onChange={handleChange}
+              loading={loading}
+              readOnly
             />
 
             <div>
@@ -300,6 +312,7 @@ export default function AddProductPage() {
                 name="categoryId"
                 value={formData.categoryId}
                 onChange={handleChange}
+                loading={loading}
                 className="w-full rounded-lg border px-3 py-2"
               >
                 <option value="">Select Category</option>
@@ -317,13 +330,15 @@ export default function AddProductPage() {
               name="brand"
               value={formData.brand}
               onChange={handleChange}
+              loading={loading}
             />
 
             <Input
-              label="Collection"
-              name="collection"
-              value={formData.collection}
+              label="collection Name"
+              name="collectionName"
+              value={formData.collectionName}
               onChange={handleChange}
+              loading={loading}
             />
           </div>
         </section>
@@ -334,38 +349,29 @@ export default function AddProductPage() {
           <div className="grid gap-6 md:grid-cols-3">
             <Input
               label="Price"
-<<<<<<< HEAD
               type="number"
-=======
-              type='number'
->>>>>>> 8f3a641f482831c195c464d9f2ca70c19b15e7e4
               name="price"
               value={formData.price}
               onChange={handleChange}
+              loading={loading}
             />
 
             <Input
               label="Sale Price"
-<<<<<<< HEAD
               type="number"
-=======
-               type='number'
->>>>>>> 8f3a641f482831c195c464d9f2ca70c19b15e7e4
               name="salePrice"
               value={formData.salePrice}
               onChange={handleChange}
+              loading={loading}
             />
 
             <Input
               label="Stock"
-<<<<<<< HEAD
               type="number"
-=======
-               type='number'
->>>>>>> 8f3a641f482831c195c464d9f2ca70c19b15e7e4
               name="stock"
               value={formData.stock}
               onChange={handleChange}
+              loading={loading}
             />
           </div>
 
@@ -375,6 +381,7 @@ export default function AddProductPage() {
             name="inStock"
             checked={formData.inStock}
             onChange={handleChange}
+            loading={loading}
           />
         </section>
 
@@ -385,6 +392,7 @@ export default function AddProductPage() {
           onChange={setImages}
           thumbnailId={thumbnailId}
           setThumbnail={setThumbnailId}
+          loading={loading}
         />
 
         {/* Description */}
@@ -395,6 +403,7 @@ export default function AddProductPage() {
             name="shortDescription"
             value={formData.shortDescription}
             onChange={handleChange}
+            loading={loading}
           />
 
           <Textarea
@@ -402,6 +411,7 @@ export default function AddProductPage() {
             name="description"
             value={formData.description}
             onChange={handleChange}
+            loading={loading}
           />
 
           <Input
@@ -409,6 +419,7 @@ export default function AddProductPage() {
             name="features"
             value={formData.features}
             onChange={handleChange}
+            loading={loading}
           />
         </section>
 
@@ -421,6 +432,7 @@ export default function AddProductPage() {
               name="material"
               value={formData.material}
               onChange={handleChange}
+              loading={loading}
             />
 
             <Input
@@ -428,6 +440,7 @@ export default function AddProductPage() {
               name="color"
               value={formData.color}
               onChange={handleChange}
+              loading={loading}
             />
 
             <Input
@@ -435,6 +448,7 @@ export default function AddProductPage() {
               name="ageGroup"
               value={formData.ageGroup}
               onChange={handleChange}
+              loading={loading}
             />
 
             <Input
@@ -442,6 +456,7 @@ export default function AddProductPage() {
               name="weight"
               value={formData.weight}
               onChange={handleChange}
+              loading={loading}
             />
           </div>
         </section>
@@ -454,6 +469,7 @@ export default function AddProductPage() {
             name="tags"
             value={formData.tags}
             onChange={handleChange}
+            loading={loading}
           />
         </section>
 
@@ -465,6 +481,7 @@ export default function AddProductPage() {
             name="seoTitle"
             value={formData.seoTitle}
             onChange={handleChange}
+            loading={loading}
           />
 
           <Textarea
@@ -472,6 +489,7 @@ export default function AddProductPage() {
             name="seoDescription"
             value={formData.seoDescription}
             onChange={handleChange}
+            loading={loading}
           />
 
           <Input
@@ -479,15 +497,17 @@ export default function AddProductPage() {
             name="keywords"
             value={formData.keywords}
             onChange={handleChange}
+            loading={loading}
           />
         </section>
-
-        <button
-          disabled={loading}
-          className="rounded-lg bg-black px-6 py-3 text-white disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {loading ? 'Saving...' : 'Save Product'}
-        </button>
+        <div className="flex items-center justify-end">
+          <button
+            disabled={loading}
+            className="rounded-lg bg-black px-6 py-3 text-white disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {loading ? 'Saving...' : 'Save Product'}
+          </button>
+        </div>
       </form>
     </div>
   );
