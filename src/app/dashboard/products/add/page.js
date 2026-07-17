@@ -15,8 +15,12 @@ export default function AddProductPage() {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [images, setImages] = useState([]);
+<<<<<<< HEAD
   const [thumbnailId, setThumbnailId] = useState(null);
 
+=======
+  const [thumbnailId, setThumbnailId] = useState([]);
+>>>>>>> 8f3a641f482831c195c464d9f2ca70c19b15e7e4
   const [formData, setFormData] = useState({
     sku: '',
     name: '',
@@ -330,7 +334,11 @@ export default function AddProductPage() {
           <div className="grid gap-6 md:grid-cols-3">
             <Input
               label="Price"
+<<<<<<< HEAD
               type="number"
+=======
+              type='number'
+>>>>>>> 8f3a641f482831c195c464d9f2ca70c19b15e7e4
               name="price"
               value={formData.price}
               onChange={handleChange}
@@ -338,7 +346,11 @@ export default function AddProductPage() {
 
             <Input
               label="Sale Price"
+<<<<<<< HEAD
               type="number"
+=======
+               type='number'
+>>>>>>> 8f3a641f482831c195c464d9f2ca70c19b15e7e4
               name="salePrice"
               value={formData.salePrice}
               onChange={handleChange}
@@ -346,7 +358,11 @@ export default function AddProductPage() {
 
             <Input
               label="Stock"
+<<<<<<< HEAD
               type="number"
+=======
+               type='number'
+>>>>>>> 8f3a641f482831c195c464d9f2ca70c19b15e7e4
               name="stock"
               value={formData.stock}
               onChange={handleChange}
