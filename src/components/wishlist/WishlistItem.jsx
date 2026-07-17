@@ -16,6 +16,7 @@ export default function WishlistItem({
           src={item.image}
           alt={item.name}
           fill
+          priority
           className="object-cover transition duration-300 group-hover:scale-105"
         />
 
@@ -23,8 +24,7 @@ export default function WishlistItem({
           onClick={onRemove}
           className="absolute top-3 right-3 rounded-full bg-white p-2 shadow"
         >
-          <Heart size={16} 
-          fill=''/>
+          <Heart size={16} fill="" />
         </button>
       </div>
 

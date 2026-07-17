@@ -162,18 +162,16 @@ export default function ProductTable({ products, onEdit, onDelete }) {
                 {/* IMAGE */}
 
                 <td className="px-5 py-3">
-                  <div className="relative h-14 w-14 overflow-hidden rounded-xl border">
+                  <div className="relative h-12 w-12 overflow-hidden rounded-xl border">
                     <Image
                       src={
                         product.thumbnail?.url ||
-                        product.images?.[0]?.thumbnail ||
+                        // product.images?.[0]?.thumbnail ||
                         '/images/placeholder.jpg'
                       }
-
+                      sizes="48px"
                       alt={product.name || 'product'}
-
-                      fill
-
+                      fill priority
                       className="object-cover"
                     />
                   </div>

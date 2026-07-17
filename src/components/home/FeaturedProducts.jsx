@@ -34,7 +34,7 @@ export default function FeaturedProducts({ title = "Featured Products", products
                 <Image
                   src={product.image}
                   alt={product.name}
-                  fill
+                  fill priority
                   className="object-cover group-hover:scale-110 transition duration-300"
                 />
               </div>

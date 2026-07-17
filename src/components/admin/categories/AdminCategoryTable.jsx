@@ -49,9 +49,10 @@ export default function AdminCategoryTable({ categories, loading }) {
                   <div className="relative h-10 w-10 overflow-hidden rounded-lg border">
                     <Image
                       src={category.image.url}
-                      
+
                       alt={category.alt || category.name}
                       fill
+                      priority
                       sizes="40px"
                       className="object-cover"
                     />

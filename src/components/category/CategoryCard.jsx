@@ -20,7 +20,7 @@ export default function CategoryCard({ category }) {
             image?.thumbnail ||
             image?.url ||
             '/images/default-category.jpg'
-          }
+          } priority
           alt={image?.alt || name || 'Category image'}
           fill
           sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 25vw"

@@ -60,8 +60,22 @@ export default function AdminProductCard({ product }) {
   return (
     <Link
       href={`/dashboard/products/${product._id}`}
-      className="block overflow-hidden rounded-xl border bg-white transition hover:-translate-y-1 hover:shadow-xl dark:bg-gray-900"
+      className="relative block overflow-hidden rounded-xl border bg-white transition hover:-translate-y-1 hover:shadow-xl dark:bg-gray-900"
     >
+      {/* Status */}
+      <div className="absolute top-3 left-3 z-50">
+        <span
+          className={`rounded-full px-3 py-1 text-xs font-semibold ${
+            product.status === 'active'
+              ? 'bg-green-100 text-green-700'
+              : 'bg-red-100 text-red-700'
+          } `}
+        >
+          {product.status}
+        </span>
+      </div>
+
+
       {/* Image */}
 
       <div className="relative h-48">
@@ -69,7 +83,13 @@ export default function AdminProductCard({ product }) {
           src={product.thumbnail?.url || '/images/placeholder.jpg'}
           alt={product.name}
           fill
-          className="object-cover"
+          sizes="
+            (max-width: 640px) 100vw,
+            (max-width: 768px) 50vw,
+            (max-width: 1280px) 33vw,
+            25vw
+          "
+          className="object-cover transition duration-500 hover:scale-105"
         />
       </div>
 

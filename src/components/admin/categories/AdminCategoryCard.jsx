@@ -22,6 +22,7 @@ export default function AdminCategoryCard({ category }) {
             alt={category.alt || category.name}
             fill
             sizes="(max-width:640px)100vw,50vw"
+            priority
             className="object-cover transition duration-500 group-hover:scale-110"
           />
         ) : (
@@ -55,11 +56,11 @@ export default function AdminCategoryCard({ category }) {
       {/* Content */}
       <div className="p-5">
         <div className="mb-2 flex items-start justify-between gap-3">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white truncate">
+          <h3 className="truncate text-lg font-bold text-gray-900 dark:text-white">
             {category.name}
           </h3>
 
-          <button
+          {/* <button
             onClick={() =>
               router.push(
                 `/dashboard/categories/update/${category._id}`,
@@ -68,7 +69,7 @@ export default function AdminCategoryCard({ category }) {
             className="rounded-lg border p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             <Edit size={16} />
-          </button>
+          </button> */}
         </div>
 
         {/* Slug */}

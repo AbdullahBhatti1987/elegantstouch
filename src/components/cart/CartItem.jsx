@@ -18,7 +18,7 @@ export default function CartItem({
         <Image
           src={item.image}
           alt={item.name}
-          fill
+          fill priority
           className="object-cover"
         />{' '}
       </div>
