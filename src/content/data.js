@@ -13,9 +13,10 @@ import {
   Settings,
   ClipboardList,
   UserRound,
+  LogOut,
 } from 'lucide-react';
 
-export const menuItems = [
+export const dashboardSidebar = [
   {
     title: 'Dashboard',
     href: '/dashboard',
@@ -45,6 +46,11 @@ export const menuItems = [
     title: 'Settings',
     href: '/dashboard/settings',
     icon: Settings,
+  },
+  {
+    title: 'Logout',
+    href: '#',
+    icon: LogOut,
   },
 ];
 
@@ -634,9 +640,6 @@ export const orders = [
     createdAt: '2026-07-07',
   },
 ];
-
-
-
 
 export const dashboardStats = [
   {
