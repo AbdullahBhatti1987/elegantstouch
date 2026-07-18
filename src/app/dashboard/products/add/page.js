@@ -334,7 +334,7 @@ export default function AddProductPage() {
             />
 
             <Input
-              label="collection Name"
+              label="Collection Name"
               name="collectionName"
               value={formData.collectionName}
               onChange={handleChange}
