@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export default function CategoryGrid({ categories = [], loading }) {
   return (
-    <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
       {loading ? (
         <Loader count={8} />
       ) : categories.length > 0 ? (
@@ -16,14 +16,14 @@ export default function CategoryGrid({ categories = [], loading }) {
         ))
       ) : (
         <EmptyCategoryState
-          action={
-            <Link
-              href="/dashboard/categories/create"
-              className="rounded-lg bg-[#005b96] px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90"
-            >
-              Add New Category
-            </Link>
-          }
+          // action={
+          //   <Link
+          //     href="/dashboard/categories/create"
+          //     className="rounded-lg bg-[#005b96] px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90"
+          //   >
+          //     Add New Category
+          //   </Link>
+          // }
         />
       )}
     </div>

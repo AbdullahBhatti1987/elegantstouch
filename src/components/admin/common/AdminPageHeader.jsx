@@ -109,52 +109,50 @@ export default function AdminPageHeader({
         <p className="text-sm text-gray-500">{description}</p>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <SearchInput
           value={search}
-
           placeholder={searchPlaceholder}
-
           onChange={onChange}
-
           onSearch={onSearch}
-
-          className="w-84"
+          className="w-full md:w-84"
         />
 
-        {addText && onAdd && (
-          <button
-            onClick={onAdd}
-            className="flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-white"
-          >
-            <Plus size={18} />
+        <div className="flex w-full items-center justify-between gap-3 md:w-auto md:justify-start">
+          {addText && onAdd && (
+            <button
+              onClick={onAdd}
+              className="flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-white"
+            >
+              <Plus size={18} />
 
-            {addText}
-          </button>
-        )}
+              {addText}
+            </button>
+          )}
 
-        <div className="flex overflow-hidden rounded-lg border">
-          <button
-            onClick={() => setView('grid')}
-            className={`px-2 py-2.5 ${
-              view === 'grid'
-                ? 'bg-black text-white'
-                : 'hover:bg-gray-100'
-            }`}
-          >
-            <Grid2X2 size={18} />
-          </button>
+          <div className="flex overflow-hidden rounded-lg border">
+            <button
+              onClick={() => setView('grid')}
+              className={`px-2 py-2.5 ${
+                view === 'grid'
+                  ? 'bg-black text-white'
+                  : 'hover:bg-gray-100'
+              }`}
+            >
+              <Grid2X2 size={18} />
+            </button>
 
-          <button
-            onClick={() => setView('list')}
-            className={`px-2 py-2.5 ${
-              view === 'list'
-                ? 'bg-black text-white'
-                : 'hover:bg-gray-100'
-            }`}
-          >
-            <List size={18} />
-          </button>
+            <button
+              onClick={() => setView('list')}
+              className={`px-2 py-2.5 ${
+                view === 'list'
+                  ? 'bg-black text-white'
+                  : 'hover:bg-gray-100'
+              }`}
+            >
+              <List size={18} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

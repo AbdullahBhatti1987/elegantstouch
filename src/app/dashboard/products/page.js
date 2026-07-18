@@ -29,10 +29,23 @@ export default function ProductsPage() {
     }
   };
 
+  // Get saved view
+  useEffect(() => {
+    const savedView = localStorage.getItem('productsView');
+
+    if (savedView) {
+      setView(savedView);
+    }
+  }, []);
+
+  // Save view whenever changes
+  useEffect(() => {
+    localStorage.setItem('productsView', view);
+  }, [view]);
+
   useEffect(() => {
     fetchProducts();
   }, []);
-
 
   return (
     <div>
@@ -47,19 +60,9 @@ export default function ProductsPage() {
       />
 
       {view === 'grid' ? (
-        <ProductGrid
-          products={products}
-          loading={loading}
-          // onEdit={onEdit}
-          // onDelete={onDelete}
-        />
+        <ProductGrid products={products} loading={loading} />
       ) : (
-        <ProductTable
-          products={products}
-          loading={loading}
-          // onEdit={onEdit}
-          // onDelete={onDelete}
-        />
+        <ProductTable products={products} loading={loading} />
       )}
     </div>
   );

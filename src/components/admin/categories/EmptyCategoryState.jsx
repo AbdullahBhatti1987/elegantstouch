@@ -5,7 +5,7 @@ import { Shapes } from 'lucide-react';
 export default function EmptyCategoryState({
   title = 'No Categories Found',
   description = 'There are currently no categories available. Please add a category or check back later.',
-  action,
+  // action,
 }) {
   return (
     <div className="col-span-full">
@@ -26,7 +26,7 @@ export default function EmptyCategoryState({
         </p>
 
         {/* Optional Action */}
-        {action && <div className="mt-6">{action}</div>}
+        {/* {action && <div className="mt-6">{action}</div>} */}
       </div>
     </div>
   );

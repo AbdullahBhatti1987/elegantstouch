@@ -272,13 +272,9 @@ export async function PUT(req, { params }) {
       id,
       {
         ...body,
-
         price: Number(body.price),
-
         salePrice: body.salePrice ? Number(body.salePrice) : null,
-
         stock: Number(body.stock),
-
         tags: Array.isArray(body.tags)
           ? body.tags
           : body.tags

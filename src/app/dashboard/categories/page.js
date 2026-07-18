@@ -24,7 +24,7 @@ export default function CategoriesPage() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
 
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(8);
 
   const [pagination, setPagination] = useState({});
 
@@ -108,13 +108,11 @@ export default function CategoriesPage() {
       {view === 'grid' ? (
         <AdminCategoryGrid
           categories={categories}
-
           loading={loading}
         />
       ) : (
         <AdminCategoryTable
           categories={categories}
-
           loading={loading}
         />
       )}

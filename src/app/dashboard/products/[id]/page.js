@@ -364,9 +364,11 @@ import {
 import toast from 'react-hot-toast';
 import { Info } from '@/components/admin/common/form/Info';
 import ConfirmModal from '@/components/admin/common/ConfirmModal';
+import ProductDetailSkeleton from '@/components/admin/common/skeleton/ProductDetailSkeleton';
 
 export default function ProductDetailPage() {
   const params = useParams();
+  const id = params?.id;
   const router = useRouter();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -417,7 +419,7 @@ export default function ProductDetailPage() {
   }, [params.id]);
 
   if (loading) {
-    return <div className="p-6">Loading...</div>;
+    return <ProductDetailSkeleton />;
   }
 
   if (!product) {
@@ -512,7 +514,7 @@ export default function ProductDetailPage() {
               {/* Edit */}
               <button
                 onClick={() =>
-                  router.push(`/dashboard/product/update/${id}`)
+                  router.push(`/dashboard/products/update/${id}`)
                 }
                 className="rounded-lg bg-black p-2 text-white transition hover:bg-gray-800"
                 title="Edit Category"
