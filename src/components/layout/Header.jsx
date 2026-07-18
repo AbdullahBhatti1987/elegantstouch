@@ -119,7 +119,7 @@ export default function Header() {
           {/* Search */}
           <div ref={searchRef} className="relative">
             {/* Desktop Search */}
-            <div className="hidden lg:block relative ">
+            <div className="relative hidden lg:block">
               {!searchOpen ? (
                 <button
                   type="button"
@@ -132,7 +132,7 @@ export default function Header() {
                   />
                 </button>
               ) : (
-                <div className="absolute -right-2.5 -top-4.5 flex h-10 w-64 items-center rounded-xl border border-gray-400 bg-white shadow-sm">
+                <div className="absolute -top-4.5 -right-2.5 flex h-10 w-64 items-center rounded-xl border border-gray-400 bg-white shadow-sm">
                   <input
                     autoFocus
                     type="text"
@@ -165,13 +165,21 @@ export default function Header() {
             onClick={() => router.push('/wish')}
             className={`group hover:text-primary relative transition ${
               pathname === '/wish' ? 'text-primary' : ''
-            } `}
+            }`}
           >
-            <Heart
-              size={20}
-              fill={pathname === '/wish' ? 'currentColor' : 'none'}
-              className="transition-transform duration-300 group-hover:scale-125"
-            />
+            <div className="relative">
+              <Heart
+                size={20}
+                fill={pathname === '/wish' ? 'currentColor' : 'none'}
+                className="transition-transform duration-300 group-hover:scale-125"
+              />
+
+              {wishlistCount >= 0 && (
+                <span className="bg-primary text-app absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-bold">
+                  {wishlistCount}
+                </span>
+              )}
+            </div>
           </button>
 
           {/* Cart */}
@@ -180,13 +188,21 @@ export default function Header() {
             onClick={() => router.push('/cart')}
             className={`group hover:text-primary relative transition ${
               pathname === '/cart' ? 'text-primary' : ''
-            } `}
+            }`}
           >
-            <ShoppingCart
-              size={20}
-              fill={pathname === '/cart' ? 'currentColor' : 'none'}
-              className="transition-transform duration-300 group-hover:scale-125"
-            />
+            <div className="relative">
+              <ShoppingCart
+                size={20}
+                fill={pathname === '/cart' ? 'currentColor' : 'none'}
+                className="transition-transform duration-300 group-hover:scale-125"
+              />
+
+              {cartCount >= 0 && (
+                <span className="bg-primary text-app absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-bold">
+                  {cartCount}
+                </span>
+              )}
+            </div>
           </button>
 
           <button
