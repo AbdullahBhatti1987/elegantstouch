@@ -148,6 +148,7 @@ export default function AdminProductCard({ product }) {
             src={product.thumbnail?.url || '/images/placeholder.jpg'}
             alt={product.name}
             fill
+            priority
             sizes="96px"
             className="object-cover transition duration-500 group-hover:scale-110"
           />
