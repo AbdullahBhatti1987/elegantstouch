@@ -7,29 +7,20 @@ import { toast } from 'react-hot-toast';
 
 import CategoryForm from '@/components/admin/categories/CategoryForm';
 
-const initialForm = {
-  name: '',
-  slug: '',
-  alt: '',
-  description: '',
-  keywords: '',
-  status: 'active',
-  featured: false,
-  sortOrder: '',
-  seoTitle: '',
-  seoDescription: '',
-};
-
 export default function AddCategoryPage() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  const handleCreate = async (payload) => {
+  const handleCreate = async (formData) => {
     try {
       setLoading(true);
 
-      const response = await axios.post('/api/categories', payload);
+      const response = await axios.post('/api/categories', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
       if (response.data.success) {
         toast.success('Category added successfully');
@@ -53,8 +44,6 @@ export default function AddCategoryPage() {
 
   return (
     <div className="mx-auto">
-      {/* Header */}
-
       <CategoryForm
         onSubmit={handleCreate}
         submitText="Save Category"

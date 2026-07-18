@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import Category from '@/models/Category';
 import cloudinary from '@/lib/cloudinary';
+import { singleFileToCloudinary } from '@/lib/singleFileToCloudinary';
 import { deleteFromCloudinary } from '@/lib/deleteFromCloudinary';
 
 export async function GET(req, { params }) {
@@ -106,21 +107,20 @@ export async function DELETE(request, { params }) {
   }
 }
 
-
-
 export async function PUT(req, context) {
   try {
     await connectDB();
 
-    const body = await req.json();
-
     const { id } = await context.params;
 
-    // Get old category first
+    const formData = await req.formData();
+
+    const imageFile = formData.get('image');
+
     const oldCategory = await Category.findById(id);
 
     if (!oldCategory) {
-      return Response.json(
+      return NextResponse.json(
         {
           success: false,
           message: 'Category not found',
@@ -131,27 +131,71 @@ export async function PUT(req, context) {
       );
     }
 
-    // Delete old cloudinary image if replaced
-    if (
-      body.image?.public_id &&
-      body.image.public_id !== oldCategory.image?.public_id
-    ) {
-      await deleteFromCloudinary(oldCategory.image.public_id);
+    let image = oldCategory.image;
+
+    // Agar new image upload hui hai
+    if (imageFile && typeof imageFile !== 'string') {
+      // New image Cloudinary upload
+      const uploadedImage = await singleFileToCloudinary(
+        imageFile,
+        'categories',
+      );
+
+      // Old image delete
+      if (oldCategory.image?.public_id) {
+        await deleteFromCloudinary(oldCategory.image.public_id);
+      }
+
+      image = uploadedImage;
     }
 
-    // Update category
-    const category = await Category.findByIdAndUpdate(id, body, {
-      new: true,
-    });
+    const keywords = formData.get('keywords');
 
-    return Response.json({
+    const updateData = {
+      name: formData.get('name'),
+
+      slug: formData.get('slug'),
+
+      alt: formData.get('alt'),
+
+      description: formData.get('description'),
+
+      keywords: keywords
+        ? keywords
+            .split(',')
+            .map((item) => item.trim())
+            .filter(Boolean)
+        : [],
+
+      status: formData.get('status'),
+
+      featured: formData.get('featured') === 'true',
+
+      sortOrder: Number(formData.get('sortOrder')) || 0,
+
+      seoTitle: formData.get('seoTitle'),
+
+      seoDescription: formData.get('seoDescription'),
+
+      image,
+    };
+
+    const category = await Category.findByIdAndUpdate(
+      id,
+      updateData,
+      {
+        new: true,
+      },
+    );
+
+    return NextResponse.json({
       success: true,
       data: category,
     });
   } catch (error) {
-    console.log(error);
+    console.log('CATEGORY UPDATE ERROR:', error);
 
-    return Response.json(
+    return NextResponse.json(
       {
         success: false,
         message: error.message,

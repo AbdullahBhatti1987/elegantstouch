@@ -33,8 +33,8 @@ export default function CategoryForm({
   setLoading,
 }) {
   const router = useRouter();
-  const [formData, setFormData] = useState(defaultForm);
 
+  const [formData, setFormData] = useState(defaultForm);
   const [uploadImage, setUploadImage] = useState(null);
 
   const [submitting, setSubmitting] = useState(false);
@@ -57,6 +57,7 @@ export default function CategoryForm({
       seoDescription: initialData.seoDescription || '',
     });
 
+    // Edit mode me existing image URL show karne ke liye
     if (initialData.image?.url) {
       setUploadImage(initialData.image.url);
     }
@@ -71,6 +72,7 @@ export default function CategoryForm({
         [name]: type === 'checkbox' ? checked : value,
       };
 
+      // auto slug generate
       if (name === 'name') {
         updated.slug = value
           .toLowerCase()
@@ -81,25 +83,6 @@ export default function CategoryForm({
 
       return updated;
     });
-  };
-
-  const uploadCategoryImage = async (file) => {
-    if (!file || typeof file === 'string') {
-      return file;
-    }
-
-    const data = new FormData();
-
-    data.append('file', file);
-    data.append('folder', 'categories');
-
-    const response = await axios.post('/api/upload/single', data);
-
-    if (!response.data.success) {
-      throw new Error('Image upload failed');
-    }
-
-    return response.data.image;
   };
 
   const validateForm = () => {
@@ -159,6 +142,7 @@ export default function CategoryForm({
 
     if (errors.length > 0) {
       errors.forEach((error) => toast.error(error));
+
       return;
     }
 
@@ -166,33 +150,41 @@ export default function CategoryForm({
       setLoading(true);
       setSubmitting(true);
 
-      // Upload image only after validation success
-      const image = await uploadCategoryImage(uploadImage);
-      console.log('IMAGE DATA:', image);
+      const data = new FormData();
 
-      const payload = {
-        ...formData,
+      // normal fields
+      Object.keys(formData).forEach((key) => {
+        data.append(key, formData[key]);
+      });
 
-        image: {
-          url: image.url,
-          thumbnail: image.thumbnail,
-          public_id: image.public_id,
-        },
+      // image file
+      if (uploadImage && typeof uploadImage !== 'string') {
+        data.append('image', uploadImage);
+      }
 
-        sortOrder: Number(formData.sortOrder) || 0,
-
-        keywords: formData.keywords
+      // keywords array backend me handle karenge
+      data.set(
+        'keywords',
+        formData.keywords
           ? formData.keywords
               .split(',')
               .map((item) => item.trim())
               .filter(Boolean)
-          : [],
-      };
+              .join(',')
+          : '',
+      );
 
-      await onSubmit(payload);
+      data.set('sortOrder', Number(formData.sortOrder) || 0);
+
+      await onSubmit(data);
     } catch (error) {
       console.log(error);
-      toast.error(error.message || 'Something went wrong');
+
+      toast.error(
+        error.response?.data?.message ||
+          error.message ||
+          'Something went wrong',
+      );
     } finally {
       setSubmitting(false);
       setLoading(false);
