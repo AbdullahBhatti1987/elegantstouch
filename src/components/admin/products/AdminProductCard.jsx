@@ -145,7 +145,7 @@ export default function AdminProductCard({ product }) {
 
         <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
           <Image
-            src={product.thumbnail?.url || '/images/placeholder.jpg'}
+            src={product.images[0]?.url || '/images/placeholder.jpg'}
             alt={product.name}
             fill
             priority

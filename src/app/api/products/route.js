@@ -171,28 +171,99 @@ export async function POST(req) {
   try {
     await connectDB();
 
-    const body = await req.json();
+    const formData = await req.formData();
+
+    // Images receive
+    const files = formData.getAll('images');
+
+    if (!files.length) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Product images are required',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const uploadedImages = await multipleFilesToCloudinary(
+      files,
+      'products',
+    );
+
+    const tags = formData.get('tags');
+
+    const keywords = formData.get('keywords');
 
     const product = await Product.create({
-      ...body,
+      sku: formData.get('sku'),
 
-      price: Number(body.price),
+      name: formData.get('name'),
 
-      salePrice: body.salePrice ? Number(body.salePrice) : null,
+      slug: formData.get('slug'),
 
-      stock: Number(body.stock),
+      categoryId: formData.get('categoryId'),
 
-      tags: body.tags || [],
+      brand: formData.get('brand'),
 
-      keywords: body.keywords || [],
+      collectionName: formData.get('collectionName'),
+
+      price: Number(formData.get('price')) || 0,
+
+      salePrice: formData.get('salePrice')
+        ? Number(formData.get('salePrice'))
+        : null,
+
+      currency: formData.get('currency'),
+
+      images: uploadedImages,
+
+      stock: Number(formData.get('stock')) || 0,
+
+      inStock: formData.get('inStock') === 'true',
+
+      badge: formData.get('badge'),
+
+      shortDescription: formData.get('shortDescription'),
+
+      description: formData.get('description'),
+
+      features: formData.get('features'),
+
+      material: formData.get('material'),
+
+      color: formData.get('color'),
+
+      ageGroup: formData.get('ageGroup'),
+
+      weight: formData.get('weight'),
+
+      tags: tags ? tags.split(',').map((item) => item.trim()) : [],
+
+      keywords: keywords
+        ? keywords.split(',').map((item) => item.trim())
+        : [],
+
+      seoTitle: formData.get('seoTitle'),
+
+      seoDescription: formData.get('seoDescription'),
     });
 
-    return NextResponse.json({
-      success: true,
-      data: product,
-      message: 'Product created successfully',
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        data: product,
+        message: 'Product created successfully',
+      },
+      {
+        status: 201,
+      },
+    );
   } catch (error) {
+    console.log('PRODUCT CREATE ERROR:', error);
+
     return NextResponse.json(
       {
         success: false,

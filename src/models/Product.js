@@ -76,10 +76,10 @@ const ProductSchema = new mongoose.Schema(
         thumbnail: String,
       },
     ],
-    thumbnail: {
-      url: String,
-      public_id: String,
-    },
+    // thumbnail: {
+    //   url: String,
+    //   public_id: String,
+    // },
 
     shortDescription: {
       type: String,

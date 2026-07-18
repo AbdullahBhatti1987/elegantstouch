@@ -15,7 +15,6 @@ export default function AddProductPage() {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [images, setImages] = useState([]);
-  const [thumbnailId, setThumbnailId] = useState(null);
 
   const [formData, setFormData] = useState({
     sku: '',
@@ -29,7 +28,7 @@ export default function AddProductPage() {
     price: '',
     salePrice: '',
     currency: 'PKR',
-    images: '',
+
     stock: '',
     inStock: true,
 
@@ -147,27 +146,6 @@ export default function AddProductPage() {
     return errors;
   };
 
-  const uploadProductImages = async () => {
-    const formData = new FormData();
-
-    images.forEach((item) => {
-      formData.append('files', item.file);
-    });
-
-    formData.append('folder', 'products');
-
-    const { data } = await axios.post(
-      '/api/upload/multiple',
-      formData,
-    );
-
-    if (!data.success) {
-      throw new Error('Images upload failed');
-    }
-
-    return data.images;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -175,51 +153,43 @@ export default function AddProductPage() {
 
     if (errors.length > 0) {
       errors.forEach((error) => toast.error(error));
+
       return;
     }
 
-    setLoading(true);
-
     try {
-      const uploadedImages = await uploadProductImages();
+      setLoading(true);
 
-      const payload = {
-        ...formData,
+      const data = new FormData();
 
-        images: uploadedImages,
+      // Normal fields
+      Object.keys(formData).forEach((key) => {
+        data.append(key, formData[key]);
+      });
 
-        thumbnail:
-          uploadedImages.find(
-            (_, index) => images[index]?.id === thumbnailId,
-          ) || uploadedImages[0],
+      // Multiple product images
+      images.forEach((item) => {
+        data.append('images', item.file);
+      });
 
-        price: Number(formData.price),
+      const response = await axios.post('/api/products', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-        salePrice: formData.salePrice
-          ? Number(formData.salePrice)
-          : null,
-
-        stock: Number(formData.stock),
-
-        tags: formData.tags
-          ? formData.tags.split(',').map((item) => item.trim())
-          : [],
-
-        keywords: formData.keywords
-          ? formData.keywords.split(',').map((item) => item.trim())
-          : [],
-      };
-
-      const { data } = await axios.post('/api/products', payload);
-
-      if (data.success) {
-        toast.success(data.message || 'Product added successfully');
+      if (response.data.success) {
+        toast.success(
+          response.data.message || 'Product added successfully',
+        );
 
         setTimeout(() => {
           router.push('/dashboard/products');
         }, 1500);
       } else {
-        toast.error(data.message || 'Product creation failed');
+        toast.error(
+          response.data.message || 'Product creation failed',
+        );
       }
     } catch (error) {
       console.error('Add Product Error:', error);
@@ -390,8 +360,6 @@ export default function AddProductPage() {
         <MultiImageUpload
           value={images}
           onChange={setImages}
-          thumbnailId={thumbnailId}
-          setThumbnail={setThumbnailId}
           loading={loading}
         />
 
