@@ -1,43 +1,63 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { Heart, ShoppingCart, Star } from 'lucide-react';
+import { Heart, ShoppingCart } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
 import PriceRangeFilter from '@/components/tools/PriceRangeFilter';
 import { toast } from 'react-hot-toast';
+import Image from 'next/image';
 
 export default function CategorySlugPage() {
   const params = useParams();
   const categorySlug = params.slug;
   const [products, setProducts] = useState([]);
   const [sort, setSort] = useState('default');
-  const [priceRange, setPriceRange] = useState([0, 999999]);
+  const [priceRange, setPriceRange] = useState({
+    minPrice: 0,
+    maxPrice: 999999,
+  });
+  const [values, setValues] = useState([0, 9999]);
   const [wishlist, setWishlist] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const fetchProducts = async () => {
+    setLoading(true)
     try {
-      const res = await axios.get(
+      const { data } = await axios.get(
         `/api/products?category=${categorySlug}`,
       );
-      if (res.data.success) {
-        // console.log("Response==>", res.data.data)
-        setProducts(res.data.data);
+      console.log("Data Fetching==>",  data.data)
+      if (data.success) {
+        setProducts(data.data);
       }
     } catch (error) {
-      console.log('Products Fetch Error:', error);
-      toast.error(
-        error?.response?.data?.message || 'Failed to load products',
-      );
+      toast.error('Failed to load products');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const getPriceRange = async () => {
+    try {
+      const { data } = await axios.get('/api/products/price-range');
+      console.log('Data==>', data);
+      if (data.success) {
+        setPriceRange(data.data);
+
+        setValues([data.data.minPrice, data.data.maxPrice]);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     if (categorySlug) {
       fetchProducts();
+
+      getPriceRange();
     }
   }, [categorySlug]);
 
@@ -48,12 +68,14 @@ export default function CategorySlugPage() {
         : [...prev, id],
     );
   };
+  const step = Math.ceil(
+    (priceRange.maxPrice - priceRange.minPrice) / 100,
+  );
 
-  // API already filtered category
   let filteredProducts = products.filter((product) => {
     const price = product.salePrice || product.price;
 
-    return price >= priceRange[0] && price <= priceRange[1];
+    return price >= values[0] && price <= values[1];
   });
 
   if (sort === 'low') {
@@ -70,22 +92,31 @@ export default function CategorySlugPage() {
 
   return (
     <main className="flex flex-col gap-6 bg-gray-50 px-4 py-10 md:flex-row md:px-12 dark:bg-zinc-950">
-      <PriceRangeFilter
-        values={priceRange}
-        setValues={setPriceRange}
-      />
+      <div className="w-full shrink-0 md:w-64 lg:w-72">
+        <PriceRangeFilter
+          values={values}
 
-      <section className="flex-1">
-        <div className="mb-6 flex items-center justify-between rounded-2xl bg-white p-4 shadow-sm dark:bg-zinc-900">
-          <div>
-            <h2 className="text-xl font-bold">Products</h2>
+          setValues={setValues}
 
-            <p className="text-sm text-gray-500">
-              {filteredProducts.length} items available
-            </p>
-          </div>
+          min={priceRange.minPrice}
 
-          <select
+          max={priceRange.maxPrice}
+
+          step={step}
+        />
+      </div>
+
+        <section className="min-w-0 flex-1">
+         <div className="mb-6 flex items-center justify-between rounded-2xl bg-white p-4 shadow-sm dark:bg-zinc-900">
+           <div>
+             <h2 className="text-xl font-bold">Products</h2>
+
+             <p className="text-sm text-gray-500">
+               {filteredProducts.length} items available
+             </p>
+           </div>
+
+           <select
             value={sort}
             onChange={(e) => setSort(e.target.value)}
             className="rounded-lg border px-3 py-2 text-sm dark:bg-zinc-800"
