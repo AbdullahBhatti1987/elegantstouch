@@ -109,7 +109,7 @@ if (loading) {
                 onClick={() =>
                   router.push(`/dashboard/categories/update/${id}`)
                 }
-                className="rounded-lg bg-black p-2 text-white transition hover:bg-gray-800"
+                className="rounded-lg bg-black p-2 cursor-pointer text-white transition hover:bg-gray-800"
                 title="Edit Category"
               >
                 <Edit size={17} />
@@ -118,7 +118,7 @@ if (loading) {
               {/* Delete */}
               <button
                 onClick={() => setShowDeleteModal(true)}
-                className="rounded-lg bg-red-600 p-2 text-white transition hover:bg-red-700"
+                className="rounded-lg bg-red-600 p-2 cursor-pointer text-white transition hover:bg-red-700"
                 title="Delete Category"
               >
                 <Trash2 size={17} />

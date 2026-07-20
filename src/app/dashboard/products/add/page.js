@@ -5,7 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
-import ProductForm from '@/components/admin/products/ProductForm';
+import AdminProductForm from '@/components/admin/products/AdminProductForm';
 
 export default function AddProductPage() {
   const router = useRouter();
@@ -50,7 +50,7 @@ export default function AddProductPage() {
 
   return (
     <div className="mx-auto">
-      <ProductForm
+      <AdminProductForm
         onSubmit={handleCreate}
         submitText="Save Product"
         loading={loading}

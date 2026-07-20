@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
-import CategoryForm from '@/components/admin/common/form/CategoryForm';
+import AdminCategoryForm from '@/components/admin/categories/AdminCategoryForm';
 import CategoryDetailSkeleton from '@/components/admin/common/skeleton/CategoryDetailSkeleton';
 
 export default function EditCategoryPage() {
@@ -61,7 +61,7 @@ export default function EditCategoryPage() {
   }
 
   return (
-    <CategoryForm
+    <AdminCategoryForm
       initialData={category}
       onSubmit={handleUpdate}
       submitText="Update Category"

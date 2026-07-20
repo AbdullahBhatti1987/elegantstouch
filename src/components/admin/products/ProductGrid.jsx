@@ -2,7 +2,7 @@
 
 import AdminProductCard from './AdminProductCard';
 import Loader from '@/components/admin/common/loaders/Loader';
-import EmptyState from './EmptyState';
+import EmptyState from './AdminEmptyState';
 
 export default function ProductGrid({ products = [], loading }) {
   return (

@@ -2,7 +2,7 @@
 
 import { PackageSearch } from 'lucide-react';
 
-export default function EmptyState({
+export default function EmptyCardState({
   title = 'No Products Found',
   description = 'There are currently no products available. Please check back later.',
   action,

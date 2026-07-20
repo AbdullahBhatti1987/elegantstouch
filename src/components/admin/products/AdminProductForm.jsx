@@ -49,7 +49,7 @@ const defaultForm = {
   featured: false,
 };
 
-export default function ProductForm({
+export default function AdminProductForm({
   initialData = null,
   onSubmit,
   submitText = 'Save Product',
@@ -133,6 +133,18 @@ export default function ProductForm({
 
       featured: initialData.featured || false,
     });
+    // Existing Product Images
+    if (initialData.images?.length) {
+      setImages(
+        initialData.images.map((img) => ({
+          id: crypto.randomUUID(),
+          file: null,
+          preview: img.thumbnail || img.url,
+          url: img.url,
+          public_id: img.public_id,
+        })),
+      );
+    }
   }, [initialData]);
 
   const handleChange = (e) => {
@@ -214,9 +226,23 @@ export default function ProductForm({
         data.append(key, formData[key]);
       });
 
-      images.forEach((item) => {
-        data.append('images', item.file);
-      });
+      // Existing images keep
+      const existingImages = images
+        .filter((item) => item.url)
+        .map((item) => ({
+          url: item.url,
+          thumbnail: item.preview,
+          public_id: item.public_id,
+        }));
+
+      data.append('existingImages', JSON.stringify(existingImages));
+
+      // New images upload
+      images
+        .filter((item) => item.file)
+        .forEach((item) => {
+          data.append('images', item.file);
+        });
 
       await onSubmit(data);
     } catch (error) {

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
 import ProductDetailSkeleton from '@/components/admin/common/skeleton/ProductDetailSkeleton';
+import AdminProductForm from '@/components/admin/products/AdminProductForm';
 
 export default function EditProductPage() {
   const { id } = useParams();
@@ -38,6 +39,11 @@ export default function EditProductPage() {
       const { data } = await axios.put(
         `/api/products/${id}`,
         payload,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       );
 
       if (data.success) {
@@ -57,7 +63,7 @@ export default function EditProductPage() {
   }
 
   return (
-    <ProductForm
+    <AdminProductForm
       initialData={product}
       onSubmit={handleUpdate}
       submitText="Update Product"

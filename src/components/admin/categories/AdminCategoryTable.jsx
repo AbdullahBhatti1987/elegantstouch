@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Star,  CalendarDays } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import AdminCategoryTableSkeleton from '../common/skeleton/AdminCategoryTableSkeleton';
+import EmptyCategoryState from './EmptyCategoryState';
 
 export default function AdminCategoryTable({ categories, loading }) {
   const router = useRouter();
@@ -53,7 +54,7 @@ export default function AdminCategoryTable({ categories, loading }) {
           {loading ? (
             <AdminCategoryTableSkeleton rows={4} />
           ) : (
-            categories.map((category) => (
+            categories.length > 0 ? categories.map((category) => (
               <tr
                 key={category._id}
                 onClick={() =>
@@ -168,7 +169,7 @@ export default function AdminCategoryTable({ categories, loading }) {
                   </div>
                 </td>
               </tr>
-            ))
+            )): <EmptyCategoryState />
           )}
         </tbody>
       </table>
