@@ -15,6 +15,7 @@ import {
   UserRound,
   LogOut,
   Heart,
+  ListOrdered,
 } from 'lucide-react';
 
 export const dashboardSidebar = [
@@ -34,9 +35,14 @@ export const dashboardSidebar = [
     icon: Package,
   },
   {
+    title: 'Carts',
+    href: '/dashboard/carts',
+    icon: ShoppingCart,
+  },
+  {
     title: 'Orders',
     href: '/dashboard/orders',
-    icon: ShoppingCart,
+    icon: ListOrdered,
   },
   {
     title: 'Customers',
