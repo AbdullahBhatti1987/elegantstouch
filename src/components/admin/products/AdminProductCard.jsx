@@ -136,7 +136,7 @@ export default function AdminProductCard({ product }) {
   return (
     <Link
       href={`/dashboard/products/${product._id}`}
-      className="group block rounded-2xl border border-gray-400 bg-white p-3 shadow-sm transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900"
+      className="group block rounded-2xl border border-gray-400 bg-white p-3 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
     >
       {/* Top Section */}
 

@@ -54,6 +54,7 @@ export default function CategoriesPage() {
     categories: 0,
     products: 0,
     carts: 0,
+    // orders: 0,
     categoryWiseProducts: [],
   });
 
@@ -69,7 +70,7 @@ export default function CategoriesPage() {
 
       if (data.success) {
         setCounts(data.data);
-        console.log('Data Status==>', data.data.categoryWiseProducts);
+        // console.log('Data Status==>', data.data);
 
       }
     } catch (error) {
@@ -117,7 +118,7 @@ export default function CategoriesPage() {
         <AdminCategoryGrid
           categories={categories}
           loading={loading}
-          counts={counts.categoryWiseProducts}
+          counts={counts}
         />
       ) : (
         <AdminCategoryTable

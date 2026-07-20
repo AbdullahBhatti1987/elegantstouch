@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from 'next/image';
@@ -10,7 +9,7 @@ export default function AdminCategoryCard({ category, counts }) {
 
   return (
     <div
-      className="group cursor-pointer rounded-2xl border border-gray-400 bg-white p-3 shadow-sm transition-all duration-300 ease-out hover:-translate-y-3 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900"
+      className="group cursor-pointer rounded-2xl border border-gray-400 bg-white p-3 shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
 
       onClick={() =>
         router.push(`/dashboard/categories/${category._id}`)
@@ -79,8 +78,14 @@ export default function AdminCategoryCard({ category, counts }) {
         <div className="rounded-lg bg-gray-50 p-2 dark:bg-gray-800">
           <Package size={12} className="text-gray-500" />
 
+          {/* <p className="mt-1 text-xs font-bold">
+            {counts.categoryWiseProducts?.categoryId === category._id ? counts.categoryWiseProducts?.productCount : 0}
+          </p> */}
+
           <p className="mt-1 text-xs font-bold">
-            {counts.categoryWiseProducts.categoryId === category._id ? counts.categoryWiseProducts.productCount : 0}
+            {counts.categoryWiseProducts?.find(
+              (item) => item.categoryId === category._id,
+            )?.productCount || 0}
           </p>
 
           <span className="text-[10px] text-gray-500">Products</span>
@@ -102,6 +107,12 @@ export default function AdminCategoryCard({ category, counts }) {
           <p className="mt-1 text-xs font-bold">
             {category.sortOrder}
           </p>
+
+          {/* <p className="mt-1 text-xs font-bold">
+            {counts.orders?.find(
+              (item) => item.categoryId === category._id,
+            )?.productCount || 0}
+          </p> */}
 
           <span className="text-[10px] text-gray-500">Order</span>
         </div>
