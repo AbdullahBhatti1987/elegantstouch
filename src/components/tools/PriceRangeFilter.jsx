@@ -2,19 +2,13 @@
 
 import { Range } from 'react-range';
 
-const DEFAULT_STEP = 100;
-const DEFAULT_MIN = 99;
-const DEFAULT_MAX = 9999;
-
 export default function PriceRangeFilter({
   values,
   setValues,
-  min = DEFAULT_MIN,
-  max = DEFAULT_MAX,
-  step = DEFAULT_STEP,
+  min,
+  max,
+  step,
 }) {
-
-
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-PK').format(price);
   };
@@ -35,7 +29,7 @@ export default function PriceRangeFilter({
   };
 
   return (
-    <aside className="sticky top-24 w-full rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <aside className="sticky w-full rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       {/* Header */}
 
       <div className="mb-5">
