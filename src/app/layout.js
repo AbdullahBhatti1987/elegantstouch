@@ -197,7 +197,10 @@ export default async function RootLayout({ children }) {
         )}
       </head>
 
-      <body className="bg-bg-app text-textcolor min-h-screen">
+      <body
+        className="bg-bg-app text-textcolor min-h-screen"
+        cz-shortcut-listen="true"
+      >
         <MainLayout>{children}</MainLayout>
         <Toaster position="top-right" reverseOrder={false} />
       </body>

@@ -7,6 +7,7 @@ import DashboardCard from './DashboardCard';
 import { dashboardStats } from '@/content/data';
 
 export default function DashboardStats() {
+
   const [counts, setCounts] = useState({
     categories: 0,
     products: 0,
@@ -53,6 +54,8 @@ export default function DashboardStats() {
           value={counts[item.key]}
 
           icon={item.icon}
+          
+          link={item.link}
 
           gradient={item.gradient}
 

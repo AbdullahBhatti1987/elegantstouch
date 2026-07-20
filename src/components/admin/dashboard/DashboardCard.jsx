@@ -1,15 +1,20 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 export default function DashboardCard({
   title,
   value,
   icon: Icon,
   gradient,
   loading,
+  link,
 }) {
+  const router = useRouter();
   return (
     <div
-      className={`group relative overflow-hidden rounded-2xl border border-gray-400 px-4 py-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${gradient} `}
+      onClick={() => router.push(link)}
+      className={`group relative overflow-hidden cursor-pointer rounded-2xl border border-gray-400 px-4 py-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${gradient} `}
     >
       {/* Soft Background Glow */}
 

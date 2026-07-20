@@ -8,10 +8,9 @@ import DashboardStats from '@/components/admin/dashboard/DashboardStats';
 export default function AdminDashboard() {
   return (
     <div className="space-y-4">
-
       <DashboardStats />
 
-      <div className="grid gap-4 lg:grid-cols-2 grid-cols-1">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <CategoryRadialChart />
 
         <RevenueChart />

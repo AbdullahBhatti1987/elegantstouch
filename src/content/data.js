@@ -14,6 +14,7 @@ import {
   ClipboardList,
   UserRound,
   LogOut,
+  Heart,
 } from 'lucide-react';
 
 export const dashboardSidebar = [
@@ -41,6 +42,11 @@ export const dashboardSidebar = [
     title: 'Customers',
     href: '/dashboard/customers',
     icon: Users,
+  },
+  {
+    title: 'Wishlists',
+    href: '/dashboard/wishlists',
+    icon: Heart,
   },
   {
     title: 'Settings',
@@ -647,35 +653,48 @@ export const dashboardStats = [
     key: 'categories',
     icon: Layers,
     gradient: 'bg-gradient-to-br from-blue-100 to-blue-200',
+    link: '/dashboard/categories',
   },
   {
     title: 'Products',
     key: 'products',
     icon: Package,
     gradient: 'bg-gradient-to-br from-green-100 to-green-200',
+    link: '/dashboard/products',
   },
   {
     title: 'Customers',
     key: 'customers',
     icon: Users,
     gradient: 'bg-gradient-to-br from-purple-100 to-purple-200',
+    link: '/dashboard/customers',
   },
   {
     title: 'Orders',
     key: 'orders',
     icon: ClipboardList,
     gradient: 'bg-gradient-to-br from-orange-100 to-orange-200',
+    link: '/dashboard/orders',
   },
   {
     title: 'Carts',
     key: 'carts',
     icon: ShoppingCart,
     gradient: 'bg-gradient-to-br from-orange-100 to-orange-200',
+    link: '/dashboard/carts',
   },
   {
     title: 'Users',
-    value: 'users',
+    key: 'users',
     icon: UserRound,
     gradient: 'bg-gradient-to-br from-red-100 to-red-200',
+    link: '/dashboard/users',
+  },
+  {
+    title: 'Wishlists',
+    key: 'wishlists',
+    icon: Heart,
+    gradient: 'bg-gradient-to-br from-red-100 to-red-200',
+    link: '/dashboard/wishlists',
   },
 ];
