@@ -66,10 +66,6 @@ const CategorySchema = new mongoose.Schema(
       default: '',
     },
 
-    productCount: {
-      type: Number,
-      default: 0,
-    },
   },
   {
     timestamps: true,
