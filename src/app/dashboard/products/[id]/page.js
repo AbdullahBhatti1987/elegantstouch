@@ -365,6 +365,7 @@ import toast from 'react-hot-toast';
 import { Info } from '@/components/admin/common/form/Info';
 import ConfirmModal from '@/components/admin/common/ConfirmModal';
 import ProductDetailSkeleton from '@/components/admin/common/skeleton/ProductDetailSkeleton';
+import BackButton from '@/components/admin/common/header/BackButton';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -437,13 +438,7 @@ export default function ProductDetailPage() {
           <p className="text-gray-500">Product Details</p>
         </div>
 
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 cursor-pointer rounded-lg bg-black px-4 py-2 text-white"
-        >
-          <ArrowLeft size={18} />
-          Back
-        </button>
+        <BackButton onClick={() => router.back()} />
       </div>
 
       {/* Main */}
@@ -516,7 +511,7 @@ export default function ProductDetailPage() {
                 onClick={() =>
                   router.push(`/dashboard/products/update/${id}`)
                 }
-                className="rounded-lg cursor-pointer bg-black p-2 text-white transition hover:bg-gray-800"
+                className="cursor-pointer rounded-lg bg-black p-2 text-white transition hover:bg-gray-800"
                 title="Edit Category"
               >
                 <Edit size={17} />
@@ -525,7 +520,7 @@ export default function ProductDetailPage() {
               {/* Delete */}
               <button
                 onClick={() => setShowDeleteModal(true)}
-                className="rounded-lg cursor-pointer bg-red-600 p-2 text-white transition hover:bg-red-700"
+                className="cursor-pointer rounded-lg bg-red-600 p-2 text-white transition hover:bg-red-700"
                 title="Delete Category"
               >
                 <Trash2 size={17} />

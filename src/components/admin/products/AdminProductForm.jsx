@@ -10,6 +10,7 @@ import Input from '@/components/admin/common/form/Input';
 import Textarea from '@/components/admin/common/form/Textarea';
 import Checkbox from '@/components/admin/common/form/Checkbox';
 import MultiImageUpload from '@/components/admin/common/form/MultiImageUpload';
+import BackButton from '../common/header/BackButton';
 
 const defaultForm = {
   sku: '',
@@ -270,14 +271,7 @@ export default function AdminProductForm({
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="flex items-center gap-2 rounded-lg border bg-white px-4 py-2"
-        >
-          <ArrowLeft size={18} />
-          Back
-        </button>
+         <BackButton onClick={() => router.back()} />
       </div>
 
       <form

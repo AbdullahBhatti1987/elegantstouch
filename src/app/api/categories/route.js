@@ -104,7 +104,6 @@ export async function POST(request) {
       image,
     });
 
-    console.log('Cloudinary Image ==> ', image);
 
     return NextResponse.json(
       {
