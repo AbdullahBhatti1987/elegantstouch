@@ -3,34 +3,113 @@ import { connectDB } from '@/lib/mongodb';
 import Category from '@/models/Category';
 import { singleFileToCloudinary } from '@/lib/singleFileToCloudinary';
 
+// export async function GET(req) {
+//   try {
+//     await connectDB();
+
+//     const { searchParams } = new URL(req.url);
+//     const search = searchParams.get('search') || '';
+//     const page = Number(searchParams.get('page')) || 1;
+//     const limit = Number(searchParams.get('limit')) || 12;
+//     const skip = (page - 1) * limit;
+//     let query = {};
+
+//     if (search) {
+//       query = {
+//         $or: [
+//           {
+//             name: {
+//               $regex: search,
+//               $options: 'i',
+//             },
+//           },
+//           {
+//             slug: {
+//               $regex: search,
+//               $options: 'i',
+//             },
+//           },
+//         ],
+//       };
+//     }
+
+//     const totalCategories = await Category.countDocuments(query);
+
+//     const categories = await Category.find(query)
+//       .sort({
+//         sortOrder: 1,
+//       })
+//       .skip(skip)
+//       .limit(limit);
+
+//     return Response.json({
+//       success: true,
+//       data: categories,
+//       pagination: {
+//         total: totalCategories,
+//         page,
+//         limit,
+//         totalPages: Math.ceil(totalCategories / limit),
+//         hasNextPage: page < Math.ceil(totalCategories / limit),
+//         hasPrevPage: page > 1,
+//       },
+//     });
+//   } catch (error) {
+//     return Response.json(
+//       {
+//         success: false,
+//         message: error.message,
+//       },
+//       {
+//         status: 500,
+//       },
+//     );
+//   }
+// }
+
+// CREATE CATEGORY
+
 export async function GET(req) {
   try {
     await connectDB();
 
     const { searchParams } = new URL(req.url);
+
     const search = searchParams.get('search') || '';
+    const featured = searchParams.get('featured');
+
     const page = Number(searchParams.get('page')) || 1;
     const limit = Number(searchParams.get('limit')) || 12;
     const skip = (page - 1) * limit;
+
     let query = {};
 
+    // Search
     if (search) {
-      query = {
-        $or: [
-          {
-            name: {
-              $regex: search,
-              $options: 'i',
-            },
+      query.$or = [
+        {
+          name: {
+            $regex: search,
+            $options: 'i',
           },
-          {
-            slug: {
-              $regex: search,
-              $options: 'i',
-            },
+        },
+        {
+          slug: {
+            $regex: search,
+            $options: 'i',
           },
-        ],
-      };
+        },
+      ];
+    }
+
+    // Featured Filter
+
+    if (featured === 'true') {
+      query.featured = true;
+    }
+
+    if (featured === 'false') {
+      query.featured = false;
     }
 
     const totalCategories = await Category.countDocuments(query);
@@ -42,7 +121,7 @@ export async function GET(req) {
       .skip(skip)
       .limit(limit);
 
-    return Response.json({
+    return NextResponse.json({
       success: true,
       data: categories,
       pagination: {
@@ -55,7 +134,7 @@ export async function GET(req) {
       },
     });
   } catch (error) {
-    return Response.json(
+    return NextResponse.json(
       {
         success: false,
         message: error.message,
@@ -66,8 +145,6 @@ export async function GET(req) {
     );
   }
 }
-
-// CREATE CATEGORY
 
 export async function POST(request) {
   try {
@@ -103,7 +180,6 @@ export async function POST(request) {
       seoDescription: formData.get('seoDescription'),
       image,
     });
-
 
     return NextResponse.json(
       {

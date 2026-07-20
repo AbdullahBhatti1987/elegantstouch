@@ -3,9 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 
-// import CategoryCard from './CategoryCard';
 import AdminCategorySkeleton from '../admin/common/skeleton/AdminCategorySkeleton';
-import CategoryCard from '../category/CategoryCard';
+import FeatureCard from '../category/FeaturedCard';
 
 export default function CategoriesFeatured() {
   const [categories, setCategories] = useState([]);
@@ -57,7 +56,7 @@ export default function CategoriesFeatured() {
           ))
         ) : categories.length > 0 ? (
           categories.map((category) => (
-            <CategoryCard key={category._id} category={category} />
+            <FeatureCard key={category._id} category={category} />
           ))
         ) : (
           <p className="col-span-full text-center text-gray-500">

@@ -3,6 +3,7 @@ import { connectDB } from '@/lib/mongodb';
 import Product from '@/models/Product';
 import Category from '@/models/Category';
 import { multipleFilesToCloudinary } from '@/lib/multipleFilesToCloudinary';
+import mongoose from 'mongoose';
 
 // GET ALL PRODUCTS
 
@@ -14,6 +15,7 @@ export async function GET(request) {
 
     const search = searchParams.get('search') || '';
     const categorySlug = searchParams.get('category') || '';
+    // const categoryParam = searchParams.get('category') || '';
 
     const page = Number(searchParams.get('page')) || 1;
     const limit = Number(searchParams.get('limit')) || 8;
@@ -54,11 +56,19 @@ export async function GET(request) {
     }
 
     // Category Filter
-    if (categorySlug) {
-      const category = await Category.findOne({
-        slug: categorySlug,
-      });
 
+    if (categorySlug) {
+      let category;
+
+      if (mongoose.Types.ObjectId.isValid(categorySlug)) {
+        category = await Category.findById(categorySlug);
+      } else {
+        category = await Category.findOne({
+          slug: categorySlug,
+        });
+      }
+      // console.log("category==>", category)
+      // console.log("categorySlug==>", categorySlug)
       if (!category) {
         return NextResponse.json(
           {
@@ -73,6 +83,8 @@ export async function GET(request) {
 
       query.categoryId = category._id;
     }
+
+
 
     // Price Filter
     if (priceMin || priceMax) {

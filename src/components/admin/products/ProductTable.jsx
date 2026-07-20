@@ -67,7 +67,7 @@ export default function ProductTable({ products, loading }) {
                   <div className="relative mx-auto h-10 w-10 overflow-hidden rounded-lg border">
                     <Image
                       src={
-                        product.thumbnail?.url ||
+                        product.images?.[0]?.thumbnail ||
                         '/images/placeholder.jpg'
                       }
                       alt={product.name || 'product'}
