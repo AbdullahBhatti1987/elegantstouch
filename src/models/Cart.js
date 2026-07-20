@@ -10,22 +10,23 @@ const CartItemSchema = new mongoose.Schema(
 
     quantity: {
       type: Number,
+      required: true,
       default: 1,
       min: 1,
     },
   },
   {
-    _id: true,
+    _id: false,
   },
 );
 
 const CartSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+    guestId: {
+      type: String,
       required: true,
       unique: true,
+      index: true,
     },
 
     items: [CartItemSchema],
