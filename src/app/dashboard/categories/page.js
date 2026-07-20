@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
@@ -23,9 +23,7 @@ export default function CategoriesPage() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-
   const [limit, setLimit] = useState(8);
-
   const [pagination, setPagination] = useState({});
 
   const getCategories = async (keyword = '', currentPage = 1) => {
@@ -52,14 +50,49 @@ export default function CategoriesPage() {
     }
   };
 
+  const [counts, setCounts] = useState({
+    categories: 0,
+    products: 0,
+    carts: 0,
+    categoryWiseProducts: [],
+  });
+
+  // const called = useRef(false);
+
+  // if (called.current) return;
+
+  // called.current = true;
+
+  async function getCounts() {
+    try {
+      const { data } = await axios.get('/api/dashboard/status');
+
+      if (data.success) {
+        setCounts(data.data);
+        console.log('Data Status==>', data.data.categoryWiseProducts);
+
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const handlePageChange = (newPage) => {
     setPage(newPage);
 
     getCategories(search, newPage);
   };
 
+  const called = useRef(false);
+
   useEffect(() => {
+    if (called.current) called.current = true;
+
     getCategories();
+    getCounts();
+
   }, []);
 
   useEffect(() => {
@@ -84,6 +117,7 @@ export default function CategoriesPage() {
         <AdminCategoryGrid
           categories={categories}
           loading={loading}
+          counts={counts.categoryWiseProducts}
         />
       ) : (
         <AdminCategoryTable

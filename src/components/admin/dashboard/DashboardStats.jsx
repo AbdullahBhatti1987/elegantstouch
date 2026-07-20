@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import {} from 'lucide-react';
 import DashboardCard from './DashboardCard';
 import { dashboardStats } from '@/content/data';
 

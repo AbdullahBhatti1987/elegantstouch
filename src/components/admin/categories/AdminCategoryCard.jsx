@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Star, CalendarDays, Tag, Package } from 'lucide-react';
 
-export default function AdminCategoryCard({ category }) {
+export default function AdminCategoryCard({ category, counts }) {
   const router = useRouter();
 
   return (
@@ -80,7 +80,7 @@ export default function AdminCategoryCard({ category }) {
           <Package size={12} className="text-gray-500" />
 
           <p className="mt-1 text-xs font-bold">
-            {category.productCount || 0}
+            {counts.categoryWiseProducts.categoryId === category._id ? counts.categoryWiseProducts.productCount : 0}
           </p>
 
           <span className="text-[10px] text-gray-500">Products</span>
