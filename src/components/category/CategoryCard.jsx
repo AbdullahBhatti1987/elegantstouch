@@ -14,11 +14,7 @@ export default function CategoryCard({ category }) {
 
       <div className="relative aspect-square overflow-hidden rounded-xl">
         <Image
-          src={
-            image?.thumbnail ||
-            image?.url ||
-            '/images/default-category.jpg'
-          }
+          src={image?.thumbnail}
           alt={name}
           fill
           priority
