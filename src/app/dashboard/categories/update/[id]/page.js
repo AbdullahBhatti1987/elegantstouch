@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
-import CategoryForm from '@/components/admin/categories/CategoryForm';
+import CategoryForm from '@/components/admin/common/form/CategoryForm';
 import CategoryDetailSkeleton from '@/components/admin/common/skeleton/CategoryDetailSkeleton';
 
 export default function EditCategoryPage() {

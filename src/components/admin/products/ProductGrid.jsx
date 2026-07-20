@@ -1,7 +1,7 @@
 'use client';
 
 import AdminProductCard from './AdminProductCard';
-import Loader from '@/components/common/Loader';
+import Loader from '@/components/admin/common/loaders/Loader';
 import EmptyState from './EmptyState';
 
 export default function ProductGrid({ products = [], loading }) {

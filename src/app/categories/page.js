@@ -1,8 +1,8 @@
 'use client';
 
 import CategoryCard from '@/components/client/categories/CategoryCard';
-import PageLoader from '@/components/common/PageLoader';
-import CategoryCardSkeleton from '@/components/common/skeletons/CategoryCardSkeleton';
+import PageLoader from '@/components/admin/common/loaders/PageLoader';
+import CategoryCardSkeleton from '@/components/admin/common/skeleton/CategoryCardSkeleton';
 import { useEffect, useState } from 'react';
 
 export default function CategoriesPage() {

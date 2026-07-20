@@ -1,15 +1,7 @@
 import mongoose from 'mongoose';
 
-const CartSchema = new mongoose.Schema(
+const CartItemSchema = new mongoose.Schema(
   {
-    sessionId: {
-      type: String,
-    },
-
-    userId: {
-      type: String,
-    },
-
     productId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Product',
@@ -19,11 +11,29 @@ const CartSchema = new mongoose.Schema(
     quantity: {
       type: Number,
       default: 1,
+      min: 1,
+    },
+  },
+  {
+    _id: true,
+  },
+);
+
+const CartSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      unique: true,
     },
 
-    price: {
-      type: Number,
-      required: true,
+    items: [CartItemSchema],
+
+    status: {
+      type: String,
+      enum: ['active', 'converted', 'abandoned'],
+      default: 'active',
     },
   },
   {

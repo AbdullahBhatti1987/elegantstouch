@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 
-import CategoryForm from '@/components/admin/categories/CategoryForm';
+import CategoryForm from '@/components/admin/common/form/CategoryForm';
 
 export default function AddCategoryPage() {
   const router = useRouter();

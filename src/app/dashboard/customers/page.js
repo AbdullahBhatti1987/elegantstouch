@@ -1,6 +1,6 @@
 "use client";
 
-import AdminPageHeader from "@/components/admin/common/AdminPageHeader";
+import AdminPageHeader from "@/components/admin/common/header/AdminPageHeader";
 import { useState } from "react";
 
 export default function CustomersPage() {

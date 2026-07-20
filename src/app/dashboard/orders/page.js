@@ -1,6 +1,6 @@
 'use client';
 
-import AdminPageHeader from '@/components/admin/common/AdminPageHeader';
+import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
 import OrderGrid from '@/components/admin/orders/OrderGrid';
 import OrderTable from '@/components/admin/orders/OrderTable';
 import { orders } from '@/content/data';

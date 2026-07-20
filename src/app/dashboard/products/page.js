@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import AdminPageHeader from '@/components/admin/common/AdminPageHeader';
+import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
 import ProductGrid from '@/components/admin/products/ProductGrid';
 import ProductTable from '@/components/admin/products/ProductTable';
 import { useRouter } from 'next/navigation';

@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Edit, Trash2 } from 'lucide-react';
 import axios from 'axios';
 import ConfirmModal from '@/components/admin/common/ConfirmModal';
-import BackButton from '@/components/admin/common/BackButton';
+import BackButton from '@/components/admin/common/header/BackButton';
 import CategoryDetailSkeleton from '@/components/admin/common/skeleton/CategoryDetailSkeleton';
 import { Info } from '@/components/admin/common/form/Info';
 

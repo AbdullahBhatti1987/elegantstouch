@@ -87,7 +87,7 @@
 // }
 
 import { Plus, Grid2X2, List } from 'lucide-react';
-import SearchInput from '@/components/common/SearchInput';
+import SearchInput from '@/components/admin/common/header/SearchInput';
 
 export default function AdminPageHeader({
   title,

@@ -1,9 +1,8 @@
 'use client';
 
-import Loader from '@/components/common/Loader';
+import Loader from '@/components/admin/common/loaders/Loader';
 import AdminCategoryCard from './AdminCategoryCard';
 import EmptyCategoryState from './EmptyCategoryState';
-import Link from 'next/link';
 
 export default function CategoryGrid({ categories = [], loading }) {
   return (
@@ -16,14 +15,7 @@ export default function CategoryGrid({ categories = [], loading }) {
         ))
       ) : (
         <EmptyCategoryState
-          // action={
-          //   <Link
-          //     href="/dashboard/categories/create"
-          //     className="rounded-lg bg-[#005b96] px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90"
-          //   >
-          //     Add New Category
-          //   </Link>
-          // }
+         
         />
       )}
     </div>
