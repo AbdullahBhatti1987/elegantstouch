@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
 
-export default function ProductCard({
+export default function CategoryCard({
   product,
   wishlist = [],
   toggleWishlist = () => {},

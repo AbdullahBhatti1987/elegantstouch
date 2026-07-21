@@ -1,12 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Heart, ShoppingCart } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
 import PriceRangeFilter from '@/components/tools/PriceRangeFilter';
 import { toast } from 'react-hot-toast';
-import Image from 'next/image';
 import CategoryProductList from '@/components/products/CategoryProductList';
 
 export default function CategorySlugPage() {
@@ -68,6 +66,37 @@ export default function CategorySlugPage() {
         : [...prev, id],
     );
   };
+
+  const addToCart = async (product, quantity = 1) => {
+    try {
+      let guestId = localStorage.getItem('guestId');
+
+      if (!guestId) {
+        guestId = crypto.randomUUID();
+
+        localStorage.setItem('guestId', guestId);
+      }
+
+      const { data } = await axios.post('/api/cart', {
+        guestId,
+        productId: product._id,
+        quantity,
+      });
+
+      if (data.success) {
+        toast.success(data.message);
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('Something went wrong');
+      }
+
+      console.log('ADD CART ERROR ==>', error.response?.data);
+    }
+  };
+
   const step = Math.ceil(
     (priceRange.maxPrice - priceRange.minPrice) / 100,
   );
@@ -91,8 +120,8 @@ export default function CategorySlugPage() {
   }
 
   return (
-    <main className="flex flex-col gap-6 bg-gray-50 p-4  md:flex-row md:pl-4 dark:bg-zinc-950">
-      <div className="w-full shrink-0 md:w-64 lg:w-60 ">
+    <main className="flex flex-col gap-6 bg-gray-50 p-4 md:flex-row md:pl-4 dark:bg-zinc-950">
+      <div className="w-full shrink-0 md:w-64 lg:w-60">
         <PriceRangeFilter
           values={values}
           setValues={setValues}
@@ -109,6 +138,7 @@ export default function CategorySlugPage() {
         setSort={setSort}
         wishlist={wishlist}
         toggleWishlist={toggleWishlist}
+        addToCart={addToCart}
       />
     </main>
   );
