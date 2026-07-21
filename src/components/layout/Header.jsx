@@ -26,22 +26,22 @@ export default function Header() {
     router.push(`/products?search=${encodeURIComponent(query)}`);
   };
 
-  const fetchCounts = async () => {
-    try {
-      const [wishRes, cartRes] = await Promise.all([
-        axios.get('/api/wishlist/count'),
-        axios.get('/api/cart/count'),
-      ]);
+  // const fetchCounts = async () => {
+  //   try {
+  //     const [wishRes, cartRes] = await Promise.all([
+  //       axios.get('/api/wishlist/count'),
+  //       axios.get('/api/cart/count'),
+  //     ]);
 
-      setWishlistCount(wishRes.data.count);
-      setCartCount(cartRes.data.count);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     setWishlistCount(wishRes.data.count);
+  //     setCartCount(cartRes.data.count);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   useEffect(() => {
-    fetchCounts();
+    // fetchCounts();
 
     const handleClickOutside = (event) => {
       if (
