@@ -15,7 +15,7 @@ export default function AdminCategorySkeleton() {
           <div className="skeleton h-3 w-1/2 rounded" />
 
           {/* Status */}
-          <div className="skeleton h-5 w-16 rounded-full" />
+          <div className="skeleton h-5 w-10 md:16 rounded-full" />
         </div>
       </div>
 

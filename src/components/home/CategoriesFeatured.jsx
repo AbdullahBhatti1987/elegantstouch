@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import AdminCategorySkeleton from '../admin/common/skeleton/AdminCategorySkeleton';
 import FeatureCard from '../category/FeaturedCard';
+import FeatureCardSkeleton from '../category/FeatureCardSkeleton';
 
 export default function CategoriesFeatured() {
   const [categories, setCategories] = useState([]);
@@ -51,8 +52,8 @@ export default function CategoriesFeatured() {
 
       <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
         {loading ? (
-          [...Array(8)].map((_, index) => (
-            <AdminCategorySkeleton key={index} />
+          [...Array(4)].map((_, index) => (
+            <FeatureCardSkeleton key={index} />
           ))
         ) : categories.length > 0 ? (
           categories.map((category) => (
