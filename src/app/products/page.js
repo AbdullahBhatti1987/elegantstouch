@@ -8,18 +8,18 @@ import ProductCard from '@/components/products/ProductCard';
 import PageLoader from '@/components/admin/common/loaders/PageLoader';
 import Pagination from '@/components/admin/common/Pagination';
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [wishlist, setWishlist] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [page, setPage] = useState(1);
   const [limit] = useState(12);
   const [pagination, setPagination] = useState({});
   const router = useRouter();
   const { addToCart, isInCart } = useCart();
-
+  const { addToWishlist, isInWishlist, removeFromWishlist } = useWishlist();
   const fetchProducts = useCallback(
     async (currentPage = 1) => {
       try {
@@ -49,14 +49,6 @@ export default function ProductsPage() {
 
   // Wishlist Toggle
 
-  const toggleWishlist = (productId) => {
-    setWishlist((prev) =>
-      prev.includes(productId)
-        ? prev.filter((id) => id !== productId)
-        : [...prev, productId],
-    );
-  };
-
   const handlePageChange = (newPage) => {
     setPage(newPage);
 
@@ -83,14 +75,16 @@ export default function ProductsPage() {
 
       {/* Product Grid */}
 
-      <div className="grid gap-4 grid-cols-2  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {products.length > 0 ? (
           products.map((product) => (
             <ProductCard
               key={product._id}
               product={product}
-              wishlist={wishlist}
-              toggleWishlist={toggleWishlist}
+              showWishlistButton={true}
+              addToWishlist={addToWishlist}
+              isInWishlist={isInWishlist(product._id)}
+              removeFromWishlist={removeFromWishlist}
               addToCart={addToCart}
               isInCart={isInCart(product._id)}
               showCartButton={true}

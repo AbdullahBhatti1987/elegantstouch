@@ -5,16 +5,16 @@ import { Heart, ShoppingCart, Star } from 'lucide-react';
 
 export default function ProductCard({
   product,
-  wishlist = [],
-  toggleWishlist,
+  showWishlistButton = true,
+  addToWishlist,
+  isInWishlist = false,
+  removeFromWishlist,
   showCartButton = true,
   showRating = true,
   onClick,
   addToCart,
   isInCart = false,
 }) {
-  const isWishlisted = wishlist.includes(product._id);
-
   return (
     <article className="group cursor-pointer rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
       {/* IMAGE */}
@@ -47,20 +47,23 @@ export default function ProductCard({
 
         {/* WISHLIST */}
 
-        {toggleWishlist && (
+        {showWishlistButton && (
           <button
             onClick={(e) => {
               e.stopPropagation();
 
-              toggleWishlist(product._id);
+              if (isInWishlist) {
+                removeFromWishlist(product._id);
+              } else {
+                addToWishlist(product);
+              }
             }}
-            className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 shadow"
+            className="absolute top-3 right-3 flex h-8 w-8  cursor-pointer items-center justify-center rounded-full bg-white/80 shadow"
           >
             <Heart
               size={20}
-
               className={
-                isWishlisted
+                isInWishlist
                   ? 'fill-primary text-primary'
                   : 'text-gray-700'
               }
@@ -72,11 +75,11 @@ export default function ProductCard({
       {/* CONTENT */}
 
       <div className="p-3">
-        <p className="text-[11px] tracking-wide text-gray-400 uppercase line-clamp-1">
+        <p className="line-clamp-1 text-[11px] tracking-wide text-gray-400 uppercase">
           {product.brand}
         </p>
 
-        <h3 className="mt-1  text-sm font-semibold line-clamp-1">
+        <h3 className="mt-1 line-clamp-1 text-sm font-semibold">
           {product.name}
         </h3>
 

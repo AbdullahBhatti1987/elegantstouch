@@ -14,7 +14,7 @@ export default function Header() {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { cartCount } = useCart();
-  const { wishlistCount, setWishlistCount } = useWishlist();
+  const { wishlistCount } = useWishlist();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const searchRef = useRef(null);

@@ -6,9 +6,22 @@ export async function GET(req) {
   try {
     await connectDB();
 
-    // Filhal dummy guestId
-    // Baad me auth/session se ayega
-    const guestId = 'USER_ID_HERE';
+    const { searchParams } = new URL(req.url);
+
+    const guestId = searchParams.get('guestId');
+
+    if (!guestId) {
+      return NextResponse.json(
+        {
+          success: false,
+          count: 0,
+          message: 'Guest ID is required',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
 
     const wishlist = await Wishlist.findOne({
       guestId,
@@ -21,13 +34,17 @@ export async function GET(req) {
       count,
     });
   } catch (error) {
+    console.log('WISHLIST COUNT ERROR:', error);
+
     return NextResponse.json(
       {
         success: false,
         count: 0,
         message: error.message,
       },
-      { status: 500 },
+      {
+        status: 500,
+      },
     );
   }
 }

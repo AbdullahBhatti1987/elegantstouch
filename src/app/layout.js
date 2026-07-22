@@ -200,12 +200,11 @@ export default async function RootLayout({ children }) {
       </head>
 
       <body
-        className=" text-textcolor min-h-screen"
+        className="text-textcolor min-h-screen"
         cz-shortcut-listen="true"
       >
-        {' '}
-        <WishlistProvider>
-          <CartProvider>
+        <CartProvider>
+          <WishlistProvider>
             <MainLayout>{children}</MainLayout>
             <Toaster
               position="top-right"
@@ -214,8 +213,8 @@ export default async function RootLayout({ children }) {
                 top: '80px',
               }}
             />
-          </CartProvider>
-        </WishlistProvider>
+          </WishlistProvider>
+        </CartProvider>
       </body>
     </html>
   );
