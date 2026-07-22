@@ -1,18 +1,20 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, use } from 'react';
 import Link from 'next/link';
 import { Menu, X, Search, Heart, ShoppingCart } from 'lucide-react';
 import { navLinks } from '@/content/data';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { usePathname } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 
 export default function Header() {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [wishlistCount, setWishlistCount] = useState(0);
-  const [cartCount, setCartCount] = useState(0);
+  const { cartCount, cart } = useCart();
+  const { wishlistCount, setWishlistCount } = useWishlist();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const searchRef = useRef(null);
@@ -26,23 +28,9 @@ export default function Header() {
     router.push(`/products?search=${encodeURIComponent(query)}`);
   };
 
-  // const fetchCounts = async () => {
-  //   try {
-  //     const [wishRes, cartRes] = await Promise.all([
-  //       axios.get('/api/wishlist/count'),
-  //       axios.get('/api/cart/count'),
-  //     ]);
-
-  //     setWishlistCount(wishRes.data.count);
-  //     setCartCount(cartRes.data.count);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+ 
 
   useEffect(() => {
-    // fetchCounts();
-
     const handleClickOutside = (event) => {
       if (
         searchRef.current &&

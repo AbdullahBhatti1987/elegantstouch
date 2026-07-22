@@ -94,84 +94,6 @@ export async function GET(req) {
 }
 
 // CREATE / ADD CART
-// export async function POST(req) {
-//   try {
-//     await connectDB();
-
-//     const body = await req.json();
-
-//     const { guestId, productId, quantity = 1 } = body;
-
-//     if (!guestId || !productId) {
-//       return NextResponse.json(
-//         {
-//           success: false,
-//           message: 'GuestId and ProductId are required',
-//         },
-//         {
-//           status: 400,
-//         },
-//       );
-//     }
-
-//     let cart = await Cart.findOne({
-//       guestId,
-//     });
-
-//     // Create new cart
-//     if (!cart) {
-//       cart = await Cart.create({
-//         guestId,
-
-//         items: [
-//           {
-//             productId,
-//             quantity,
-//           },
-//         ],
-//       });
-//     } else {
-//       const existingItem = cart.items.find(
-//         (item) => item.productId.toString() === productId,
-//       );
-
-//       // Increase quantity
-//       if (existingItem) {
-//         existingItem.quantity += quantity;
-//       }
-
-//       // Add new product
-//       else {
-//         cart.items.push({
-//           productId,
-//           quantity,
-//         });
-//       }
-
-//       await cart.save();
-//     }
-
-//     return NextResponse.json({
-//       success: true,
-
-//       message: 'Cart updated successfully',
-
-//       data: cart,
-//     });
-//   } catch (error) {
-//     return NextResponse.json(
-//       {
-//         success: false,
-//         message: error.message,
-//       },
-//       {
-//         status: 500,
-//       },
-//     );
-//   }
-// }
-
-// CREATE / ADD CART
 export async function POST(req) {
   try {
     await connectDB();
@@ -194,6 +116,7 @@ export async function POST(req) {
 
     let cart = await Cart.findOne({
       guestId,
+      status: 'active',
     });
 
     // Create new cart

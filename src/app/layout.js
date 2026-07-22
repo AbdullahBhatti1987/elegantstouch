@@ -5,6 +5,8 @@ import { Toaster } from 'react-hot-toast';
 
 import { connectDB } from '@/lib/mongodb';
 import Setting from '@/models/Setting';
+import { WishlistProvider } from '@/context/WishlistContext';
+import { CartProvider } from '@/context/CartContext';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -201,8 +203,19 @@ export default async function RootLayout({ children }) {
         className="bg-bg-app text-textcolor min-h-screen"
         cz-shortcut-listen="true"
       >
-        <MainLayout>{children}</MainLayout>
-        <Toaster position="top-right" reverseOrder={false} />
+        {' '}
+        <WishlistProvider>
+          <CartProvider>
+            <MainLayout>{children}</MainLayout>
+            <Toaster
+              position="top-right"
+              reverseOrder={false}
+              containerStyle={{
+                top: '80px',
+              }}
+            />
+          </CartProvider>
+        </WishlistProvider>
       </body>
     </html>
   );

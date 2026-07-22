@@ -6,12 +6,12 @@ export async function GET(req) {
   try {
     await connectDB();
 
-    // Filhal dummy userId
+    // Filhal dummy guestId
     // Baad me auth/session se ayega
-    const userId = 'USER_ID_HERE';
+    const guestId = 'USER_ID_HERE';
 
     const wishlist = await Wishlist.findOne({
-      userId,
+      guestId,
     });
 
     const count = wishlist?.items?.length || 0;

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const WishlistSchema = new mongoose.Schema(
 {
-  userId:{
+  guestId:{
     type:String
   },
 

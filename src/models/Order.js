@@ -14,7 +14,7 @@ const OrderSchema = new mongoose.Schema(
 
   phone:String,
 
-  userId:String,
+  guestId:String,
 
   items:[
     {

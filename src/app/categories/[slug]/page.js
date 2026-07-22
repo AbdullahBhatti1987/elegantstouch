@@ -6,10 +6,13 @@ import axios from 'axios';
 import PriceRangeFilter from '@/components/tools/PriceRangeFilter';
 import { toast } from 'react-hot-toast';
 import CategoryProductList from '@/components/products/CategoryProductList';
+import { useCart } from '@/context/CartContext';
 
 export default function CategorySlugPage() {
   const params = useParams();
   const categorySlug = params.slug;
+
+const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [sort, setSort] = useState('default');
   const [priceRange, setPriceRange] = useState({
@@ -26,7 +29,7 @@ export default function CategorySlugPage() {
       const { data } = await axios.get(
         `/api/products?category=${categorySlug}`,
       );
-      console.log('Data Fetching==>', data.data);
+      // console.log('Data Fetching==>', data.data);
       if (data.success) {
         setProducts(data.data);
       }
@@ -40,7 +43,7 @@ export default function CategorySlugPage() {
   const getPriceRange = async () => {
     try {
       const { data } = await axios.get('/api/products/price-range');
-      console.log('Data==>', data);
+      // console.log('Data==>', data);
       if (data.success) {
         setPriceRange(data.data);
 
@@ -67,35 +70,11 @@ export default function CategorySlugPage() {
     );
   };
 
-  const addToCart = async (product, quantity = 1) => {
-    try {
-      let guestId = localStorage.getItem('guestId');
-
-      if (!guestId) {
-        guestId = crypto.randomUUID();
-
-        localStorage.setItem('guestId', guestId);
-      }
-
-      const { data } = await axios.post('/api/cart', {
-        guestId,
-        productId: product._id,
-        quantity,
-      });
-
-      if (data.success) {
-        toast.success(data.message);
-      }
-    } catch (error) {
-      if (error.response) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error('Something went wrong');
-      }
-
-      console.log('ADD CART ERROR ==>', error.response?.data);
-    }
+  const handleAddCart = (product) => {
+    addToCart(product, 1);
   };
+
+
 
   const step = Math.ceil(
     (priceRange.maxPrice - priceRange.minPrice) / 100,
@@ -138,7 +117,7 @@ export default function CategorySlugPage() {
         setSort={setSort}
         wishlist={wishlist}
         toggleWishlist={toggleWishlist}
-        addToCart={addToCart}
+        addToCart={handleAddCart}
       />
     </main>
   );

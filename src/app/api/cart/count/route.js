@@ -6,15 +6,30 @@ export async function GET(req) {
   try {
     await connectDB();
 
-    // Filhal dummy userId
-    // Baad me auth/session se ayega
-    const userId = 'USER_ID_HERE';
+    const { searchParams } = new URL(req.url);
+    const guestId = searchParams.get('guestId');
+
+    if (!guestId) {
+      return NextResponse.json(
+        {
+          success: false,
+          count: 0,
+          message: 'Guest ID is required',
+        },
+        { status: 400 },
+      );
+    }
 
     const cart = await Cart.findOne({
-      userId,
+      guestId,
+      status: 'active',
     });
 
-    const count = cart?.products?.length || 0;
+    const count =
+      cart?.items?.reduce(
+        (total, item) => total + item.quantity,
+        0,
+      ) || 0;
 
     return NextResponse.json({
       success: true,
