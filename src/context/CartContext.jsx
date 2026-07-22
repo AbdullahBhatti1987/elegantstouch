@@ -10,6 +10,7 @@ import {
 
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { generateGuestId } from '@/lib/generateGuestId';
 
 const CartContext = createContext();
 
@@ -89,9 +90,7 @@ export function CartProvider({ children }) {
       let currentGuestId = guestId;
 
       if (!currentGuestId) {
-        currentGuestId = crypto.randomUUID
-          ? crypto.randomUUID()
-          : Date.now().toString();
+        currentGuestId = generateGuestId();
 
         localStorage.setItem('guestId', currentGuestId);
 

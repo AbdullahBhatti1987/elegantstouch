@@ -6,6 +6,7 @@ import axios from 'axios';
 import CartList from '@/components/cart/CartList';
 import CartSummary from '@/components/cart/CartSummary';
 import EmptyCart from '@/components/cart/EmptyCart';
+import CartSkeleton from '@/components/cart/CartSkeleton';
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
@@ -125,7 +126,7 @@ export default function CartPage() {
   );
 
   if (loading) {
-    return <div className="py-20 text-center">Loading cart...</div>;
+    return <CartSkeleton />;
   }
 
   if (cartItems.length === 0) {
