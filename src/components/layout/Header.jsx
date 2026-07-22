@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
+import Image from 'next/image';
 
 export default function Header() {
   const router = useRouter();
@@ -45,14 +46,21 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="bg-app/80 sticky top-0 z-50 shadow-sm backdrop-blur-3xl">
+    <header className="bg-app sticky top-0 z-50 shadow-sm backdrop-blur-3xl">
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between px-4 md:min-h-16 lg:px-8">
         {/* Logo */}
         <Link
           href="/dashboard"
-          className="text-primary text-xl font-bold"
+          className="relative block h-10 w-36 md:h-12 md:w-44"
         >
-          Elegant Touch
+          <Image
+            src="/images/ElegantsTouchLogo.png"
+            alt="Elegants Touch"
+            fill
+            sizes="(max-width: 768px) 144px, 176px"
+            className="object-contain"
+            priority
+          />
         </Link>
 
         {/* Desktop Nav */}

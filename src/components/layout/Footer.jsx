@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-app border-t border-secondary mt-16">
+    <footer className="border-t border-secondary mt-16">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-12">
 
         {/* Top Section */}

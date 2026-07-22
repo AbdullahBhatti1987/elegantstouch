@@ -40,7 +40,7 @@ export function CartProvider({ children }) {
         );
 
         if (data.success) {
-          console.log('data.success==>', data);
+          // console.log('data.success==>', data);
           setCartCount(data.count);
         } else {
           setCartCount(0);

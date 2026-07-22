@@ -6,7 +6,7 @@ import { Tag, Sparkles } from 'lucide-react';
 
 export default function OffersPage({ offers = [] }) {
   return (
-    <section className="bg-app min-h-[70vh] px-4 py-10">
+    <section className="min-h-[70vh] px-4 py-10">
       <div className="mx-auto max-w-7xl">
         {/* Page Header */}
         <div className="mb-10 text-center">
