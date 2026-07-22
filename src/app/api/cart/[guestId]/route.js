@@ -15,15 +15,19 @@ export async function GET(req, { params }) {
     }).populate({
       path: 'items.productId',
       select: `
-        name
-        sku
-        images
-        price
-        salePrice
-        categoryId
-        brand
-        stock
-      `,
+    name
+    sku
+    images
+    price
+    salePrice
+    categoryId
+    brand
+    stock
+  `,
+      populate: {
+        path: 'categoryId',
+        select: 'name slug',
+      },
     });
 
     if (!cart) {

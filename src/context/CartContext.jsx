@@ -55,7 +55,10 @@ export function CartProvider({ children }) {
 
   const fetchCart = useCallback(
     async (id = guestId, firstLoad = false) => {
-      if (!id) return;
+      if (!id) {
+        setInitialLoading(false);
+        return;
+      }
 
       try {
         if (firstLoad) {
@@ -84,10 +87,10 @@ export function CartProvider({ children }) {
 
   useEffect(() => {
     if (guestId) {
-      fetchCart();
-      fetchCartCount();
+      fetchCart(guestId, true);
+      fetchCartCount(guestId);
     } else {
-      setLoading(false);
+      setInitialLoading(false);
     }
   }, [guestId, fetchCart, fetchCartCount]);
 
@@ -151,6 +154,14 @@ export function CartProvider({ children }) {
           quantity: item.quantity,
         })),
       });
+
+      if (updatedItems.length === 0) {
+        setCart(null);
+        setCartCount(0);
+        return {
+          success: true,
+        };
+      }
 
       await fetchCart(guestId);
 

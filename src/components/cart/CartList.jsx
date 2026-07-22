@@ -17,7 +17,7 @@ export default function CartList({
           onDecrease={() => updateQuantity(item.id, 'decrease')}
           onRemove={() => removeItem(item.id)}
         />
-      ))}{' '}
+      ))}
     </div>
   );
 }

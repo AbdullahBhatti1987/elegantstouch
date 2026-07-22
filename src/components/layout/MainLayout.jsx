@@ -12,10 +12,10 @@ export default function MainLayout({ children }) {
   const isDashboard = pathname.startsWith('/dashboard');
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       {!isDashboard && <Header />}
 
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 ">{children}</main>
 
       {!isDashboard && <Footer />}
     </div>

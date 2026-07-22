@@ -32,7 +32,7 @@ export default function CategoriesPage() {
   }, [fetchCategories]);
 
   return (
-    <section className="w-full bg-white px-6 py-4 md:px-12 dark:bg-black">
+    <section className="w-full max-w-7xl m-auto bg-white px-6 py-4 md:px-12 dark:bg-black">
       {/* Header */}
 
       <div className="mb-4">
@@ -47,7 +47,7 @@ export default function CategoriesPage() {
 
       {/* Grid */}
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
         {loading ? (
           <>
             {/* Below lg */}
