@@ -19,6 +19,7 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState(null);
   const [cartCount, setCartCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   // Get Guest Id
   useEffect(() => {
@@ -39,7 +40,7 @@ export function CartProvider({ children }) {
         );
 
         if (data.success) {
-          console.log("data.success==>", data)
+          console.log('data.success==>', data);
           setCartCount(data.count);
         } else {
           setCartCount(0);
@@ -53,24 +54,27 @@ export function CartProvider({ children }) {
   );
 
   const fetchCart = useCallback(
-    async (id = guestId) => {
+    async (id = guestId, firstLoad = false) => {
       if (!id) return;
 
       try {
-        setLoading(true);
+        if (firstLoad) {
+          setInitialLoading(true);
+        }
 
-        const response = await axios.get(`/api/cart?guestId=${id}`);
-        if (response?.data?.success) {
-          console.log('response cart>', response.data.data);
-          const cartData = response.data.data?.[0];
-          console.log('cartData>', cartData);
-          setCart(cartData?.items || []);
+        const response = await axios.get(`/api/cart/${id}`);
+
+        if (response.data.success) {
+          setCart(response.data.data);
         }
       } catch (error) {
         console.error('FETCH CART ERROR:', error);
+
         setCart(null);
       } finally {
-        setLoading(false);
+        if (firstLoad) {
+          setInitialLoading(false);
+        }
       }
     },
     [guestId],
@@ -82,8 +86,10 @@ export function CartProvider({ children }) {
     if (guestId) {
       fetchCart();
       fetchCartCount();
+    } else {
+      setLoading(false);
     }
-  }, [guestId, fetchCart]);
+  }, [guestId, fetchCart, fetchCartCount]);
 
   // Add To Cart
   const addToCart = async (product, quantity = 1) => {
@@ -135,14 +141,20 @@ export function CartProvider({ children }) {
   // Remove From Cart
   const removeFromCart = async (productId) => {
     try {
-      await axios.delete('/api/cart/remove', {
-        data: {
-          guestId,
-          productId,
-        },
+      const updatedItems = cart.items.filter(
+        (item) => item.productId._id !== productId,
+      );
+
+      await axios.put(`/api/cart/${guestId}`, {
+        items: updatedItems.map((item) => ({
+          productId: item.productId._id,
+          quantity: item.quantity,
+        })),
       });
 
       await fetchCart(guestId);
+
+      await fetchCartCount(guestId);
 
       return {
         success: true,
@@ -159,13 +171,27 @@ export function CartProvider({ children }) {
   // Update Quantity
   const updateCartQuantity = async (productId, quantity) => {
     try {
-      await axios.put('/api/cart/update', {
-        guestId,
-        productId,
-        quantity,
+      const updatedItems = cart.items.map((item) => {
+        if (item.productId._id === productId) {
+          return {
+            productId: item.productId._id,
+            quantity,
+          };
+        }
+
+        return {
+          productId: item.productId._id,
+          quantity: item.quantity,
+        };
+      });
+
+      await axios.put(`/api/cart/${guestId}`, {
+        items: updatedItems,
       });
 
       await fetchCart(guestId);
+
+      await fetchCartCount(guestId);
 
       return {
         success: true,
@@ -182,7 +208,7 @@ export function CartProvider({ children }) {
   // Clear Cart
   const clearCart = async () => {
     try {
-      await axios.delete('/api/cart/clear', {
+      await axios.delete(`/api/cart/${guestId}`, {
         data: {
           guestId,
         },
@@ -204,7 +230,9 @@ export function CartProvider({ children }) {
   };
 
   const isInCart = (productId) => {
-    return cart?.some((item) => item.productId?._id === productId);
+    return cart?.items?.some(
+      (item) => item.productId?._id === productId,
+    );
   };
 
   return (
@@ -214,6 +242,7 @@ export function CartProvider({ children }) {
         cart,
         cartCount,
         loading,
+        initialLoading,
         fetchCart,
         addToCart,
         removeFromCart,
