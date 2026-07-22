@@ -11,7 +11,7 @@ export default function CategoryCardSkeleton() {
 
       {/* Name Skeleton */}
 
-      <div className="border-t border-gray-100 p-3 text-center dark:border-zinc-800">
+      <div className="border-t border-gray-100 p-3 text-center rounded dark:border-zinc-800">
         <div className="mx-auto h-5 w-2/3 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
       </div>
     </div>

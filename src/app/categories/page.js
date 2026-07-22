@@ -37,7 +37,7 @@ export default function CategoriesPage() {
 
       <div className="mb-4">
         <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
-          Explore Categories
+          Categories
         </h2>
 
         <p className="mt-2 text-gray-500">
