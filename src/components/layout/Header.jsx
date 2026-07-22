@@ -46,15 +46,15 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="bg-app sticky top-0 z-50 shadow-sm backdrop-blur-3xl">
+    <header className="sticky top-0 z-50 shadow-sm backdrop-blur-3xl">
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between px-4 md:min-h-16 lg:px-8">
         {/* Logo */}
         <Link
           href="/dashboard"
-          className="relative block h-10 w-36 md:h-12 md:w-44"
+          className="relative block h-10 w-24 md:h-12 md:w-36"
         >
           <Image
-            src="/images/ElegantsTouchLogo.png"
+            src="/images/logo2.png"
             alt="Elegants Touch"
             fill
             sizes="(max-width: 768px) 144px, 176px"
