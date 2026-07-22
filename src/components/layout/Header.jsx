@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Menu, X, Search, Heart, ShoppingCart } from 'lucide-react';
 import { navLinks } from '@/content/data';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
 import { usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
@@ -13,7 +12,7 @@ import { useWishlist } from '@/context/WishlistContext';
 export default function Header() {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { cartCount, cart } = useCart();
+  const { cartCount } = useCart();
   const { wishlistCount, setWishlistCount } = useWishlist();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,8 +26,6 @@ export default function Header() {
 
     router.push(`/products?search=${encodeURIComponent(query)}`);
   };
-
- 
 
   useEffect(() => {
     const handleClickOutside = (event) => {

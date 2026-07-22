@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import CategoryCard from '@/components/category/CategoryCard';
-import PageLoader from '@/components/admin/common/loaders/PageLoader';
 import CategoryCardSkeleton from '@/components/category/CategoryCardSkeleton';
 
 export default function CategoriesPage() {

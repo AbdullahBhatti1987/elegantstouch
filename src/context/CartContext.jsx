@@ -23,7 +23,6 @@ export function CartProvider({ children }) {
   // Get Guest Id
   useEffect(() => {
     const storedGuestId = localStorage.getItem('guestId');
-
     if (storedGuestId) {
       setGuestId(storedGuestId);
     }
@@ -40,6 +39,7 @@ export function CartProvider({ children }) {
         );
 
         if (data.success) {
+          console.log("data.success==>", data)
           setCartCount(data.count);
         } else {
           setCartCount(0);
@@ -60,11 +60,12 @@ export function CartProvider({ children }) {
         setLoading(true);
 
         const response = await axios.get(`/api/cart?guestId=${id}`);
-
-        const cartData =
-          response.data?.cart || response.data?.data || null;
-
-        setCart(cartData);
+        if (response?.data?.success) {
+          console.log('response cart>', response.data.data);
+          const cartData = response.data.data?.[0];
+          console.log('cartData>', cartData);
+          setCart(cartData?.items || []);
+        }
       } catch (error) {
         console.error('FETCH CART ERROR:', error);
         setCart(null);
@@ -202,6 +203,10 @@ export function CartProvider({ children }) {
     }
   };
 
+  const isInCart = (productId) => {
+    return cart?.some((item) => item.productId?._id === productId);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -214,6 +219,7 @@ export function CartProvider({ children }) {
         removeFromCart,
         updateCartQuantity,
         clearCart,
+        isInCart,
       }}
     >
       {children}

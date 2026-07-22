@@ -3,6 +3,7 @@ import {
   Home,
   Layers,
   Flame,
+  Store,
   Sparkles,
   Tag,
   LayoutDashboard,
@@ -81,9 +82,9 @@ export const navLinks = [
   },
   {
     id: 3,
-    name: 'Best Selling',
-    href: '/best-selling',
-    icon: Flame,
+    name: 'Shop',
+    href: '/products',
+    icon: Store,
   },
   {
     id: 4,
@@ -456,6 +457,12 @@ export const footerLinks = {
       name: 'New Arrivals',
       href: '/new-arrivals',
       title: 'Latest Baby Accessories',
+    },
+    {
+      id: 3,
+      name: 'Shop',
+      href: '/products',
+      title: 'Shop',
     },
     {
       id: 3,

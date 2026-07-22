@@ -15,21 +15,14 @@ export default function ProductCard({
 }) {
   const isWishlisted = wishlist.includes(product._id);
 
-  const handleCartClick = (e) => {
-    // card click prevent karega
-    e.stopPropagation();
-
-    addToCart(product, 1);
-  };
-
   return (
-    <article
-      onClick={onClick}
-      className="group cursor-pointer rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900"
-    >
+    <article className="group cursor-pointer rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
       {/* IMAGE */}
 
-      <div className="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100 sm:h-52">
+      <div
+        className="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100 sm:h-52"
+        onClick={onClick}
+      >
         <Image
           src={
             product.images?.[0]?.thumbnail ||
@@ -79,15 +72,15 @@ export default function ProductCard({
       {/* CONTENT */}
 
       <div className="p-3">
-        <p className="text-[11px] tracking-wide text-gray-400 uppercase">
+        <p className="text-[11px] tracking-wide text-gray-400 uppercase line-clamp-1">
           {product.brand}
         </p>
 
-        <h3 className="mt-1 line-clamp-2 text-sm font-semibold">
+        <h3 className="mt-1  text-sm font-semibold line-clamp-1">
           {product.name}
         </h3>
 
-        <p className="line-clamp-2 text-xs text-gray-500">
+        <p className="line-clamp-1 text-xs text-gray-500">
           {product.shortDescription || product.description}
         </p>
 
@@ -129,8 +122,10 @@ export default function ProductCard({
 
         {showCartButton && (
           <button
-            onClick={handleCartClick}
-            disabled={Boolean(isInCart)}
+            onClick={() => {
+              addToCart(product, 1);
+            }}
+            disabled={isInCart}
             className={`mt-3 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-medium text-white transition ${
               isInCart
                 ? 'cursor-not-allowed bg-gray-400'

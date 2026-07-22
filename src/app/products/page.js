@@ -1,39 +1,67 @@
-
-
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
-import CategoryCard from '@/components/category/CategoryCard';
+import ProductCard from '@/components/products/ProductCard';
 import PageLoader from '@/components/admin/common/loaders/PageLoader';
+import Pagination from '@/components/admin/common/Pagination';
+import { useCart } from '@/context/CartContext';
 
 export default function ProductsPage() {
-  const [categories, setCategories] = useState([]);
-
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [wishlist, setWishlist] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(12);
+  const [pagination, setPagination] = useState({});
+  const router = useRouter();
+  const { addToCart, isInCart } = useCart();
 
-  const fetchCategories = useCallback(async () => {
-    try {
-      setLoading(true);
+  const fetchProducts = useCallback(
+    async (currentPage = 1) => {
+      try {
+        setLoading(true);
 
-      const { data } = await axios.get(
-        '/api/categories',
-      );
+        const { data } = await axios.get(
+          `/api/products?page=${currentPage}&limit=${limit}`,
+        );
 
-      if (data.success) {
-        setCategories(data.data);
+        if (data.success) {
+          setProducts(data.data);
+
+          setPagination(data.pagination);
+        }
+      } catch (error) {
+        console.error('Products Fetch Error:', error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Categories Fetch Error:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    },
+    [limit],
+  );
 
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    fetchProducts(page);
+  }, [fetchProducts, page]);
+
+  // Wishlist Toggle
+
+  const toggleWishlist = (productId) => {
+    setWishlist((prev) =>
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId)
+        : [...prev, productId],
+    );
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+
+    fetchProducts(newPage);
+  };
 
   if (loading) {
     return <PageLoader />;
@@ -43,30 +71,47 @@ export default function ProductsPage() {
     <section className="w-full bg-white px-6 py-16 md:px-12 dark:bg-black">
       {/* Header */}
 
-      {/* <div className="mb-10 text-center">
+      <div className="mb-10 text-center">
         <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
-          Explore Categories
+          Elegant's Touch
         </h2>
 
         <p className="mt-2 text-gray-500">
           Best collections curated just for you
         </p>
-      </div> */}
+      </div>
 
-      {/* Grid */}
+      {/* Product Grid */}
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-        {loading ? (
-          <PageLoader />
-        ) : categories.length > 0 ? (
-          categories.map((category) => (
-            <CategoryCard key={category._id} category={category} />
+      <div className="grid gap-4 grid-cols-2  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {products.length > 0 ? (
+          products.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              wishlist={wishlist}
+              toggleWishlist={toggleWishlist}
+              addToCart={addToCart}
+              isInCart={isInCart(product._id)}
+              showCartButton={true}
+              showRating={true}
+              onClick={() => router.push(`/products/${product.slug}`)}
+            />
           ))
         ) : (
           <p className="col-span-full text-center text-gray-500">
-            No categories found
+            No products found
           </p>
         )}
+      </div>
+
+      {/* Pagination */}
+
+      <div className="mt-10 flex justify-center">
+        <Pagination
+          pagination={pagination}
+          onPageChange={handlePageChange}
+        />
       </div>
     </section>
   );
