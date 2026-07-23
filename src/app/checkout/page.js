@@ -7,11 +7,14 @@ import toast from 'react-hot-toast';
 import { Lock } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Checkbox from '@/components/admin/common/form/Checkbox';
+import CustomDropdown from '@/components/admin/common/form/CustomDropdown';
+import Input from '@/components/admin/common/form/Input';
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { cart, guestId, clearCart, coupon, discount } = useCart();
-
+  const [saveInfo, setSaveInfo] = useState(false);
   const [payment, setPayment] = useState('cod');
 
   const [form, setForm] = useState({
@@ -107,81 +110,103 @@ export default function CheckoutPage() {
             <h2 className="mb-5 text-xl font-semibold">
               Shipping Information
             </h2>
-
             <div className="mb-4 grid gap-4 md:grid-cols-2">
-              <input
-                name="fullName"
-                placeholder="Full Name"
-                value={form.fullName}
+              <Input
+                // label="firstName"
+                placeholder="First Name"
+                value={form.firstName}
                 onChange={handleChange}
-                className="rounded-lg border p-3"
+                className="rounded-lg border border-gray-400 p-3"
               />
 
-              <input
-                name="mobile"
-                placeholder="03XXXXXXXXX"
-                value={form.mobile}
+              <Input
+                // label="lastName"
+                placeholder="Last Name"
+                value={form.lastName}
                 onChange={handleChange}
-                className="rounded-lg border p-3"
+                className="rounded-lg border border-gray-400 p-3"
               />
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <input
-                name="email"
+            <div className="mb-4 grid gap-4 md:grid-cols-2">
+              <Input
+                // label="email"
                 placeholder="Email"
                 value={form.email}
                 onChange={handleChange}
-                className="rounded-lg border p-3"
+                className="rounded-lg border border-gray-400 p-3"
               />
-
-              <input
-                name="city"
-                placeholder="City"
-                value={form.city}
+              <Input
+                // label="mobile"
+                placeholder="Mobile Number"
+                value={form.mobile}
                 onChange={handleChange}
-                className="rounded-lg border p-3"
+                className="rounded-lg border border-gray-400 p-3"
               />
             </div>
 
-            <textarea
-              name="address"
+            <div className="flex flex-col gap-4">
+              <Input
+                // label="Complete Address"
+                name="address"
+                value={form.address}
+                onChange={handleChange}
+                placeholder="Complete Address"
+              />
 
-              value={form.address}
+              <Input
+                // label="Nearest Landmark"
+                name="landmark"
+                value={form.landmark}
+                onChange={handleChange}
+                placeholder="Nearest Landmark"
+                // placeholder="Near mosque, school, market etc."
+              />
+            </div>
+            <div className="mt-2 grid items-center gap-4 md:grid-cols-3">
+              <Input
+                // label="city"
+                placeholder="City"
+                value={form.city}
+                onChange={handleChange}
+                className="mt-2 rounded-lg border border-gray-400 p-3"
+              />
+              <CustomDropdown
+                // label="Province"
+                value={form.province}
+                onChange={(e) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    province: e.target.value,
+                  }))
+                }
+                options={[
+                  {
+                    value: '',
+                    label: 'Select Province',
+                  },
+                  ...provinces.map((p) => ({
+                    value: p,
+                    label: p,
+                  })),
+                ]}
+              />
 
-              onChange={handleChange}
-
-              placeholder="Complete Address"
-
-              className="mt-4 h-28 w-full rounded-lg border p-3"
-            />
-
-            <select
-              name="province"
-
-              value={form.province}
-
-              onChange={handleChange}
-
-              className="mt-4 w-full rounded-lg border p-3"
-            >
-              <option value="">Select Province</option>
-
-              {provinces.map((p) => (
-                <option key={p}>{p}</option>
-              ))}
-            </select>
-
-            <input
-              name="postalCode"
-
-              placeholder="Postal Code"
-
-              value={form.postalCode}
-
-              onChange={handleChange}
-
-              className="mt-4 w-full rounded-lg border p-3"
-            />
+              <Input
+                // label="postalCode"
+                placeholder="Postal Code"
+                value={form.postalCode}
+                onChange={handleChange}
+                className="mt-2 w-full rounded-lg border border-gray-400 p-3"
+              />
+            </div>
+            <div className="mt-4">
+              <Checkbox
+                label="Save this information for next time"
+                name="saveInfo"
+                checked={saveInfo}
+                onChange={(e) => setSaveInfo(e.target.checked)}
+              />
+            </div>
           </section>
 
           <section className="rounded-xl border p-6">
