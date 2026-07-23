@@ -80,7 +80,7 @@ export async function POST(req) {
     body.productIds = JSON.parse(body.productIds || '[]');
 
     const coupon = await Coupon.create({
-      code: body.code,
+      code: body.code.trim().toUpperCase(),
 
       discountType: body.discountType,
 
