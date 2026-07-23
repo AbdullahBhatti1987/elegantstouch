@@ -9,7 +9,8 @@ export async function GET(req, { params }) {
   try {
     await connectDB();
 
-    const { id } = await params;
+    // const { id } = await params;
+    const { id } = params;
 
     console.log('Category ID:', id);
 
@@ -55,7 +56,8 @@ export async function DELETE(request, { params }) {
   try {
     await connectDB();
 
-    const { id } = await params;
+    // const { id } = await params;
+    const { id } = params;
 
     const category = await Category.findById(id);
 
@@ -71,14 +73,14 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    console.log('CATEGORY IMAGE:', category.image);
+    // console.log('CATEGORY IMAGE:', category.image);
 
     if (category.image?.public_id) {
       const result = await cloudinary.uploader.destroy(
         category.image.public_id,
       );
 
-      console.log('Cloudinary Delete Result:', result);
+      // console.log('Cloudinary Delete Result:', result);
     }
 
     await Category.findByIdAndDelete(id);
@@ -111,7 +113,8 @@ export async function PUT(req, context) {
   try {
     await connectDB();
 
-    const { id } = await context.params;
+    // const { id } = await context.params;
+    const { id } = context.params;
 
     const formData = await req.formData();
 

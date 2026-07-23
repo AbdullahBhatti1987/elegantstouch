@@ -58,7 +58,7 @@ export default function ProductCard({
                 addToWishlist(product);
               }
             }}
-            className="absolute top-3 right-3 flex h-8 w-8  cursor-pointer items-center justify-center rounded-full bg-white/80 shadow"
+            className="absolute top-3 right-3 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/80 shadow"
           >
             <Heart
               size={20}

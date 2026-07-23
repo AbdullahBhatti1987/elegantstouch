@@ -27,15 +27,13 @@ export async function GET(req, { params }) {
     });
 
     if (!wishlist) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Wishlist not found',
+      return NextResponse.json({
+        success: true,
+        data: {
+          guestId,
+          items: [],
         },
-        {
-          status: 404,
-        },
-      );
+      });
     }
 
     return NextResponse.json({

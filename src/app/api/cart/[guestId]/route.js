@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import Cart from '@/models/Cart';
+import Product from '@/models/Product';
 
 // ================= GET CART BY GUEST ID =================
 

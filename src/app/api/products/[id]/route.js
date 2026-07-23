@@ -9,7 +9,8 @@ import { multipleFilesToCloudinary } from '@/lib/multipleFilesToCloudinary';
 // GET SINGLE PRODUCT
 export async function GET(req, { params }) {
   try {
-    const { id } = await params;
+    // const { id } = await params;
+    const { id } = params;
 
     console.log('API PRODUCT ID ==> ', id);
 
@@ -58,7 +59,8 @@ export async function PUT(req, { params }) {
   try {
     await connectDB();
 
-    const { id } = await params;
+    // const { id } = await params;
+    const { id } = params;
 
     const formData = await req.formData();
 
@@ -323,7 +325,8 @@ export async function DELETE(req, { params }) {
   try {
     await connectDB();
 
-    const { id } = await params;
+    // const { id } = await params;
+    const { id } = params;
 
     const product = await Product.findById(id);
 

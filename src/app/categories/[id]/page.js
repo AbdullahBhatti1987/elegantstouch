@@ -7,12 +7,13 @@ import PriceRangeFilter from '@/components/tools/PriceRangeFilter';
 import { toast } from 'react-hot-toast';
 import CategoryProductList from '@/components/products/CategoryProductList';
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 
-export default function CategorySlugPage() {
+export default function CategoryIdPage() {
   const params = useParams();
-  const categorySlug = params.slug;
+  console.log("Category Params")
+  const categoryId = params.id;
 
-const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [sort, setSort] = useState('default');
   const [priceRange, setPriceRange] = useState({
@@ -20,14 +21,15 @@ const { addToCart } = useCart();
     maxPrice: 999999,
   });
   const [values, setValues] = useState([0, 9999]);
-  const [wishlist, setWishlist] = useState([]);
+  const { addToCart, isInCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [loading, setLoading] = useState(false);
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `/api/products?category=${categorySlug}`,
+        `/api/products?category=${categoryId}`,
       );
       // console.log('Data Fetching==>', data.data);
       if (data.success) {
@@ -55,25 +57,12 @@ const { addToCart } = useCart();
   };
 
   useEffect(() => {
-    if (categorySlug) {
+    if (categoryId) {
       fetchProducts();
 
       getPriceRange();
     }
-  }, [categorySlug]);
-
-  const toggleWishlist = (id) => {
-    setWishlist((prev) =>
-      prev.includes(id)
-        ? prev.filter((item) => item !== id)
-        : [...prev, id],
-    );
-  };
-
-  const handleAddCart = (product) => {
-    addToCart(product, 1);
-  };
-
+  }, [categoryId]);
 
 
   const step = Math.ceil(
@@ -109,16 +98,26 @@ const { addToCart } = useCart();
           step={step}
         />
       </div>
-
       <CategoryProductList
+        filteredProducts={filteredProducts}
+        loading={loading}
+        sort={sort}
+        setSort={setSort}
+        addToWishlist={addToWishlist}
+        isInWishlist={isInWishlist}
+        removeFromWishlist={removeFromWishlist}
+        addToCart={addToCart}
+        isInCart={isInCart}
+      />
+      {/* <CategoryProductList
         filteredProducts={filteredProducts}
         loading={loading}
         sort={sort}
         setSort={setSort}
         wishlist={wishlist}
         toggleWishlist={toggleWishlist}
-        addToCart={handleAddCart}
-      />
+        addToCart={addToCart}
+      /> */}
     </main>
   );
 }

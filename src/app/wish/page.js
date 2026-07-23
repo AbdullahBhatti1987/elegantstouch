@@ -16,6 +16,7 @@ export default function WishlistPage() {
     wishlistCount,
     removeFromWishlist,
     isInWishlist,
+    clearWishlist,
   } = useWishlist();
 
   const { addToCart, isInCart } = useCart();
@@ -25,7 +26,12 @@ export default function WishlistPage() {
 
   // Wishlist items
 
-  const wishlistItems = wishlist?.items || [];
+  const wishlistItems =
+    wishlist?.items?.filter((item) => {
+      const productId = item.productId?._id;
+
+      return productId && !isInCart(productId);
+    }) || [];
 
   // Move All Wishlist To Cart
 
@@ -37,7 +43,7 @@ export default function WishlistPage() {
     }
 
     // optional:
-    // clearWishlist();
+    clearWishlist();
   };
 
   // Filter Logic

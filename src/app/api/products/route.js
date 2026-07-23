@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
-import Product from '@/models/Product';
 import Category from '@/models/Category';
+import Product from '@/models/Product';
 import { multipleFilesToCloudinary } from '@/lib/multipleFilesToCloudinary';
 import mongoose from 'mongoose';
 
@@ -14,7 +14,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
 
     const search = searchParams.get('search') || '';
-    const categorySlug = searchParams.get('category') || '';
+    const categoryId = searchParams.get('category') || '';
     // const categoryParam = searchParams.get('category') || '';
 
     const page = Number(searchParams.get('page')) || 1;
@@ -33,6 +33,13 @@ export async function GET(request) {
 
     // Search
     if (search) {
+      const matchedCategories = await Category.find({
+        name: {
+          $regex: search,
+          $options: 'i',
+        },
+      }).select('_id');
+
       query.$or = [
         {
           name: {
@@ -47,24 +54,91 @@ export async function GET(request) {
           },
         },
         {
+          brand: {
+            $regex: search,
+            $options: 'i',
+          },
+        },
+        {
           sku: {
             $regex: search,
             $options: 'i',
           },
         },
+        {
+          tags: {
+            $regex: search,
+            $options: 'i',
+          },
+        },
+        {
+          keywords: {
+            $regex: search,
+            $options: 'i',
+          },
+        },
+        {
+          categoryId: {
+            $in: matchedCategories.map((cat) => cat._id),
+          },
+        },
       ];
     }
 
+    // const searchedProducts = await Product.aggregate([
+    //   {
+    //     $lookup: {
+    //       from: 'categories',
+    //       localField: 'categoryId',
+    //       foreignField: '_id',
+    //       as: 'category',
+    //     },
+    //   },
+    //   {
+    //     $unwind: '$category',
+    //   },
+    //   {
+    //     $match: {
+    //       $or: [
+    //         {
+    //           name: {
+    //             $regex: search,
+    //             $options: 'i',
+    //           },
+    //         },
+    //         {
+    //           slug: {
+    //             $regex: search,
+    //             $options: 'i',
+    //           },
+    //         },
+    //         {
+    //           brand: {
+    //             $regex: search,
+    //             $options: 'i',
+    //           },
+    //         },
+    //         {
+    //           'category.name': {
+    //             $regex: search,
+    //             $options: 'i',
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   },
+    // ]);
+
     // Category Filter
 
-    if (categorySlug) {
+    if (categoryId) {
       let category;
 
-      if (mongoose.Types.ObjectId.isValid(categorySlug)) {
-        category = await Category.findById(categorySlug);
+      if (mongoose.Types.ObjectId.isValid(categoryId)) {
+        category = await Category.findById(categoryId);
       } else {
         category = await Category.findOne({
-          slug: categorySlug,
+          slug: categoryId,
         });
       }
       // console.log("category==>", category)
@@ -84,19 +158,31 @@ export async function GET(request) {
       query.categoryId = category._id;
     }
 
-
-
-    // Price Filter
+    // Price Filter (Sale Price + Regular Price)
     if (priceMin || priceMax) {
-      query.price = {};
+      const min = Number(priceMin) || 0;
+      const max = Number(priceMax) || 999999;
 
-      if (priceMin) {
-        query.price.$gte = Number(priceMin);
-      }
-
-      if (priceMax) {
-        query.price.$lte = Number(priceMax);
-      }
+      query.$expr = {
+        $and: [
+          {
+            $gte: [
+              {
+                $ifNull: ['$salePrice', '$price'],
+              },
+              min,
+            ],
+          },
+          {
+            $lte: [
+              {
+                $ifNull: ['$salePrice', '$price'],
+              },
+              max,
+            ],
+          },
+        ],
+      };
     }
 
     // Featured Filter
@@ -118,27 +204,41 @@ export async function GET(request) {
 
     switch (sort) {
       case 'price-low-high':
-        sortOption = { price: 1 };
+        sortOption = {
+          salePrice: 1,
+          price: 1,
+        };
         break;
 
       case 'price-high-low':
-        sortOption = { price: -1 };
+        sortOption = {
+          salePrice: -1,
+          price: -1,
+        };
         break;
 
       case 'name-a-z':
-        sortOption = { name: 1 };
+        sortOption = {
+          name: 1,
+        };
         break;
 
       case 'name-z-a':
-        sortOption = { name: -1 };
+        sortOption = {
+          name: -1,
+        };
         break;
 
       case 'oldest':
-        sortOption = { createdAt: 1 };
+        sortOption = {
+          createdAt: 1,
+        };
         break;
 
       default:
-        sortOption = { createdAt: -1 };
+        sortOption = {
+          createdAt: -1,
+        };
     }
 
     const totalProducts = await Product.countDocuments(query);
@@ -186,7 +286,9 @@ export async function POST(req) {
     const formData = await req.formData();
 
     // Images receive
-    const files = formData.getAll('images');
+    const files = formData
+      .getAll('images')
+      .filter((file) => file && file.size > 0);
 
     if (!files.length) {
       return NextResponse.json(

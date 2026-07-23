@@ -9,27 +9,27 @@ export default function CategoryProductList({
   loading,
   sort,
   setSort,
-  wishlist = [],
-  toggleWishlist,
   addToCart,
+  addToWishlist,
+  isInWishlist,
+  isInCart,
+  removeFromWishlist,
 }) {
   const router = useRouter();
 
-  const { cart } = useCart();
+  // const checkProductInCart = (productId) => {
+  //   console.log('CURRENT CART:', cart);
 
-  const checkProductInCart = (productId) => {
-    console.log('CURRENT CART:', cart);
+  //   const result = cart?.items?.some(
+  //     (item) =>
+  //       String(item.productId?._id || item.productId) ===
+  //       String(productId),
+  //   );
 
-    const result = cart?.items?.some(
-      (item) =>
-        String(item.productId?._id || item.productId) ===
-        String(productId),
-    );
+  //   console.log('PRODUCT ID:', productId, 'RESULT:', result);
 
-    console.log('PRODUCT ID:', productId, 'RESULT:', result);
-
-    return result;
-  };
+  //   return result;
+  // };
 
   return (
     <section className="min-w-0 flex-1">
@@ -78,11 +78,12 @@ export default function CategoryProductList({
             <ProductCard
               key={product._id}
               product={product}
-              wishlist={wishlist}
-              toggleWishlist={toggleWishlist}
+              addToWishlist={addToWishlist}
+              removeFromWishlist={removeFromWishlist}
+              isInWishlist={isInWishlist(product._id)}
               addToCart={addToCart}
               onClick={() => router.push(`/products/${product._id}`)}
-              isInCart={checkProductInCart(product._id)}
+              isInCart={isInCart(product._id)}
             />
           ))
         )}

@@ -44,6 +44,7 @@ export async function GET(req) {
     const carts = await Cart.find(query)
       .populate({
         path: 'items.productId',
+        model: 'Product',
         select: `
       name
       sku

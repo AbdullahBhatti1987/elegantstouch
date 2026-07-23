@@ -2,12 +2,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function CategoryCard({ category }) {
+  // console.log("category==>", category)
   const { _id, name, image } = category;
-
+  // console.log("category Data==>", _id)
+  // console.log("category Data==>", name)
   return (
     <Link
-      // href={`/categories/${category._id}`}
-      href={`/categories/${category.slug}`}
+      href={`/categories/${category._id}`}
+      // href={`/categories/${category.slug}`}
       className="group overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-zinc-900"
     >
       {/* Image */}

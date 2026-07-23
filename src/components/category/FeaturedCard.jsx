@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 export default function FeatureCard({ category }) {
-  const { slug, name, image, productCount, description } = category;
+  // console.log("Category Detail==>", category)
+  const { _id, name, image, productCount, description } = category;
 
   return (
     <Link
-      href={`/categories/${slug}`}
+      href={`/categories/${_id}`}
+      //  href={`/categories/${category._id}`}
       className="group relative block overflow-hidden rounded-2xl bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl dark:bg-zinc-900"
     >
       {/* Image */}

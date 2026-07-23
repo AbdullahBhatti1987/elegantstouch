@@ -22,7 +22,7 @@ export default function Header() {
 
   const handleSearch = () => {
     const query = searchQuery.trim();
-
+    console.log("query==>", query)
     if (!query) return;
 
     router.push(`/products?search=${encodeURIComponent(query)}`);
@@ -117,11 +117,11 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={() => setSearchOpen(true)}
-                  className="group hover:text-primary transition"
+                  className="group hover:text-primary cursor-pointer transition"
                 >
                   <Search
                     size={20}
-                    className="mt-2 transition-transform duration-300 group-hover:scale-125"
+                    className="mt-2 cursor-pointer transition-transform duration-300 group-hover:scale-125"
                   />
                 </button>
               ) : (
@@ -156,7 +156,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => router.push('/wish')}
-            className={`group hover:text-primary relative transition ${
+            className={`group hover:text-primary relative cursor-pointer transition ${
               pathname === '/wish' ? 'text-primary' : ''
             }`}
           >
@@ -164,7 +164,7 @@ export default function Header() {
               <Heart
                 size={20}
                 fill={pathname === '/wish' ? 'currentColor' : 'none'}
-                className="transition-transform duration-300 group-hover:scale-125"
+                className="cursor-pointer transition-transform duration-300 group-hover:scale-125"
               />
 
               {wishlistCount >= 0 && (
@@ -179,7 +179,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => router.push('/cart')}
-            className={`group hover:text-primary relative transition ${
+            className={`group hover:text-primary relative cursor-pointer transition ${
               pathname === '/cart' ? 'text-primary' : ''
             }`}
           >
