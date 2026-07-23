@@ -19,7 +19,6 @@ export default function CategoryCard({ category }) {
           src={image?.thumbnail}
           alt={name}
           fill
-          priority
           sizes="300px"
           className="object-cover transition-transform duration-700 group-hover:scale-110"
         />

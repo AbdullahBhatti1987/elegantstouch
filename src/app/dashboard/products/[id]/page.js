@@ -458,7 +458,6 @@ export default function ProductDetailPage() {
                 }
                 alt={product.name}
                 fill
-                priority
                 sizes="
           (max-width:640px) 100vw,
           (max-width:1024px) 50vw,
@@ -487,7 +486,6 @@ export default function ProductDetailPage() {
                         src={img.thumbnail || img.url}
                         alt={`${product.name} image ${index + 1}`}
                         fill
-                        priority
                         sizes="
                   (max-width:640px) 25vw,
                   120px
