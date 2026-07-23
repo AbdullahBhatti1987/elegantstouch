@@ -1,23 +1,26 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
-
+import axios from 'axios';
 import Input from '@/components/admin/common/form/Input';
-import Select from '@/components/admin/common/form/Select';
+import CustomDropdown from '../common/form/CustomDropdown';
 
 const defaultForm = {
   code: '',
   discountType: 'percentage',
+  maxDiscount: '',
   value: '',
   minOrderAmount: 0,
   usageLimit: 0,
   expiryDate: '',
   applyType: 'all',
-  productId: '',
-  categoryId: '',
+
+  categoryIds: [],
+  productIds: [],
+
   status: 'active',
 };
 
@@ -29,9 +32,53 @@ export default function CouponForm({
   setLoading,
 }) {
   const router = useRouter();
-
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState(defaultForm);
 
+
+
+  const getCategories = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get('/api/categories/dropdown');
+
+      if (data.success) {
+        setCategories(data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+ 
+
+  const handleCategoryChange = async (e) => {
+    const categoryId = e.target.value;
+
+    if (!categoryId) {
+      setProducts([]);
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      categoryIds: [categoryId],
+      productIds: [],
+    }));
+
+    const { data } = await axios.get(
+      `/api/products/dropdown?categoryId=${categoryId}`,
+    );
+    console.log('PRODUCT DATA:', data);
+    if (data.success) {
+      setProducts(data.data);
+    }
+  };
   useEffect(() => {
     if (initialData) {
       setFormData({
@@ -44,8 +91,8 @@ export default function CouponForm({
           ? initialData.expiryDate.substring(0, 10)
           : '',
         applyType: initialData.applyType || 'all',
-        productId: initialData.productId || '',
-        categoryId: initialData.categoryId || '',
+        categoryIds: initialData.categoryIds || [],
+        productIds: initialData.productIds || [],
         status: initialData.status || 'active',
       });
     }
@@ -75,12 +122,18 @@ export default function CouponForm({
       errors.push('Expiry date is required');
     }
 
-    if (formData.applyType === 'product' && !formData.productId) {
-      errors.push('Product is required');
+    if (
+      formData.applyType === 'products' &&
+      formData.productIds.length === 0
+    ) {
+      errors.push('Select at least one product');
     }
 
-    if (formData.applyType === 'category' && !formData.categoryId) {
-      errors.push('Category is required');
+    if (
+      formData.applyType === 'categories' &&
+      formData.categoryIds.length === 0
+    ) {
+      errors.push('Select category');
     }
 
     return errors;
@@ -103,7 +156,11 @@ export default function CouponForm({
       const data = new FormData();
 
       Object.keys(formData).forEach((key) => {
-        data.append(key, formData[key]);
+        if (key === 'productIds' || key === 'categoryIds') {
+          data.append(key, JSON.stringify(formData[key]));
+        } else {
+          data.append(key, formData[key]);
+        }
       });
 
       await onSubmit(data);
@@ -146,7 +203,7 @@ export default function CouponForm({
 
         className="space-y-8 rounded-2xl border bg-white p-8 dark:bg-gray-900"
       >
-        <section>
+         <section className="rounded-xl border p-6">
           <h2 className="mb-5 text-lg font-semibold">
             Coupon Information
           </h2>
@@ -154,27 +211,22 @@ export default function CouponForm({
           <div className="grid gap-5 md:grid-cols-3">
             <Input
               label="Coupon Code"
-
               name="code"
-
               value={formData.code}
-
               onChange={handleChange}
-
               loading={loading}
+              className={"uppercase"}
             />
 
-            <Select
+            <CustomDropdown
               label="Discount Type"
-
-              name="discountType"
-
               value={formData.discountType}
-
-              onChange={handleChange}
-
-              loading={loading}
-
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  discountType: e.target.value,
+                }))
+              }
               options={[
                 {
                   value: 'percentage',
@@ -186,18 +238,12 @@ export default function CouponForm({
                 },
               ]}
             />
-
             <Input
               label="Discount Value"
-
               name="value"
-
               type="number"
-
               value={formData.value}
-
               onChange={handleChange}
-
               loading={loading}
             />
           </div>
@@ -209,43 +255,29 @@ export default function CouponForm({
           <div className="grid gap-5 md:grid-cols-3">
             <Input
               label="Minimum Order Amount"
-
               name="minOrderAmount"
-
               type="number"
-
               value={formData.minOrderAmount}
-
               onChange={handleChange}
-
               loading={loading}
+              
             />
 
             <Input
               label="Usage Limit"
-
               name="usageLimit"
-
               type="number"
-
               value={formData.usageLimit}
-
               onChange={handleChange}
-
               loading={loading}
             />
 
             <Input
-              label="Expiry Date"
-
-              name="expiryDate"
-
-              type="date"
-
-              value={formData.expiryDate}
-
+              label="Maximum Discount"
+              name="maxDiscount"
+              type="number"
+              value={formData.maxDiscount}
               onChange={handleChange}
-
               loading={loading}
             />
           </div>
@@ -257,91 +289,123 @@ export default function CouponForm({
           </h2>
 
           <div className="grid gap-5 md:grid-cols-3">
-            <Select
+            {/* APPLY TYPE */}
+
+            <CustomDropdown
               label="Apply Type"
-
-              name="applyType"
-
               value={formData.applyType}
+              onChange={(e) => {
+                setFormData((prev) => ({
+                  ...prev,
+                  applyType: e.target.value,
+                  categoryIds: [],
+                  productIds: [],
+                }));
 
-              onChange={handleChange}
-
-              loading={loading}
-
+                setProducts([]);
+              
+              }}
               options={[
                 {
                   value: 'all',
                   label: 'All Products',
                 },
                 {
-                  value: 'product',
-                  label: 'Specific Product',
+                  value: 'products',
+                  label: 'Specific Products',
                 },
                 {
-                  value: 'category',
+                  value: 'categories',
                   label: 'Specific Category',
                 },
               ]}
             />
 
-            {formData.applyType === 'product' && (
-              <Input
-                label="Product ID"
+            {/* CATEGORY DROPDOWN */}
 
-                name="productId"
+            {formData.applyType !== 'all' && (
+              <CustomDropdown
+                label="Category"
+                value={formData.categoryIds[0] || ''}
+                onChange={(e) => {
+                  handleCategoryChange(e);
 
-                value={formData.productId}
-
-                onChange={handleChange}
-
-                loading={loading}
+               
+                }}
+                options={categories.map((category) => ({
+                  value: category._id,
+                  label: category.name,
+                }))}
+                placeholder="Select Category"
               />
             )}
 
-            {formData.applyType === 'category' && (
-              <Input
-                label="Category ID"
+            {/* PRODUCT CHECKBOX DROPDOWN */}
 
-                name="categoryId"
+            {formData.applyType === 'products' &&
+              products.length > 0 && (
+                <CustomDropdown
+                  label="Select Products"
 
-                value={formData.categoryId}
+                  multiple={true}
 
-                onChange={handleChange}
+                  selectedValues={formData.productIds}
 
-                loading={loading}
-              />
-            )}
+                  onChange={(values) => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      productIds: values,
+                    }));
+                  }}
+
+                  options={products.map((product) => ({
+                    value: product._id,
+                    label: product.name,
+                  }))}
+
+                  placeholder="Select Products"
+                />
+              )}
           </div>
         </section>
 
         <section>
-          <div className="w-full md:w-64">
-            <Select
-              label="Status"
+          <div className="rounded-xl border p-6">
+            <div className="grid gap-5 md:grid-cols-3">
+              <CustomDropdown
+                label="Status"
+                value={formData.status}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    status: e.target.value,
+                  }))
+                }
+                options={[
+                  {
+                    value: 'active',
+                    label: 'Active',
+                  },
+                  {
+                    value: 'inactive',
+                    label: 'Inactive',
+                  },
+                ]}
+              />
 
-              name="status"
-
-              value={formData.status}
-
-              onChange={handleChange}
-
-              loading={loading}
-
-              options={[
-                {
-                  value: 'active',
-                  label: 'Active',
-                },
-                {
-                  value: 'inactive',
-                  label: 'Inactive',
-                },
-              ]}
-            />
+              <Input
+                label="Expiry Date"
+                name="expiryDate"
+                type="date"
+                value={formData.expiryDate}
+                onChange={handleChange}
+                loading={loading}
+              />
+            </div>
           </div>
         </section>
 
-        <div className="flex justify-end border-t pt-6">
+        <div className="flex justify-end ">
           <button
             type="submit"
 

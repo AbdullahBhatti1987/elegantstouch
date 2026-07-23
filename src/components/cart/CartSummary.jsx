@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import CouponForm from './CouponForm';
+import CouponInput from './CouponInput';
 
 export default function CartSummary({ subtotal }) {
   const [discount, setDiscount] = useState(0);
@@ -44,7 +44,7 @@ export default function CartSummary({ subtotal }) {
         <span>Rs. {total}</span>
       </div>
 
-      <CouponForm
+      <CouponInput
         subtotal={subtotal}
         setDiscount={setDiscount}
         setCoupon={setCoupon}

@@ -72,7 +72,12 @@ export async function POST(req) {
   try {
     await connectDB();
 
-    const body = await req.json();
+    const formData = await req.formData();
+
+    const body = Object.fromEntries(formData.entries());
+
+    body.categoryIds = JSON.parse(body.categoryIds || '[]');
+    body.productIds = JSON.parse(body.productIds || '[]');
 
     const coupon = await Coupon.create({
       code: body.code,
@@ -89,9 +94,14 @@ export async function POST(req) {
 
       expiryDate: new Date(body.expiryDate),
 
-      status: 'active',
-    });
+      applyType: body.applyType,
 
+      categoryIds: body.categoryIds,
+
+      productIds: body.productIds,
+
+      status: body.status || 'active',
+    });
     return NextResponse.json(
       {
         success: true,

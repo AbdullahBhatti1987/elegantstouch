@@ -31,15 +31,19 @@ const CouponSchema = new mongoose.Schema(
       default: 'all',
     },
 
-    productId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product',
-    },
+    productIds: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+      },
+    ],
 
-    categoryId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
-    },
+    categoryIds: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+      },
+    ],
 
     minOrderAmount: {
       type: Number,

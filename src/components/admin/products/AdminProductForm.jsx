@@ -492,7 +492,7 @@ export default function AdminProductForm({
           />
         </section>
 
-        <div className="flex justify-end border-t pt-6">
+        <div className="flex justify-end ">
           <button
             disabled={loading}
             className="flex items-center gap-2 rounded-lg bg-black px-8 py-3 text-white"

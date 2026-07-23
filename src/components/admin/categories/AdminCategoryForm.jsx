@@ -369,7 +369,7 @@ export default function CategoryForm({
 
         {/* SUBMIT */}
 
-        <div className="flex justify-end border-t pt-6">
+        <div className="flex justify-end ">
           <button
             type="submit"
             disabled={loading}

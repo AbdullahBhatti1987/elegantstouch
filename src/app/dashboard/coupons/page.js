@@ -83,23 +83,14 @@ export default function CouponsPage() {
     <div>
       <AdminPageHeader
         title="Coupons"
-
         description="Manage discount coupons"
-
         searchPlaceholder="Search coupons..."
-
         search={search}
-
         onChange={(value) => setSearch(value)}
-
         onSearch={(value) => getCoupons(value)}
-
         addText="Add Coupon"
-
         onAdd={() => router.push('/dashboard/coupons/add')}
-
         view={view}
-
         setView={setView}
       />
 
