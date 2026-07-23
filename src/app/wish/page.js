@@ -26,12 +26,15 @@ export default function WishlistPage() {
 
   // Wishlist items
 
-  const wishlistItems =
-    wishlist?.items?.filter((item) => {
-      const productId = item.productId?._id;
+  // const wishlistItems =
+  //   wishlist?.items?.filter((item) => {
+  //     const productId = item.productId?._id;
 
-      return productId && !isInCart(productId);
-    }) || [];
+  //     return productId && !isInCart(productId);
+  //   }) || [];
+
+  const wishlistItems =
+    wishlist?.items?.filter((item) => item.productId?._id) || [];
 
   // Move All Wishlist To Cart
 
