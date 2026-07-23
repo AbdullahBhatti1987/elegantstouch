@@ -8,10 +8,9 @@ export default function CouponInput({
   subtotal,
   setDiscount,
   setCoupon,
-  loading,
-  setLoading,
 }) {
   const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleApply = async () => {
     if (!code.trim()) {

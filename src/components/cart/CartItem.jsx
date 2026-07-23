@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Trash2 } from 'lucide-react';
+import { X } from 'lucide-react';
 import QuantitySelector from './QuantitySelector';
 
 export default function CartItem({
@@ -16,9 +16,9 @@ export default function CartItem({
 
       <button
         onClick={onRemove}
-        className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full text-red-500 transition hover:bg-red-50 dark:hover:bg-red-950"
+        className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full text-gray-500 transition hover:bg-red-50 dark:hover:bg-red-950"
       >
-        <Trash2 size={18} />
+        <X size={20} strokeWidth={2} />
       </button>
 
       <div className="flex gap-3 sm:gap-5">
@@ -48,8 +48,6 @@ export default function CartItem({
               <p className="text-[11px] tracking-wide text-gray-400 uppercase">
                 {item.category}
               </p>
-
-             
             </div>
             {/* PRICE */}
 

@@ -1,161 +1,136 @@
-// import mongoose from "mongoose";
+import mongoose from "mongoose";
 
-// const OrderSchema = new mongoose.Schema(
-// {
-//   orderNumber:{
-//     type:String,
-//     required:true,
-//     unique:true
-//   },
 
-//   customerName:String,
+const OrderItemSchema = new mongoose.Schema({
 
-//   email:String,
+ productId:{
+  type:mongoose.Schema.Types.ObjectId,
+  ref:"Product",
+  required:true
+ },
 
-//   phone:String,
+ name:String,
 
-//   guestId:String,
+ image:String,
 
-//   items:[
-//     {
-//       productId:{
-//         type:mongoose.Schema.Types.ObjectId,
-//         ref:"Product"
-//       },
+ price:Number,
 
-//       name:String,
+ quantity:Number,
 
-//       image:String,
+});
 
-//       price:Number,
 
-//       quantity:Number,
+const AddressSchema = new mongoose.Schema({
 
-//       total:Number
-//     }
-//   ],
+ fullName:{
+  type:String,
+  required:true
+ },
 
-//   subtotal:Number,
+ mobile:{
+  type:String,
+  required:true
+ },
 
-//   shippingCost:Number,
+ email:String,
 
-//   discount:Number,
+ address:{
+  type:String,
+  required:true
+ },
 
-//   grandTotal:Number,
+ city:{
+  type:String,
+  required:true
+ },
 
-//   paymentMethod:String,
+ province:{
+  type:String,
+  required:true
+ },
 
-//   paymentStatus:{
-//     type:String,
-//     default:"pending"
-//   },
+ postalCode:String,
 
-//   orderStatus:{
-//     type:String,
-//     default:"pending"
-//   },
+});
 
-//   shippingAddress:{
-//     fullName:String,
-//     phone:String,
-//     city:String,
-//     area:String,
-//     address:String
-//   },
 
-//   notes:String
-// },
-// {
-//   timestamps:true
-// }
-// );
+const OrderSchema = new mongoose.Schema({
 
-// export default mongoose.models.Order ||
-// mongoose.model("Order",OrderSchema);
+ guestId:{
+  type:String,
+  required:true,
+  index:true
+ },
 
-import mongoose from 'mongoose';
 
-const OrderSchema = new mongoose.Schema(
-  {
-    guestId: {
-      type: String,
-      required: true,
-    },
+ items:[
+  OrderItemSchema
+ ],
 
-    items: [
-      {
-        productId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product',
-        },
 
-        name: String,
+ shippingAddress:
+ AddressSchema,
 
-        price: Number,
 
-        quantity: Number,
+ paymentMethod:{
+  type:String,
+  enum:[
+   "cod",
+   "easypaisa",
+   "jazzcash"
+  ],
+  default:"cod"
+ },
 
-        image: String,
-      },
-    ],
 
-    subtotal: Number,
+ paymentStatus:{
+  type:String,
+  enum:[
+   "pending",
+   "paid",
+   "failed"
+  ],
+  default:"pending"
+ },
 
-    discount: {
-      type: Number,
-      default: 0,
-    },
 
-    shipping: {
-      type: Number,
-      default: 0,
-    },
+ orderStatus:{
+  type:String,
+  enum:[
+   "pending",
+   "confirmed",
+   "shipped",
+   "delivered",
+   "cancelled"
+  ],
+  default:"pending"
+ },
 
-    total: Number,
 
-    coupon: {
-      code: String,
-      discount: Number,
-    },
+ subtotal:Number,
 
-    customer: {
-      name: String,
-      phone: String,
-      email: String,
+ shipping:Number,
 
-      address: String,
-      city: String,
-      postalCode: String,
-    },
+ discount:{
+  type:Number,
+  default:0
+ },
 
-    paymentMethod: {
-      type: String,
-      enum: ['cod', 'card', 'easypaisa', 'jazzcash'],
-      default: 'cod',
-    },
 
-    paymentStatus: {
-      type: String,
-      enum: ['pending', 'paid', 'failed'],
-      default: 'pending',
-    },
+ total:Number,
 
-    orderStatus: {
-      type: String,
-      enum: [
-        'pending',
-        'confirmed',
-        'shipped',
-        'delivered',
-        'cancelled',
-      ],
-      default: 'pending',
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
+
+ coupon:{
+  code:String,
+  discount:Number
+ }
+
+
+},
+{
+ timestamps:true
+});
+
 
 export default mongoose.models.Order ||
-  mongoose.model('Order', OrderSchema);
+mongoose.model("Order",OrderSchema);

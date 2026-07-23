@@ -18,6 +18,8 @@ export function CartProvider({ children }) {
   const [guestId, setGuestId] = useState('');
   const [cart, setCart] = useState(null);
   const [cartCount, setCartCount] = useState(0);
+  const [coupon, setCoupon] = useState(null);
+  const [discount, setDiscount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [initialLoading, setInitialLoading] = useState(true);
 
@@ -260,6 +262,10 @@ export function CartProvider({ children }) {
         updateCartQuantity,
         clearCart,
         isInCart,
+        coupon,
+        setCoupon,
+        discount,
+        setDiscount,
       }}
     >
       {children}
