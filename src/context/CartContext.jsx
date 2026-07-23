@@ -66,9 +66,10 @@ export function CartProvider({ children }) {
         if (firstLoad) {
           setInitialLoading(true);
         }
+        console.log('firstLoad==>', firstLoad);
 
-        const response = await axios.get(`/api/cart/${id}`);
-
+        const response = await axios.get(`/api/cart?guestId=${id}`);
+        console.log('response==>', response);
         if (response.data.success) {
           setCart(response.data.data);
         }

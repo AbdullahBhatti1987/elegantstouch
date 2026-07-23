@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, use } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Menu, X, Search, Heart, ShoppingCart } from 'lucide-react';
 import { navLinks } from '@/content/data';

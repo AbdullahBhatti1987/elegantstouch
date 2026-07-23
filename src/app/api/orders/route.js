@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import Order from '@/models/Order';
 import Cart from '@/models/Cart';
+import { generateOrderNumber } from '@/lib/generateOrderNumber';
 
 export async function POST(req) {
   try {
@@ -73,7 +74,6 @@ export async function POST(req) {
 
       quantity: item.quantity,
     }));
- 
 
     const {
       firstName,
@@ -99,11 +99,13 @@ export async function POST(req) {
       postalCode,
     });
 
+    const totalOrders = await Order.countDocuments();
+    const orderNumber = generateOrderNumber(totalOrders + 1);
+
     const order = await Order.create({
+      orderNumber,
       guestId,
-
       items: orderItems,
-
       shippingAddress: {
         firstName: firstName,
         lastName: lastName,
@@ -115,19 +117,12 @@ export async function POST(req) {
         province: province,
         postalCode: postalCode || '',
       },
-
       paymentMethod,
-
       subtotal,
-
       shipping,
-
       discount: discount || 0,
-
       coupon: coupon || null,
-
       total,
-
       saveInfo: saveInfo || false,
     });
 
