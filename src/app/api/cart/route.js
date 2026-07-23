@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import Cart from '@/models/Cart';
+import Product from '@/models/Product';
 
 // GET ALL CARTS
 export async function GET(req) {
@@ -95,6 +96,110 @@ export async function GET(req) {
 }
 
 // CREATE / ADD CART
+// export async function POST(req) {
+//   try {
+//     await connectDB();
+
+//     const body = await req.json();
+
+//     const { guestId, productId, quantity = 1 } = body;
+
+//     if (!guestId || !productId) {
+//       return NextResponse.json(
+//         {
+//           success: false,
+//           message: 'GuestId and ProductId are required',
+//         },
+//         {
+//           status: 400,
+//         },
+//       );
+//     }
+
+//     const product = await Product.findById(productId);
+
+//     if (!product) {
+//       return NextResponse.json(
+//         {
+//           success: false,
+//           message: 'Product not found',
+//         },
+//         {
+//           status: 404,
+//         },
+//       );
+//     }
+
+//     let cart = await Cart.findOne({
+//       guestId,
+//       status: 'active',
+//     });
+
+//     // Create new cart
+//     if (!cart) {
+//       cart = await Cart.create({
+//         guestId,
+
+//         items: [
+//           {
+//             productId,
+//             quantity,
+//           },
+//         ],
+//       });
+//     } else {
+//       const existingItem = cart.items.find(
+//         (item) => String(item.productId) === String(productId),
+//       );
+
+//       // Already exists
+//       if (existingItem) {
+//         return NextResponse.json(
+//           {
+//             success: false,
+
+//             message: 'Product already exists in cart',
+
+//             data: cart,
+//           },
+//           {
+//             status: 409,
+//           },
+//         );
+//       }
+
+//       // Add new product
+
+//       cart.items.push({
+//         productId,
+
+//         quantity,
+//       });
+
+//       await cart.save();
+//     }
+
+//     return NextResponse.json({
+//       success: true,
+
+//       message: 'Product added to cart successfully',
+
+//       data: cart,
+//     });
+//   } catch (error) {
+//     return NextResponse.json(
+//       {
+//         success: false,
+
+//         message: error.message,
+//       },
+//       {
+//         status: 500,
+//       },
+//     );
+//   }
+// }
+
 export async function POST(req) {
   try {
     await connectDB();
@@ -115,16 +220,28 @@ export async function POST(req) {
       );
     }
 
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Product not found',
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
     let cart = await Cart.findOne({
       guestId,
       status: 'active',
     });
 
-    // Create new cart
     if (!cart) {
       cart = await Cart.create({
         guestId,
-
         items: [
           {
             productId,
@@ -134,17 +251,14 @@ export async function POST(req) {
       });
     } else {
       const existingItem = cart.items.find(
-        (item) => item.productId.toString() === productId,
+        (item) => String(item.productId) === String(productId),
       );
 
-      // Already exists
       if (existingItem) {
         return NextResponse.json(
           {
             success: false,
-
             message: 'Product already exists in cart',
-
             data: cart,
           },
           {
@@ -153,11 +267,8 @@ export async function POST(req) {
         );
       }
 
-      // Add new product
-
       cart.items.push({
         productId,
-
         quantity,
       });
 
@@ -166,16 +277,15 @@ export async function POST(req) {
 
     return NextResponse.json({
       success: true,
-
       message: 'Product added to cart successfully',
-
       data: cart,
     });
   } catch (error) {
+    console.log('ADD CART ERROR:', error);
+
     return NextResponse.json(
       {
         success: false,
-
         message: error.message,
       },
       {

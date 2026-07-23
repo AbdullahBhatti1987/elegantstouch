@@ -70,7 +70,6 @@ export default function AdminCategoryTable({ categories, loading }) {
                       src={category.image.url}
                       alt={category.alt || category.name}
                       fill
-                      priority
                       sizes="40px"
                       className="object-cover"
                     />

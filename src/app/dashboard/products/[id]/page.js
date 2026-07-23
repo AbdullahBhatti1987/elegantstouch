@@ -487,6 +487,7 @@ export default function ProductDetailPage() {
                         src={img.thumbnail || img.url}
                         alt={`${product.name} image ${index + 1}`}
                         fill
+                        priority
                         sizes="
                   (max-width:640px) 25vw,
                   120px
