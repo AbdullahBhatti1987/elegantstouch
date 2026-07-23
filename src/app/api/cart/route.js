@@ -95,7 +95,177 @@ export async function GET(req) {
   }
 }
 
-// CREATE / ADD CART
+
+export async function POST(req) {
+  try {
+    await connectDB();
+
+    const body = await req.json();
+
+    const { guestId, productId, quantity = 1 } = body;
+
+    const cartQuantity = Number(quantity);
+
+
+    if (!guestId || !productId) {
+      return NextResponse.json(
+        {
+          success:false,
+          message:'GuestId and ProductId are required'
+        },
+        {
+          status:400
+        }
+      );
+    }
+
+
+    const product = await Product.findById(productId);
+
+
+    if(!product){
+      return NextResponse.json(
+        {
+          success:false,
+          message:'Product not found'
+        },
+        {
+          status:404
+        }
+      );
+    }
+
+
+    if(!product.inStock || product.stock <= 0){
+      return NextResponse.json(
+        {
+          success:false,
+          message:'Product is out of stock'
+        },
+        {
+          status:400
+        }
+      );
+    }
+
+
+    if(product.stock < cartQuantity){
+      return NextResponse.json(
+        {
+          success:false,
+          message:`Only ${product.stock} items available`
+        },
+        {
+          status:400
+        }
+      );
+    }
+
+
+
+    let cart = await Cart.findOne({
+      guestId,
+      status:'active'
+    });
+
+
+
+    if(!cart){
+
+      cart = await Cart.create({
+        guestId,
+
+        items:[
+          {
+            productId,
+            quantity:cartQuantity
+          }
+        ]
+      });
+
+
+    }else{
+
+
+      const existingItem = cart.items.find(
+        item=>String(item.productId)===String(productId)
+      );
+
+
+      if(existingItem){
+
+        const newQuantity =
+        existingItem.quantity + cartQuantity;
+
+
+        if(product.stock < newQuantity){
+
+          return NextResponse.json(
+            {
+              success:false,
+              message:`Only ${product.stock} items available`
+            },
+            {
+              status:400
+            }
+          );
+
+        }
+
+
+        existingItem.quantity = newQuantity;
+
+        await cart.save();
+
+
+        return NextResponse.json({
+          success:true,
+          message:'Cart quantity updated',
+          data:cart
+        });
+
+
+      }
+
+
+
+      cart.items.push({
+        productId,
+        quantity:cartQuantity
+      });
+
+
+      await cart.save();
+
+    }
+
+
+
+    return NextResponse.json({
+      success:true,
+      message:'Product added to cart successfully',
+      data:cart
+    });
+
+
+  } catch(error){
+
+    console.log("ADD CART ERROR:",error);
+
+    return NextResponse.json(
+      {
+        success:false,
+        message:error.message
+      },
+      {
+        status:500
+      }
+    );
+
+  }
+}
+
+
 // export async function POST(req) {
 //   try {
 //     await connectDB();
@@ -103,6 +273,8 @@ export async function GET(req) {
 //     const body = await req.json();
 
 //     const { guestId, productId, quantity = 1 } = body;
+
+//     const cartQuantity = Number(quantity);
 
 //     if (!guestId || !productId) {
 //       return NextResponse.json(
@@ -130,20 +302,41 @@ export async function GET(req) {
 //       );
 //     }
 
+//     if (product.stock < cartQuantity) {
+//       return NextResponse.json(
+//         {
+//           success: false,
+//           message: 'Not enough stock available',
+//         },
+//         {
+//           status: 400,
+//         },
+//       );
+//     }
+//     if (!product.inStock) {
+//       return NextResponse.json(
+//         {
+//           success: false,
+//           message: 'Product is out of stock',
+//         },
+//         {
+//           status: 400,
+//         },
+//       );
+//     }
+
 //     let cart = await Cart.findOne({
 //       guestId,
 //       status: 'active',
 //     });
 
-//     // Create new cart
 //     if (!cart) {
 //       cart = await Cart.create({
 //         guestId,
-
 //         items: [
 //           {
 //             productId,
-//             quantity,
+//             cartQuantity,
 //           },
 //         ],
 //       });
@@ -152,14 +345,11 @@ export async function GET(req) {
 //         (item) => String(item.productId) === String(productId),
 //       );
 
-//       // Already exists
 //       if (existingItem) {
 //         return NextResponse.json(
 //           {
 //             success: false,
-
 //             message: 'Product already exists in cart',
-
 //             data: cart,
 //           },
 //           {
@@ -168,12 +358,9 @@ export async function GET(req) {
 //         );
 //       }
 
-//       // Add new product
-
 //       cart.items.push({
 //         productId,
-
-//         quantity,
+//         cartQuantity,
 //       });
 
 //       await cart.save();
@@ -181,16 +368,15 @@ export async function GET(req) {
 
 //     return NextResponse.json({
 //       success: true,
-
 //       message: 'Product added to cart successfully',
-
 //       data: cart,
 //     });
 //   } catch (error) {
+//     console.log('ADD CART ERROR:', error);
+
 //     return NextResponse.json(
 //       {
 //         success: false,
-
 //         message: error.message,
 //       },
 //       {
@@ -199,98 +385,3 @@ export async function GET(req) {
 //     );
 //   }
 // }
-
-export async function POST(req) {
-  try {
-    await connectDB();
-
-    const body = await req.json();
-
-    const { guestId, productId, quantity = 1 } = body;
-
-    if (!guestId || !productId) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'GuestId and ProductId are required',
-        },
-        {
-          status: 400,
-        },
-      );
-    }
-
-    const product = await Product.findById(productId);
-
-    if (!product) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Product not found',
-        },
-        {
-          status: 404,
-        },
-      );
-    }
-
-    let cart = await Cart.findOne({
-      guestId,
-      status: 'active',
-    });
-
-    if (!cart) {
-      cart = await Cart.create({
-        guestId,
-        items: [
-          {
-            productId,
-            quantity,
-          },
-        ],
-      });
-    } else {
-      const existingItem = cart.items.find(
-        (item) => String(item.productId) === String(productId),
-      );
-
-      if (existingItem) {
-        return NextResponse.json(
-          {
-            success: false,
-            message: 'Product already exists in cart',
-            data: cart,
-          },
-          {
-            status: 409,
-          },
-        );
-      }
-
-      cart.items.push({
-        productId,
-        quantity,
-      });
-
-      await cart.save();
-    }
-
-    return NextResponse.json({
-      success: true,
-      message: 'Product added to cart successfully',
-      data: cart,
-    });
-  } catch (error) {
-    console.log('ADD CART ERROR:', error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: error.message,
-      },
-      {
-        status: 500,
-      },
-    );
-  }
-}

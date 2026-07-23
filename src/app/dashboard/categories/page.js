@@ -24,7 +24,12 @@ export default function CategoriesPage() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(8);
-  const [pagination, setPagination] = useState({});
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 8,
+    total: 0,
+    totalPages: 0,
+  });
 
   const getCategories = async (keyword = '', currentPage = 1) => {
     setLoading(true);
@@ -71,7 +76,6 @@ export default function CategoriesPage() {
       if (data.success) {
         setCounts(data.data);
         // console.log('Data Status==>', data.data);
-
       }
     } catch (error) {
       console.log(error);
@@ -93,7 +97,6 @@ export default function CategoriesPage() {
 
     getCategories();
     getCounts();
-
   }, []);
 
   useEffect(() => {

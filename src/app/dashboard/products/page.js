@@ -25,7 +25,12 @@ export default function ProductsPage() {
 
   const [limit, setLimit] = useState(8);
 
-  const [pagination, setPagination] = useState({});
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 8,
+    total: 0,
+    totalPages: 0,
+  });
 
   const router = useRouter();
 

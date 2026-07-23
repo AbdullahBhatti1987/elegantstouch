@@ -3,17 +3,56 @@ import { connectDB } from '@/lib/mongodb';
 import Coupon from '@/models/Coupon';
 
 // GET ALL COUPONS
-export async function GET() {
+export async function GET(req) {
   try {
     await connectDB();
 
-    const coupons = await Coupon.find().sort({
-      createdAt: -1,
-    });
+    const { searchParams } = new URL(req.url);
+
+    const search = searchParams.get('search') || '';
+
+    const page = Number(searchParams.get('page')) || 1;
+
+    const limit = Number(searchParams.get('limit')) || 8;
+
+    const skip = (page - 1) * limit;
+
+    let query = {};
+
+    if (search) {
+      query.code = {
+        $regex: search,
+        $options: 'i',
+      };
+    }
+
+    const totalCoupons = await Coupon.countDocuments(query);
+
+    const coupons = await Coupon.find(query)
+      .sort({
+        createdAt: -1,
+      })
+      .skip(skip)
+      .limit(limit);
 
     return NextResponse.json({
       success: true,
+
       data: coupons,
+
+      pagination: {
+        total: totalCoupons,
+
+        page,
+
+        limit,
+
+        totalPages: Math.ceil(totalCoupons / limit),
+
+        hasNextPage: page < Math.ceil(totalCoupons / limit),
+
+        hasPrevPage: page > 1,
+      },
     });
   } catch (error) {
     return NextResponse.json(

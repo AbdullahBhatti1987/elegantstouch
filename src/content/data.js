@@ -2,7 +2,7 @@
 import {
   Home,
   Layers,
-  Flame,
+  Coupon,
   Store,
   Sparkles,
   Tag,
@@ -15,6 +15,8 @@ import {
   ClipboardList,
   UserRound,
   LogOut,
+  Ticket,
+  TicketPercent,
   Heart,
   ListOrdered,
 } from 'lucide-react';
@@ -44,6 +46,11 @@ export const dashboardSidebar = [
     title: 'Orders',
     href: '/dashboard/orders',
     icon: ListOrdered,
+  },
+  {
+    title: 'Coupons',
+    href: '/dashboard/coupons',
+    icon: TicketPercent,
   },
   {
     title: 'Customers',

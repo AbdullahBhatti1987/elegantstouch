@@ -4,28 +4,33 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
-import AdminCartGrid from '@/components/admin/carts/AdminCartGrid';
-import AdminCartTable from '@/components/admin/carts/AdminCartTable';
 import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
 import Pagination from '@/components/admin/common/Pagination';
 
-export default function CartsPage() {
+import AdminCouponGrid from '@/components/admin/coupons/AdminCouponGrid';
+import AdminCouponTable from '@/components/admin/coupons/AdminCouponTable';
+
+export default function CouponsPage() {
   const router = useRouter();
 
-  const [carts, setCarts] = useState([]);
+  const [coupons, setCoupons] = useState([]);
 
   const [view, setView] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('cartView') || 'grid';
+      return localStorage.getItem('couponView') || 'grid';
     }
 
     return 'grid';
   });
 
   const [loading, setLoading] = useState(false);
+
   const [search, setSearch] = useState('');
+
   const [page, setPage] = useState(1);
+
   const [limit, setLimit] = useState(8);
+
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 8,
@@ -33,13 +38,14 @@ export default function CartsPage() {
     totalPages: 0,
   });
 
-  // GET CARTS
-  const getCarts = async (keyword = '', currentPage = 1) => {
+  // GET COUPONS
+
+  const getCoupons = async (keyword = '', currentPage = 1) => {
     setLoading(true);
 
     try {
       const { data } = await axios.get(
-        `/api/carts?search=${keyword}&page=${currentPage}&limit=${limit}`,
+        `/api/coupons?search=${keyword}&page=${currentPage}&limit=${limit}`,
         {
           headers: {
             'Cache-Control': 'no-cache',
@@ -48,11 +54,12 @@ export default function CartsPage() {
       );
 
       if (data.success) {
-        setCarts(data.data);
+        setCoupons(data.data);
+
         setPagination(data.pagination);
       }
     } catch (error) {
-      console.log(error);
+      console.log('GET COUPON ERROR:', error);
     } finally {
       setLoading(false);
     }
@@ -61,39 +68,50 @@ export default function CartsPage() {
   const handlePageChange = (newPage) => {
     setPage(newPage);
 
-    getCarts(search, newPage);
+    getCoupons(search, newPage);
   };
 
   useEffect(() => {
-    getCarts();
+    getCoupons();
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('cartView', view);
+    localStorage.setItem('couponView', view);
   }, [view]);
 
   return (
     <div>
       <AdminPageHeader
-        title="Carts"
-        description="Manage customer shopping carts"
-        searchPlaceholder="Search carts..."
+        title="Coupons"
+
+        description="Manage discount coupons"
+
+        searchPlaceholder="Search coupons..."
+
         search={search}
+
         onChange={(value) => setSearch(value)}
-        onSearch={(value) => getCarts(value)}
-        addText={null}
+
+        onSearch={(value) => getCoupons(value)}
+
+        addText="Add Coupon"
+
+        onAdd={() => router.push('/dashboard/coupons/add')}
+
         view={view}
+
         setView={setView}
       />
 
       {view === 'grid' ? (
-        <AdminCartGrid carts={carts} loading={loading} />
+        <AdminCouponGrid coupons={coupons} loading={loading} />
       ) : (
-        <AdminCartTable carts={carts} loading={loading} />
+        <AdminCouponTable coupons={coupons} loading={loading} />
       )}
 
       <Pagination
         pagination={pagination}
+
         onPageChange={handlePageChange}
       />
     </div>

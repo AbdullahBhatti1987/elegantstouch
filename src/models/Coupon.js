@@ -4,10 +4,8 @@ const CouponSchema = new mongoose.Schema(
   {
     code: {
       type: String,
-      required: true,
       unique: true,
-      uppercase: true,
-      trim: true,
+      required: true,
     },
 
     discountType: {
@@ -16,23 +14,36 @@ const CouponSchema = new mongoose.Schema(
       required: true,
     },
 
-    // fixed = Rs 500
-    // percentage = 10%
     value: {
       type: Number,
       required: true,
     },
 
-    minOrderAmount: {
-      type: Number,
-      default: 0,
-    },
-
     maxDiscount: {
       type: Number,
       default: null,
-      // percentage coupon ki maximum limit
-      // Example: 20% but max Rs 1000
+    },
+
+    // Coupon kis cheez par apply hoga
+    applyType: {
+      type: String,
+      enum: ['all', 'products', 'categories'],
+      default: 'all',
+    },
+
+    productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+    },
+
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+    },
+
+    minOrderAmount: {
+      type: Number,
+      default: 0,
     },
 
     usageLimit: {
@@ -47,7 +58,6 @@ const CouponSchema = new mongoose.Schema(
 
     expiryDate: {
       type: Date,
-      required: true,
     },
 
     status: {
