@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import Cart from '@/models/Cart';
 import Product from '@/models/Product';
+import Category from '@/models/Category';
 
 // GET ALL CARTS
 export async function GET(req) {
@@ -95,7 +96,6 @@ export async function GET(req) {
   }
 }
 
-
 export async function POST(req) {
   try {
     await connectDB();
@@ -106,165 +106,130 @@ export async function POST(req) {
 
     const cartQuantity = Number(quantity);
 
-
     if (!guestId || !productId) {
       return NextResponse.json(
         {
-          success:false,
-          message:'GuestId and ProductId are required'
+          success: false,
+          message: 'GuestId and ProductId are required',
         },
         {
-          status:400
-        }
+          status: 400,
+        },
       );
     }
-
 
     const product = await Product.findById(productId);
 
-
-    if(!product){
+    if (!product) {
       return NextResponse.json(
         {
-          success:false,
-          message:'Product not found'
+          success: false,
+          message: 'Product not found',
         },
         {
-          status:404
-        }
+          status: 404,
+        },
       );
     }
 
-
-    if(!product.inStock || product.stock <= 0){
+    if (!product.inStock || product.stock <= 0) {
       return NextResponse.json(
         {
-          success:false,
-          message:'Product is out of stock'
+          success: false,
+          message: 'Product is out of stock',
         },
         {
-          status:400
-        }
+          status: 400,
+        },
       );
     }
 
-
-    if(product.stock < cartQuantity){
+    if (product.stock < cartQuantity) {
       return NextResponse.json(
         {
-          success:false,
-          message:`Only ${product.stock} items available`
+          success: false,
+          message: `Only ${product.stock} items available`,
         },
         {
-          status:400
-        }
+          status: 400,
+        },
       );
     }
-
-
 
     let cart = await Cart.findOne({
       guestId,
-      status:'active'
+      status: 'active',
     });
 
-
-
-    if(!cart){
-
+    if (!cart) {
       cart = await Cart.create({
         guestId,
 
-        items:[
+        items: [
           {
             productId,
-            quantity:cartQuantity
-          }
-        ]
+            quantity: cartQuantity,
+          },
+        ],
       });
-
-
-    }else{
-
-
+    } else {
       const existingItem = cart.items.find(
-        item=>String(item.productId)===String(productId)
+        (item) => String(item.productId) === String(productId),
       );
 
+      if (existingItem) {
+        const newQuantity = existingItem.quantity + cartQuantity;
 
-      if(existingItem){
-
-        const newQuantity =
-        existingItem.quantity + cartQuantity;
-
-
-        if(product.stock < newQuantity){
-
+        if (product.stock < newQuantity) {
           return NextResponse.json(
             {
-              success:false,
-              message:`Only ${product.stock} items available`
+              success: false,
+              message: `Only ${product.stock} items available`,
             },
             {
-              status:400
-            }
+              status: 400,
+            },
           );
-
         }
-
 
         existingItem.quantity = newQuantity;
 
         await cart.save();
 
-
         return NextResponse.json({
-          success:true,
-          message:'Cart quantity updated',
-          data:cart
+          success: true,
+          message: 'Cart quantity updated',
+          data: cart,
         });
-
-
       }
-
-
 
       cart.items.push({
         productId,
-        quantity:cartQuantity
+        quantity: cartQuantity,
       });
 
-
       await cart.save();
-
     }
 
-
-
     return NextResponse.json({
-      success:true,
-      message:'Product added to cart successfully',
-      data:cart
+      success: true,
+      message: 'Product added to cart successfully',
+      data: cart,
     });
-
-
-  } catch(error){
-
-    console.log("ADD CART ERROR:",error);
+  } catch (error) {
+    console.log('ADD CART ERROR:', error);
 
     return NextResponse.json(
       {
-        success:false,
-        message:error.message
+        success: false,
+        message: error.message,
       },
       {
-        status:500
-      }
+        status: 500,
+      },
     );
-
   }
 }
-
 
 // export async function POST(req) {
 //   try {

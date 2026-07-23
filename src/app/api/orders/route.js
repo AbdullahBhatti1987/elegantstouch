@@ -9,50 +9,155 @@ export async function POST(req) {
 
     const body = await req.json();
 
-    const order = await Order.create({
-      guestId: body.guestId,
+    const {
+      guestId,
+      items,
+      shippingAddress,
+      paymentMethod,
+      subtotal,
+      shipping,
+      discount,
+      total,
+      coupon,
+      saveInfo,
+    } = body;
 
-      items: body.items,
+    // Validation
 
-      shippingAddress: body.shippingAddress,
+    if (!guestId) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Guest ID required',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
 
-      paymentMethod: body.paymentMethod,
+    if (!items || items.length === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Cart is empty',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
 
-      subtotal: body.subtotal,
+    if (!shippingAddress) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Shipping address required',
+        },
+        {
+          status: 400,
+        },
+      );
+    }
 
-      shipping: body.shipping,
+    console.log('ORDER SHIPPING ADDRESS:', shippingAddress);
 
-      discount: body.discount || 0,
+    const orderItems = items.map((item) => ({
+      productId: item.productId._id || item.productId,
 
-      total: body.total,
+      name: item.productId.name,
 
-      coupon: body.coupon,
+      image: item.productId.images?.[0]?.thumbnail || '',
+
+      price: item.productId.salePrice || item.productId.price,
+
+      quantity: item.quantity,
+    }));
+ 
+
+    const {
+      firstName,
+      lastName,
+      email,
+      mobile,
+      address,
+      landmark,
+      city,
+      province,
+      postalCode,
+    } = shippingAddress;
+
+    console.log('ORDER OBJECT:', {
+      firstName,
+      lastName,
+      email,
+      mobile,
+      address,
+      landmark,
+      city,
+      province,
+      postalCode,
     });
 
-    // cart convert
+    const order = await Order.create({
+      guestId,
+
+      items: orderItems,
+
+      shippingAddress: {
+        firstName: firstName,
+        lastName: lastName,
+        email: email || '',
+        mobile: mobile,
+        address: address,
+        landmark: landmark,
+        city: city,
+        province: province,
+        postalCode: postalCode || '',
+      },
+
+      paymentMethod,
+
+      subtotal,
+
+      shipping,
+
+      discount: discount || 0,
+
+      coupon: coupon || null,
+
+      total,
+
+      saveInfo: saveInfo || false,
+    });
+
+    // Convert Cart
 
     await Cart.findOneAndUpdate(
       {
-        guestId: body.guestId,
+        guestId,
       },
-
       {
         status: 'converted',
       },
     );
 
-    return NextResponse.json({
-      success: true,
-
-      message: 'Order created',
-
-      data: order,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Order created successfully',
+        data: order,
+      },
+      {
+        status: 201,
+      },
+    );
   } catch (error) {
+    console.error('ORDER CREATE ERROR:', error);
+
     return NextResponse.json(
       {
         success: false,
-
         message: error.message,
       },
       {
