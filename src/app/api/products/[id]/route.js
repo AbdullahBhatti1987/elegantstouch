@@ -11,7 +11,7 @@ export async function GET(req, { params }) {
   try {
     const { id } = await params;
 
-    console.log('API PRODUCT ID ==> ', id);
+    // console.log('API PRODUCT ID ==> ', id);
 
     await connectDB();
 
