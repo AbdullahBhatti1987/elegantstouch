@@ -14,7 +14,6 @@ import ProductCardSkeleton from '@/components/products/ProductCardSkeleton';
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [cartItems, setCartItems] = useState([]);
   const [page, setPage] = useState(1);
   const [limit] = useState(12);
   const [pagination, setPagination] = useState({});
