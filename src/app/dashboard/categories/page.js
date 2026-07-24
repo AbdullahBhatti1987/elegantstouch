@@ -20,6 +20,11 @@ export default function CategoriesPage() {
 
     return 'grid';
   });
+
+    useEffect(() => {
+    localStorage.setItem('categoryView', view);
+  }, [view]);
+
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -99,9 +104,6 @@ export default function CategoriesPage() {
     getCounts();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('categoryView', view);
-  }, [view]);
 
   return (
     <div>

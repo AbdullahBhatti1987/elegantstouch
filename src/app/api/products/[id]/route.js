@@ -9,8 +9,7 @@ import { multipleFilesToCloudinary } from '@/lib/multipleFilesToCloudinary';
 // GET SINGLE PRODUCT
 export async function GET(req, { params }) {
   try {
-    // const { id } = await params;
-    const { id } = params;
+    const { id } = await params;
 
     console.log('API PRODUCT ID ==> ', id);
 
@@ -59,8 +58,7 @@ export async function PUT(req, { params }) {
   try {
     await connectDB();
 
-    // const { id } = await params;
-    const { id } = params;
+    const { id } = await params;
 
     const formData = await req.formData();
 
@@ -78,9 +76,7 @@ export async function PUT(req, { params }) {
       );
     }
 
-    // ==========================
-    // Existing Images From Client
-    // ==========================
+
     // ==========================
     // Existing Images From Client
     // ==========================
@@ -89,7 +85,7 @@ export async function PUT(req, { params }) {
       formData.get('existingImages') || '[]',
     );
 
-    console.log('existing', existingImages);
+    // console.log('existing', existingImages);
 
     // ==========================
     // Delete Removed Images
@@ -325,8 +321,7 @@ export async function DELETE(req, { params }) {
   try {
     await connectDB();
 
-    // const { id } = await params;
-    const { id } = params;
+    const { id } = await params;
 
     const product = await Product.findById(id);
 

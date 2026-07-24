@@ -9,8 +9,7 @@ export async function GET(req, { params }) {
   try {
     await connectDB();
 
-    // const { id } = await params;
-    const { id } = params;
+    const { id } = await params;
 
     console.log('Category ID:', id);
 
@@ -56,8 +55,7 @@ export async function DELETE(request, { params }) {
   try {
     await connectDB();
 
-    // const { id } = await params;
-    const { id } = params;
+    const { id } = await params;
 
     const category = await Category.findById(id);
 

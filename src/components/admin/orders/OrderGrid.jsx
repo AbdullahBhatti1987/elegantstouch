@@ -4,7 +4,6 @@ import OrderCard from './OrderCard';
 
 export default function OrderGrid({
   orders,
-  onView,
   onEdit,
   onDelete,
 }) {
@@ -14,7 +13,6 @@ export default function OrderGrid({
         <OrderCard
           key={order._id}
           order={order}
-          onView={onView}
           onEdit={onEdit}
           onDelete={onDelete}
         />
