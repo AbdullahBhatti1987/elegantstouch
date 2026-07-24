@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import Input from '@/components/admin/common/form/Input';
 import CustomDropdown from '../common/form/CustomDropdown';
+import AdminPageTitle from '../common/header/AdminPageTitle';
 
 const defaultForm = {
   code: '',
@@ -36,8 +37,6 @@ export default function CouponForm({
   const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState(defaultForm);
 
-
-
   const getCategories = async () => {
     setLoading(true);
     try {
@@ -54,8 +53,6 @@ export default function CouponForm({
   useEffect(() => {
     getCategories();
   }, []);
-
- 
 
   const handleCategoryChange = async (e) => {
     const categoryId = e.target.value;
@@ -175,35 +172,18 @@ export default function CouponForm({
 
   return (
     <div className="mx-auto">
-      <div className="my-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">
-            {initialData ? 'Edit Coupon' : 'Add Coupon'}
-          </h1>
-
-          <p className="mt-1 text-sm text-gray-500">
-            Manage discount coupons
-          </p>
-        </div>
-
-        <button
-          type="button"
-
-          onClick={() => router.push('/dashboard/coupons')}
-
-          className="flex items-center gap-2 rounded-lg border bg-white px-4 py-2"
-        >
-          <ArrowLeft size={18} />
-          Back
-        </button>
-      </div>
+      <AdminPageTitle
+        title={initialData ? 'Edit Coupon' : 'Add Coupon'}
+        description="Manage discount coupons"
+        backUrl="/dashboard/coupons"
+      />
 
       <form
         onSubmit={handleSubmit}
 
         className="space-y-8 rounded-2xl border bg-white p-8 dark:bg-gray-900"
       >
-         <section className="rounded-xl border p-6">
+        <section className="rounded-xl border p-6">
           <h2 className="mb-5 text-lg font-semibold">
             Coupon Information
           </h2>
@@ -215,7 +195,7 @@ export default function CouponForm({
               value={formData.code}
               onChange={handleChange}
               loading={loading}
-              className={"uppercase"}
+              className={'uppercase'}
             />
 
             <CustomDropdown
@@ -260,7 +240,6 @@ export default function CouponForm({
               value={formData.minOrderAmount}
               onChange={handleChange}
               loading={loading}
-              
             />
 
             <Input
@@ -303,7 +282,6 @@ export default function CouponForm({
                 }));
 
                 setProducts([]);
-              
               }}
               options={[
                 {
@@ -329,8 +307,6 @@ export default function CouponForm({
                 value={formData.categoryIds[0] || ''}
                 onChange={(e) => {
                   handleCategoryChange(e);
-
-               
                 }}
                 options={categories.map((category) => ({
                   value: category._id,
@@ -405,7 +381,7 @@ export default function CouponForm({
           </div>
         </section>
 
-        <div className="flex justify-end ">
+        <div className="flex justify-end">
           <button
             type="submit"
 

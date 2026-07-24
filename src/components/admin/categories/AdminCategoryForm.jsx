@@ -11,6 +11,7 @@ import Textarea from '@/components/admin/common/form/Textarea';
 import Select from '@/components/admin/common/form/Select';
 import Checkbox from '@/components/admin/common/form/Checkbox';
 import FileUpload from '@/components/admin/common/form/FileUpload';
+import AdminPageTitle from '../common/header/AdminPageTitle';
 
 const defaultForm = {
   name: '',
@@ -195,27 +196,13 @@ export default function CategoryForm({
     <div className="mx-auto">
       {/* Header */}
 
-      <div className="my-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">
-            {initialData ? 'Edit Category' : 'Add Category'}
-          </h1>
+   
 
-          <p className="mt-1 text-sm text-gray-500">
-            Manage category information
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => router.push('/dashboard/categories')}
-          className="flex items-center gap-2 rounded-lg border bg-white px-4 py-2"
-        >
-          <ArrowLeft size={18} />
-          Back
-        </button>
-      </div>
-
+      <AdminPageTitle
+        title={initialData ? 'Edit Category' : 'Add Category'}
+        description=" Manage category information"
+        backUrl="/dashboard/categories"
+      />
       <form
         onSubmit={handleSubmit}
         className="space-y-8 rounded-2xl border bg-white p-8 dark:bg-gray-900"
@@ -369,7 +356,7 @@ export default function CategoryForm({
 
         {/* SUBMIT */}
 
-        <div className="flex justify-end ">
+        <div className="flex justify-end">
           <button
             type="submit"
             disabled={loading}

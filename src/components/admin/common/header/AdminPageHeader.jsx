@@ -122,7 +122,7 @@ export default function AdminPageHeader({
           {addText && onAdd && (
             <button
               onClick={onAdd}
-              className="flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-white"
+              className="flex items-center gap-2 cursor-pointer rounded-lg bg-black px-4 py-2 text-white"
             >
               <Plus size={18} />
 

@@ -76,7 +76,7 @@ export default function SearchInput({
         type="button"
         onClick={() => onSearch?.(value)}
         disabled={disabled}
-        className="absolute top-1/2 right-2 -translate-y-1/2 rounded-md p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-black disabled:opacity-50 dark:hover:bg-gray-800"
+        className="absolute top-1/2 right-2 cursor-pointer -translate-y-1/2 rounded-md p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-black disabled:opacity-50 dark:hover:bg-gray-800"
       >
         <Search size={18} />
       </button>

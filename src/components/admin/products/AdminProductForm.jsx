@@ -11,6 +11,7 @@ import Textarea from '@/components/admin/common/form/Textarea';
 import Checkbox from '@/components/admin/common/form/Checkbox';
 import MultiImageUpload from '@/components/admin/common/form/MultiImageUpload';
 import BackButton from '../common/header/BackButton';
+import AdminPageTitle from '../common/header/AdminPageTitle';
 
 const defaultForm = {
   sku: '',
@@ -260,19 +261,12 @@ export default function AdminProductForm({
     <div className="mx-auto">
       {/* HEADER */}
 
-      <div className="my-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">
-            {initialData ? 'Edit Product' : 'Add Product'}
-          </h1>
+      <AdminPageTitle
+        title= {initialData ? 'Edit Product' : 'Add Product'}
+        description=" Manage product information"
+        backUrl="/dashboard/products"
+      />
 
-          <p className="mt-1 text-sm text-gray-500">
-            Manage product information
-          </p>
-        </div>
-
-         <BackButton onClick={() => router.back()} />
-      </div>
 
       <form
         onSubmit={handleSubmit}
@@ -492,7 +486,7 @@ export default function AdminProductForm({
           />
         </section>
 
-        <div className="flex justify-end ">
+        <div className="flex justify-end">
           <button
             disabled={loading}
             className="flex items-center gap-2 rounded-lg bg-black px-8 py-3 text-white"
