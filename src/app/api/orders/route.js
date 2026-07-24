@@ -4,6 +4,38 @@ import Order from '@/models/Order';
 import Cart from '@/models/Cart';
 import { generateOrderNumber } from '@/lib/generateOrderNumber';
 
+export async function GET() {
+  try {
+    await connectDB();
+
+    const orders = await Order.find().sort({
+      createdAt: -1,
+    });
+
+    return NextResponse.json(
+      {
+        success: true,
+        orders,
+      },
+      {
+        status: 200,
+      },
+    );
+  } catch (error) {
+    console.error('GET ORDERS ERROR:', error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message,
+      },
+      {
+        status: 500,
+      },
+    );
+  }
+}
+
 export async function POST(req) {
   try {
     await connectDB();

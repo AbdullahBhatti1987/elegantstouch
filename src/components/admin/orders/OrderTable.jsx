@@ -32,24 +32,28 @@ export default function OrderTable({
         <tbody>
           {orders.map((order) => (
             <tr
-              key={order.id}
+              key={order._id}
               className="h-14 border-b hover:bg-gray-50"
             >
-              <td className="p-4 font-medium">{order.id}</td>
-
-              <td className="p-4">{order.customer}</td>
-
-              <td className="p-4">{order.products.length}</td>
-
-              <td className="p-4">
-                {order.total} {order.currency}
+              <td className="p-4 font-medium">
+                #{order.orderNumber || order._id}
               </td>
 
-              <td className="p-4">{order.payment}</td>
+              <td className="p-4">
+                {order.customer?.name || 'Guest'}
+              </td>
+
+              <td className="p-4">{order.items?.length || 0}</td>
+
+              <td className="p-4">
+                {order.totalAmount} {order.currency}
+              </td>
+
+              <td className="p-4">{order.paymentMethod}</td>
 
               <td className="p-4">
                 <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs">
-                  {order.status}
+                  {order.orderStatus}
                 </span>
               </td>
 
@@ -70,7 +74,7 @@ export default function OrderTable({
                   </button>
 
                   <button
-                    onClick={() => onDelete(order.id)}
+                    onClick={() => onDelete(order._id)}
                     className="rounded p-2 text-red-600 hover:bg-red-100"
                   >
                     <Trash2 size={17} />

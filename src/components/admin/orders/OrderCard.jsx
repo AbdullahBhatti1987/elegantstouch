@@ -11,28 +11,30 @@ export default function OrderCard({
   return (
     <div className="rounded-xl border bg-white p-4 dark:bg-gray-900">
       <div className="flex justify-between">
-        <h3 className="font-semibold">{order.id}</h3>
+        <h3 className="font-semibold">
+          #{order.orderNumber || order._id}
+        </h3>
 
         <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs">
-          {order.status}
+          {order.orderStatus}
         </span>
       </div>
 
       <div className="mt-3 text-sm">
         <p>
           Customer:
-          <b className="ml-1">{order.customer}</b>
+          <b className="ml-1">{order.customer?.name || 'Guest'}</b>
         </p>
 
         <p>
           Products:
-          <b className="ml-1">{order.products.length}</b>
+          <b className="ml-1">{order.items?.length || 0}</b>
         </p>
 
         <p>
           Total:
           <b className="ml-1">
-            {order.total} {order.currency}
+            {order.totalAmount} {order.currency}
           </b>
         </p>
       </div>
@@ -54,7 +56,7 @@ export default function OrderCard({
         </button>
 
         <button
-          onClick={() => onDelete(order.id)}
+          onClick={() => onDelete(order._id)}
           className="rounded-lg border px-3 text-red-600"
         >
           <Trash2 size={16} />
