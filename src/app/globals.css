@@ -81,8 +81,6 @@ body {
   }
 } */
 
-
-
 .animate-loading {
   animation: loading 1.2s linear infinite;
 }
@@ -121,7 +119,6 @@ body {
   animation: spin 2s linear infinite alternate-reverse;
 }
 
-
 @keyframes loading {
   0% {
     transform: translateX(-100%);
@@ -138,4 +135,17 @@ body {
 
 .animate-loading {
   animation: loading 1.2s infinite ease-in-out;
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 1s linear infinite;
 }

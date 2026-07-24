@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { generateGuestId } from '@/lib/generateGuestId';
+import { useLoading } from '@/context/LoadingContext';
 
 const CartContext = createContext();
 
@@ -20,8 +21,8 @@ export function CartProvider({ children }) {
   const [cartCount, setCartCount] = useState(0);
   const [coupon, setCoupon] = useState(null);
   const [discount, setDiscount] = useState(0);
-  const [loading, setLoading] = useState(true);
   const [initialLoading, setInitialLoading] = useState(true);
+  const { loading , startLoading, stopLoading} = useLoading();
 
   // Get Guest Id
   useEffect(() => {
@@ -146,6 +147,8 @@ export function CartProvider({ children }) {
 
   // Remove From Cart
   const removeFromCart = async (productId) => {
+
+    startLoading();
     try {
       const updatedItems = cart.items.filter(
         (item) => item.productId._id !== productId,
@@ -179,6 +182,8 @@ export function CartProvider({ children }) {
       return {
         success: false,
       };
+    } finally{
+      stopLoading()
     }
   };
 

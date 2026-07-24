@@ -1,15 +1,17 @@
 'use client';
 
-import { useCart } from '@/context/CartContext';
 
 import CartList from '@/components/cart/CartList';
 import CartSummary from '@/components/cart/CartSummary';
 import EmptyCart from '@/components/cart/EmptyCart';
 import CartSkeleton from '@/components/cart/CartSkeleton';
+import { useCart } from '@/context/CartContext';
+
 
 export default function CartPage() {
   const { cart, initialLoading, updateCartQuantity, removeFromCart } =
     useCart();
+
 
   // Show Skeleton While Fetching Cart
   if (initialLoading) {
