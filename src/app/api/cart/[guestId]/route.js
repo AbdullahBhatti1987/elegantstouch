@@ -13,6 +13,7 @@ export async function GET(req, { params }) {
 
     const cart = await Cart.findOne({
       guestId,
+      status: 'active',
     }).populate({
       path: 'items.productId',
       select: `

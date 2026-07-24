@@ -66,12 +66,12 @@ export function CartProvider({ children }) {
         if (firstLoad) {
           setInitialLoading(true);
         }
-        // console.log('firstLoad==>', firstLoad);
 
         const response = await axios.get(`/api/cart?guestId=${id}`);
-        // console.log('response==>', response);
+        console.log('CART API RESPONSE:', response.data);
         if (response.data.success) {
-          setCart(response.data.data);
+          setCart(response.data.data[0] || null);
+          
         }
       } catch (error) {
         console.error('FETCH CART ERROR:', error);

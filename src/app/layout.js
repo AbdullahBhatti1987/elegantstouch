@@ -7,6 +7,8 @@ import { connectDB } from '@/lib/mongodb';
 import Setting from '@/models/Setting';
 import { WishlistProvider } from '@/context/WishlistContext';
 import { CartProvider } from '@/context/CartContext';
+import { LoadingProvider } from '@/context/LoadingContext';
+import SpinnerLoader from '@/components/layout/SpinnerLoader';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -203,18 +205,21 @@ export default async function RootLayout({ children }) {
         className="text-textcolor min-h-screen"
         cz-shortcut-listen="true"
       >
-        <CartProvider>
-          <WishlistProvider>
-            <MainLayout>{children}</MainLayout>
-            <Toaster
-              position="top-right"
-              reverseOrder={false}
-              containerStyle={{
-                top: '80px',
-              }}
-            />
-          </WishlistProvider>
-        </CartProvider>
+        <LoadingProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <SpinnerLoader />
+              <MainLayout>{children}</MainLayout>
+              <Toaster
+                position="top-right"
+                reverseOrder={false}
+                containerStyle={{
+                  top: '80px',
+                }}
+              />
+            </WishlistProvider>
+          </CartProvider>
+        </LoadingProvider>
       </body>
     </html>
   );

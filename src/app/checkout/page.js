@@ -296,37 +296,51 @@ export default function CheckoutPage() {
 
                 {payment === 'bank' && (
                   <div className="mt-5 rounded-lg bg-gray-50 p-4 text-sm">
-                    <h4 className="mb-3 font-semibold">
-                      Bank Transfer Details
-                    </h4>
+                    <div>
+                      <h4 className="mb-3 font-semibold">
+                        Bank Transfer Details
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2">
+                        <div>
+                          <p>
+                            Account Title:
+                            <span className="ml-2 font-medium">
+                              ABDULLAH BHATTI
+                            </span>
+                          </p>
 
-                    <p>
-                      Account Title:
-                      <span className="ml-2 font-medium">
-                        YOUR ACCOUNT TITLE
-                      </span>
-                    </p>
+                          <p>
+                            Account Number:
+                            <span className="ml-2 font-medium">
+                              03122255770
+                            </span>
+                          </p>
 
-                    <p>
-                      Account Number:
-                      <span className="ml-2 font-medium">
-                        YOUR ACCOUNT NUMBER
-                      </span>
-                    </p>
+                          <p>
+                            IBAN:
+                            <span className="ml-2 font-medium">
+                              PK22TMFB0000000040581443
+                            </span>
+                          </p>
 
-                    <p>
-                      IBAN:
-                      <span className="ml-2 font-medium">
-                        YOUR IBAN
-                      </span>
-                    </p>
-
-                    <p>
-                      Bank:
-                      <span className="ml-2 font-medium">
-                        YOUR BANK NAME
-                      </span>
-                    </p>
+                          <p>
+                            Bank:
+                            <span className="ml-2 font-medium">
+                              TELENOR FINANCE BANK
+                            </span>
+                          </p>
+                        </div>
+                        <div className="">
+                          <Image
+                            src="/images/qrcode.jpeg"
+                            alt="QR Code"
+                            width={300}
+                            height={300}
+                            className="h-40 w-auto"
+                          />
+                        </div>
+                      </div>
+                    </div>
 
                     <hr className="my-4" />
 
@@ -335,14 +349,14 @@ export default function CheckoutPage() {
                     <p>
                       Account Name:
                       <span className="ml-2 font-medium">
-                        YOUR NAME
+                        ABDULLAH BHATTI
                       </span>
                     </p>
 
                     <p>
                       Mobile Number:
                       <span className="ml-2 font-medium">
-                        YOUR NUMBER
+                        03122255770
                       </span>
                     </p>
 
@@ -413,13 +427,14 @@ export default function CheckoutPage() {
                     src={item.productId?.images?.[0]?.thumbnail}
                     alt={item.productId.name}
                     fill
+
                     sizes="(max-width: 640px) 64px, (max-width: 768px) 80px, 96px"
                     className="object-cover"
                   />
                 </div>
 
                 {/* Product Info */}
-                <div className="flex-1 space-y-2">
+                <div className="flex flex-1 flex-col justify-between">
                   <div className="flex justify-between gap-4">
                     <p className="text-sm text-gray-500">Product</p>
 
@@ -447,11 +462,11 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="flex justify-between">
-                    <p className="text-sm text-gray-500">
+                    <p className="-mt-1 text-sm text-gray-500">
                       Original Price
                     </p>
 
-                    <p className="text-sm text-red-500 line-through">
+                    <p className="-mt-1 text-sm text-red-500 line-through">
                       Rs. {item.productId.price}
                     </p>
                   </div>

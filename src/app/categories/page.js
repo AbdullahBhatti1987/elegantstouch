@@ -5,15 +5,15 @@ import axios from 'axios';
 
 import CategoryCard from '@/components/category/CategoryCard';
 import CategoryCardSkeleton from '@/components/category/CategoryCardSkeleton';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
-
-  const [loading, setLoading] = useState(true);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const fetchCategories = useCallback(async () => {
     try {
-      setLoading(true);
+      startLoading();
 
       const { data } = await axios.get('/api/categories');
 
@@ -23,16 +23,16 @@ export default function CategoriesPage() {
     } catch (error) {
       console.error('Categories Fetch Error:', error);
     } finally {
-      setLoading(false);
+      stopLoading();
     }
-  }, []);
+}, [startLoading, stopLoading]);
 
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
 
   return (
-    <section className="w-full max-w-7xl m-auto bg-white px-6 py-4 md:px-12 dark:bg-black">
+    <section className="m-auto w-full max-w-7xl bg-white px-6 py-4 md:px-12 dark:bg-black">
       {/* Header */}
 
       <div className="mb-4">
@@ -67,15 +67,11 @@ export default function CategoriesPage() {
               </div>
             ))}
           </>
-        ) : categories.length > 0 ? (
+        ) : categories.length > 0 && (
           categories.map((category) => (
             <CategoryCard key={category._id} category={category} />
           ))
-        ) : (
-          <p className="col-span-full text-center text-gray-500">
-            No categories found
-          </p>
-        )}
+        ) }
       </div>
     </section>
   );

@@ -29,6 +29,7 @@ export default function CartItem({
             src={item.image}
             alt={item.name}
             fill
+            loading='eager'
             sizes="(max-width:640px) 80px, 112px"
             className="object-cover"
           />
