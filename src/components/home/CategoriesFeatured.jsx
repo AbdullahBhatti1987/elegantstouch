@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 
-import AdminCategorySkeleton from '../admin/common/skeleton/AdminCategorySkeleton';
 import FeatureCard from '../category/FeaturedCard';
 import FeatureCardSkeleton from '../category/FeatureCardSkeleton';
 
@@ -56,7 +55,7 @@ export default function CategoriesFeatured() {
             <FeatureCardSkeleton key={index} />
           ))
         ) : categories.length > 0 ? (
-          categories.map((category) => (
+          categories.slice(0, 4).map((category) => (
             <FeatureCard key={category._id} category={category} />
           ))
         ) : (

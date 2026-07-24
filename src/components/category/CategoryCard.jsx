@@ -20,6 +20,7 @@ export default function CategoryCard({ category }) {
           alt={name}
           fill
           sizes="300px"
+          loading="eager"
           className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
       </div>
