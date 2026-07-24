@@ -83,7 +83,7 @@ export default function AdminCartCard({ cart }) {
           <Banknote size={12} className="text-gray-500" />
 
           <p className="mt-1 truncate text-xs font-bold">
-            {cart.totalAmount || 0}
+            {cart.total || 0}
           </p>
 
           <span className="text-[10px] text-gray-500">PKR</span>

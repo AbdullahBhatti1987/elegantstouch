@@ -12,6 +12,7 @@ import Select from '@/components/admin/common/form/Select';
 import Checkbox from '@/components/admin/common/form/Checkbox';
 import FileUpload from '@/components/admin/common/form/FileUpload';
 import AdminPageTitle from '../common/header/AdminPageTitle';
+import { useLoading } from '@/context/LoadingContext';
 
 const defaultForm = {
   name: '',
@@ -30,10 +31,9 @@ export default function CategoryForm({
   initialData = null,
   onSubmit,
   submitText = 'Save Category',
-  loading,
-  setLoading,
 }) {
   const router = useRouter();
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const [formData, setFormData] = useState(defaultForm);
   const [uploadImage, setUploadImage] = useState(null);
@@ -148,7 +148,7 @@ export default function CategoryForm({
     }
 
     try {
-      setLoading(true);
+      startLoading();
       setSubmitting(true);
 
       const data = new FormData();
@@ -188,15 +188,13 @@ export default function CategoryForm({
       );
     } finally {
       setSubmitting(false);
-      setLoading(false);
+      stopLoading();
     }
   };
 
   return (
     <div className="mx-auto">
       {/* Header */}
-
-   
 
       <AdminPageTitle
         title={initialData ? 'Edit Category' : 'Add Category'}

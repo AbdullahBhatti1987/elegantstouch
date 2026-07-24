@@ -10,10 +10,10 @@ import Pagination from '@/components/admin/common/Pagination';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import ProductCardSkeleton from '@/components/products/ProductCardSkeleton';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [limit] = useState(12);
   const [pagination, setPagination] = useState({});
@@ -21,10 +21,12 @@ export default function ProductsPage() {
   const { addToCart, isInCart } = useCart();
   const { addToWishlist, isInWishlist, removeFromWishlist } =
     useWishlist();
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const fetchProducts = useCallback(
     async (currentPage = 1) => {
       try {
-        setLoading(true);
+        startLoading();
 
         const { data } = await axios.get(
           `/api/products?page=${currentPage}&limit=${limit}`,
@@ -38,7 +40,7 @@ export default function ProductsPage() {
       } catch (error) {
         console.error('Products Fetch Error:', error);
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     },
     [limit],
@@ -57,12 +59,12 @@ export default function ProductsPage() {
   };
 
   return (
-    <section className="w-full max-w-7xl m-auto bg-white px-6 py-4 md:px-12 dark:bg-black">
+    <section className="m-auto w-full max-w-7xl bg-white px-6 py-4 md:px-12 dark:bg-black">
       {/* Header */}
 
       <div className="mb-4">
         <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
-         Products
+          Products
         </h2>
 
         <p className="mt-2 text-gray-500">

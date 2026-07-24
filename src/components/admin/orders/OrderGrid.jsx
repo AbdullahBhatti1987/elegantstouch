@@ -6,6 +6,7 @@ export default function OrderGrid({
   orders,
   onEdit,
   onDelete,
+  onView,
 }) {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
@@ -15,6 +16,7 @@ export default function OrderGrid({
           order={order}
           onEdit={onEdit}
           onDelete={onDelete}
+          onView={onView}
         />
       ))}
     </div>

@@ -30,7 +30,6 @@ export default function CouponForm({
   onSubmit,
   submitText = 'Save Coupon',
   loading,
-  setLoading,
 }) {
   const router = useRouter();
   const [categories, setCategories] = useState([]);
@@ -38,7 +37,7 @@ export default function CouponForm({
   const [formData, setFormData] = useState(defaultForm);
 
   const getCategories = async () => {
-    setLoading(true);
+    startLoading();
     try {
       const { data } = await axios.get('/api/categories/dropdown');
 
@@ -48,7 +47,7 @@ export default function CouponForm({
     } catch (error) {
       console.log(error);
     }
-    setLoading(false);
+    stopLoading();
   };
   useEffect(() => {
     getCategories();
@@ -148,7 +147,7 @@ export default function CouponForm({
     }
 
     try {
-      setLoading(true);
+      startLoading();
 
       const data = new FormData();
 
@@ -166,7 +165,7 @@ export default function CouponForm({
         error.response?.data?.message || 'Something went wrong',
       );
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 

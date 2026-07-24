@@ -5,15 +5,16 @@ import axios from 'axios';
 
 import FeatureCard from '../category/FeaturedCard';
 import FeatureCardSkeleton from '../category/FeatureCardSkeleton';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function CategoriesFeatured() {
   const [categories, setCategories] = useState([]);
 
-  const [loading, setLoading] = useState(true);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const fetchCategories = useCallback(async () => {
     try {
-      setLoading(true);
+      startLoading();
 
       const { data } = await axios.get(
         '/api/categories?featured=true',
@@ -25,7 +26,7 @@ export default function CategoriesFeatured() {
     } catch (error) {
       console.error('Categories Fetch Error:', error);
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   }, []);
 

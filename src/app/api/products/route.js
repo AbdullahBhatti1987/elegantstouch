@@ -85,50 +85,6 @@ export async function GET(request) {
       ];
     }
 
-    // const searchedProducts = await Product.aggregate([
-    //   {
-    //     $lookup: {
-    //       from: 'categories',
-    //       localField: 'categoryId',
-    //       foreignField: '_id',
-    //       as: 'category',
-    //     },
-    //   },
-    //   {
-    //     $unwind: '$category',
-    //   },
-    //   {
-    //     $match: {
-    //       $or: [
-    //         {
-    //           name: {
-    //             $regex: search,
-    //             $options: 'i',
-    //           },
-    //         },
-    //         {
-    //           slug: {
-    //             $regex: search,
-    //             $options: 'i',
-    //           },
-    //         },
-    //         {
-    //           brand: {
-    //             $regex: search,
-    //             $options: 'i',
-    //           },
-    //         },
-    //         {
-    //           'category.name': {
-    //             $regex: search,
-    //             $options: 'i',
-    //           },
-    //         },
-    //       ],
-    //     },
-    //   },
-    // ]);
-
     // Category Filter
 
     if (categoryId) {
@@ -141,8 +97,7 @@ export async function GET(request) {
           slug: categoryId,
         });
       }
-      // console.log("category==>", category)
-      // console.log("categorySlug==>", categorySlug)
+
       if (!category) {
         return NextResponse.json(
           {

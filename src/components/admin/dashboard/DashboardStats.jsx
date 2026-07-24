@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import DashboardCard from './DashboardCard';
 import { dashboardStats } from '@/content/data';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function DashboardStats() {
 
@@ -16,7 +17,7 @@ export default function DashboardStats() {
     users: 0,
   });
 
-  const [loading, setLoading] = useState(true);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const called = useRef(false);
 
@@ -35,7 +36,7 @@ export default function DashboardStats() {
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        stopLoading();
       }
     }
 

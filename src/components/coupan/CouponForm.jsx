@@ -10,7 +10,7 @@ export default function CouponForm({
   setCoupon,
 }) {
   const [code, setCode] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const handleApply = async () => {
     if (!code.trim()) {
@@ -19,7 +19,7 @@ export default function CouponForm({
     }
 
     try {
-      setLoading(true);
+      startLoading();
 
       const res = await axios.post('/api/coupons/apply', {
         code,
@@ -39,7 +39,7 @@ export default function CouponForm({
       setDiscount(0);
       setCoupon(null);
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 

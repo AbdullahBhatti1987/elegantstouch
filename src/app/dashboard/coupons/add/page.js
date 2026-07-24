@@ -5,16 +5,16 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import CouponForm from '@/components/admin/coupons/CouponForm';
-
+import { useLoading } from '@/context/LoadingContext';
 
 export default function AddCouponPage() {
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const handleCreate = async (formData) => {
     try {
-      setLoading(true);
+      startLoading();
 
       const { data } = await axios.post('/api/coupons', formData);
 
@@ -34,7 +34,7 @@ export default function AddCouponPage() {
           'Something went wrong',
       );
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 
@@ -44,7 +44,6 @@ export default function AddCouponPage() {
         onSubmit={handleCreate}
         submitText="Save Coupon"
         loading={loading}
-        setLoading={setLoading}
       />
     </div>
   );

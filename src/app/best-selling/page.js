@@ -110,7 +110,7 @@ import React from 'react'
 function page() {
   return (
     <div>
-      
+      <h1>Best Selling Page</h1>
     </div>
   )
 }

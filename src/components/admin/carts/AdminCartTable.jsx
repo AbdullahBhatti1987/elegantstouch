@@ -109,7 +109,7 @@ export default function AdminCartTable({ carts, loading }) {
                 {/* AMOUNT */}
 
                 <td className="px-2 font-semibold md:px-4">
-                  PKR {cart.totalAmount || 0}
+                  PKR {cart.total || 0}
                 </td>
 
                 {/* CART AGE */}

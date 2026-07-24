@@ -5,7 +5,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 export default function SettingsPage() {
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const [exists, setExists] = useState(false);
 
@@ -65,7 +65,7 @@ export default function SettingsPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setLoading(true);
+    startLoading();
 
     try {
       let res;
@@ -86,7 +86,7 @@ export default function SettingsPage() {
         error.response?.data?.message || 'Something went wrong',
       );
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 

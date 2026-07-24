@@ -56,7 +56,6 @@ export default function AdminProductForm({
   onSubmit,
   submitText = 'Save Product',
   loading,
-  setLoading,
 }) {
   const router = useRouter();
 
@@ -219,7 +218,7 @@ export default function AdminProductForm({
     }
 
     try {
-      setLoading(true);
+      startLoading();
       setSubmitting(true);
 
       const data = new FormData();
@@ -253,7 +252,7 @@ export default function AdminProductForm({
       toast.error('Something went wrong');
     } finally {
       setSubmitting(false);
-      setLoading(false);
+      stopLoading();
     }
   };
 

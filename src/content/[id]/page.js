@@ -16,7 +16,7 @@ export default function CategoryPage() {
   const [products, setProducts] = useState([]);
   const [sort, setSort] = useState('default');
   const [priceRange, setPriceRange] = useState([0, 999999]);
-  const [loading, setLoading] = useState(true);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const fetchProducts = async () => {
     try {
@@ -31,7 +31,7 @@ export default function CategoryPage() {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 

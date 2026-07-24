@@ -8,6 +8,7 @@ import AdminCartGrid from '@/components/admin/carts/AdminCartGrid';
 import AdminCartTable from '@/components/admin/carts/AdminCartTable';
 import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
 import Pagination from '@/components/admin/common/Pagination';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function CartsPage() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function CartsPage() {
     return 'grid';
   });
 
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(8);
@@ -35,7 +36,7 @@ export default function CartsPage() {
 
   // GET CARTS
   const getCarts = async (keyword = '', currentPage = 1) => {
-    setLoading(true);
+    startLoading();
 
     try {
       const { data } = await axios.get(
@@ -54,7 +55,7 @@ export default function CartsPage() {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 

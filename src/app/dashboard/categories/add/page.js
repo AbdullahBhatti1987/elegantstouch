@@ -6,15 +6,16 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 
 import CategoryForm from '@/components/admin/categories/AdminCategoryForm';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function AddCategoryPage() {
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const handleCreate = async (formData) => {
     try {
-      setLoading(true);
+      startLoading();
 
       const response = await axios.post('/api/categories', formData, {
         headers: {
@@ -38,7 +39,7 @@ export default function AddCategoryPage() {
           'Something went wrong',
       );
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 
@@ -47,8 +48,6 @@ export default function AddCategoryPage() {
       <CategoryForm
         onSubmit={handleCreate}
         submitText="Save Category"
-        loading={loading}
-        setLoading={setLoading}
       />
     </div>
   );

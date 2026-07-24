@@ -97,14 +97,13 @@ export async function POST(req) {
 
     const orderItems = items.map((item) => ({
       productId: item.productId._id || item.productId,
-
       name: item.productId.name,
-
       image: item.productId.images?.[0]?.thumbnail || '',
-
       price: item.productId.salePrice || item.productId.price,
-
       quantity: item.quantity,
+      itemStatus: 'pending',
+      returnReason: '',
+
     }));
 
     const {

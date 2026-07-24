@@ -9,6 +9,7 @@ import ConfirmModal from '@/components/admin/common/ConfirmModal';
 import BackButton from '@/components/admin/common/header/BackButton';
 import CategoryDetailSkeleton from '@/components/admin/common/skeleton/CategoryDetailSkeleton';
 import { Info } from '@/components/admin/common/form/Info';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function CategoryDetailPage() {
   const params = useParams();
@@ -17,13 +18,13 @@ export default function CategoryDetailPage() {
   const router = useRouter();
 
   const [category, setCategory] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     async function getCategory() {
-      setLoading(true);
+      startLoading();
       try {
         const { data } = await axios.get(`/api/categories/${id}`);
 
@@ -35,7 +36,7 @@ export default function CategoryDetailPage() {
       } catch (error) {
         console.log(error);
       } finally {
-          setLoading(false);
+          stopLoading();
       }
     }
 
@@ -54,7 +55,7 @@ export default function CategoryDetailPage() {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      stopLoading();
 
       setShowDeleteModal(false);
     }

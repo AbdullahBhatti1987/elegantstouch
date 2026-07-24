@@ -12,7 +12,7 @@ export default function EditProductPage() {
   const { id } = useParams();
   const router = useRouter();
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
     getProduct();
@@ -30,7 +30,7 @@ export default function EditProductPage() {
 
       toast.error('Failed to load product');
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 
@@ -68,7 +68,6 @@ export default function EditProductPage() {
       onSubmit={handleUpdate}
       submitText="Update Product"
       loading={loading}
-      setLoading={setLoading}
     />
   );
 }

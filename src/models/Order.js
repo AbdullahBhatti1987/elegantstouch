@@ -14,6 +14,24 @@ const OrderItemSchema = new mongoose.Schema({
   price: Number,
 
   quantity: Number,
+
+  itemStatus: {
+    type: String,
+    enum: [
+      'pending',
+      'confirmed',
+      'shipped',
+      'delivered',
+      'cancelled',
+      'returned',
+    ],
+    default: 'pending',
+  },
+
+  returnReason: {
+    type: String,
+    default: '',
+  },
 });
 
 const AddressSchema = new mongoose.Schema({

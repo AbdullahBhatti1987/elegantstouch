@@ -3,10 +3,10 @@
 import { useState } from 'react';
 
 export default function EasypaisaCheckout() {
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const handlePayment = async () => {
-    setLoading(true);
+    startLoading();
     try {
       const response = await fetch('/api/easypaisa/initiate', {
         method: 'POST',
@@ -39,7 +39,7 @@ export default function EasypaisaCheckout() {
     } catch (err) {
       console.error('Payment Error:', err);
       alert('Could not initiate payment.');
-      setLoading(false);
+      stopLoading();
     }
   };
 

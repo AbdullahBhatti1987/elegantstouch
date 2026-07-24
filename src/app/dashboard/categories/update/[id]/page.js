@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-
+import { useLoading } from '@/context/LoadingContext';
 import AdminCategoryForm from '@/components/admin/categories/AdminCategoryForm';
 import CategoryDetailSkeleton from '@/components/admin/common/skeleton/CategoryDetailSkeleton';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function EditCategoryPage() {
   const { id } = useParams();
@@ -15,7 +16,7 @@ export default function EditCategoryPage() {
 
   const [category, setCategory] = useState(null);
 
-  const [loading, setLoading] = useState(true);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
     getCategory();
@@ -32,7 +33,7 @@ export default function EditCategoryPage() {
       console.log(error);
       toast.error('Failed to load category');
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 
@@ -66,7 +67,6 @@ export default function EditCategoryPage() {
       onSubmit={handleUpdate}
       submitText="Update Category"
       loading={loading}
-      setLoading={setLoading}
     />
   );
 }

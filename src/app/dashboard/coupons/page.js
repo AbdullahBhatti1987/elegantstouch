@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
 import Pagination from '@/components/admin/common/Pagination';
-
+import { useLoading } from '@/context/LoadingContext';
 import AdminCouponGrid from '@/components/admin/coupons/AdminCouponGrid';
 import AdminCouponTable from '@/components/admin/coupons/AdminCouponTable';
 
@@ -23,7 +23,7 @@ export default function CouponsPage() {
     return 'grid';
   });
 
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const [search, setSearch] = useState('');
 
@@ -41,7 +41,7 @@ export default function CouponsPage() {
   // GET COUPONS
 
   const getCoupons = async (keyword = '', currentPage = 1) => {
-    setLoading(true);
+    startLoading();
 
     try {
       const { data } = await axios.get(
@@ -61,7 +61,7 @@ export default function CouponsPage() {
     } catch (error) {
       console.log('GET COUPON ERROR:', error);
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 

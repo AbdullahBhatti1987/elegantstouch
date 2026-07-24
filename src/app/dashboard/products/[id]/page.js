@@ -25,7 +25,7 @@ export default function ProductDetailPage() {
   const id = params?.id;
   const router = useRouter();
   const [product, setProduct] = useState(null);
-  // const [loading, setLoading] = useState(true);
+  // const { loading, startLoading, stopLoading } = useLoading();
   const [selectedImage, setSelectedImage] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { loading, startLoading, stopLoading } = useLoading();

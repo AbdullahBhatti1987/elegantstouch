@@ -46,7 +46,7 @@ export default function OrderTable({
               <td className="p-4">{order.items?.length || 0}</td>
 
               <td className="p-4">
-                {order.totalAmount} {order.currency}
+                {order.total} {order.currency}
               </td>
 
               <td className="p-4">{order.paymentMethod}</td>

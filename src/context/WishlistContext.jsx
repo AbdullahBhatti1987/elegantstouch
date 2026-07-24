@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { generateGuestId } from '@/lib/generateGuestId';
+import { useLoading } from '@/context/LoadingContext';
 
 const WishlistContext = createContext();
 
@@ -18,7 +19,7 @@ export function WishlistProvider({ children }) {
   const [guestId, setGuestId] = useState('');
   const [wishlist, setWishlist] = useState(null);
   const [wishlistCount, setWishlistCount] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const { loading, startLoading, stopLoading } = useLoading();
   const [initialLoading, setInitialLoading] = useState(true);
 
   // Get Guest Id
@@ -88,7 +89,7 @@ export function WishlistProvider({ children }) {
       fetchWishlist();
       fetchWishlistCount();
     } else {
-      setLoading(false);
+      stopLoading();
     }
   }, [guestId, fetchWishlist, fetchWishlistCount]);
 

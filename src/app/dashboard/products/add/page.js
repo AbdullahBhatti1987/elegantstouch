@@ -6,15 +6,16 @@ import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
 import AdminProductForm from '@/components/admin/products/AdminProductForm';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function AddProductPage() {
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const handleCreate = async (formData) => {
     try {
-      setLoading(true);
+      startLoading();
 
       const response = await axios.post('/api/products', formData, {
         headers: {
@@ -44,7 +45,7 @@ export default function AddProductPage() {
           'Something went wrong',
       );
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 
@@ -54,7 +55,6 @@ export default function AddProductPage() {
         onSubmit={handleCreate}
         submitText="Save Product"
         loading={loading}
-        setLoading={setLoading}
       />
     </div>
   );

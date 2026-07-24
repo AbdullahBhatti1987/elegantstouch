@@ -8,25 +8,27 @@ import { toast } from 'react-hot-toast';
 import CategoryProductList from '@/components/products/CategoryProductList';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function CategoryIdPage() {
   const params = useParams();
-  console.log("Category Params")
+  console.log('Category Params');
   const categoryId = params.id;
 
   const [products, setProducts] = useState([]);
   const [sort, setSort] = useState('default');
+  const [values, setValues] = useState([0, 9999]);
+  const { addToCart, isInCart } = useCart();
   const [priceRange, setPriceRange] = useState({
     minPrice: 0,
     maxPrice: 999999,
   });
-  const [values, setValues] = useState([0, 9999]);
-  const { addToCart, isInCart } = useCart();
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
-  const [loading, setLoading] = useState(false);
+  const { addToWishlist, removeFromWishlist, isInWishlist } =
+    useWishlist();
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const fetchProducts = async () => {
-    setLoading(true);
+    startLoading();
     try {
       const { data } = await axios.get(
         `/api/products?category=${categoryId}`,
@@ -38,12 +40,13 @@ export default function CategoryIdPage() {
     } catch (error) {
       toast.error('Failed to load products');
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 
   const getPriceRange = async () => {
     try {
+      startLoading();
       const { data } = await axios.get('/api/products/price-range');
       // console.log('Data==>', data);
       if (data.success) {
@@ -53,6 +56,8 @@ export default function CategoryIdPage() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      stopLoading();
     }
   };
 
@@ -63,7 +68,6 @@ export default function CategoryIdPage() {
       getPriceRange();
     }
   }, [categoryId]);
-
 
   const step = Math.ceil(
     (priceRange.maxPrice - priceRange.minPrice) / 100,
@@ -109,15 +113,7 @@ export default function CategoryIdPage() {
         addToCart={addToCart}
         isInCart={isInCart}
       />
-      {/* <CategoryProductList
-        filteredProducts={filteredProducts}
-        loading={loading}
-        sort={sort}
-        setSort={setSort}
-        wishlist={wishlist}
-        toggleWishlist={toggleWishlist}
-        addToCart={addToCart}
-      /> */}
+      
     </main>
   );
 }

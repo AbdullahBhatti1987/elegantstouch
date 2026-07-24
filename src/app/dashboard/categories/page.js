@@ -8,6 +8,7 @@ import AdminCategoryGrid from '@/components/admin/categories/AdminCategoryGrid';
 import AdminCategoryTable from '@/components/admin/categories/AdminCategoryTable';
 import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
 import Pagination from '@/components/admin/common/Pagination';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function CategoriesPage() {
   const router = useRouter();
@@ -21,11 +22,11 @@ export default function CategoriesPage() {
     return 'grid';
   });
 
-    useEffect(() => {
+  useEffect(() => {
     localStorage.setItem('categoryView', view);
   }, [view]);
 
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(8);
@@ -37,7 +38,7 @@ export default function CategoriesPage() {
   });
 
   const getCategories = async (keyword = '', currentPage = 1) => {
-    setLoading(true);
+    startLoading();
 
     try {
       const { data } = await axios.get(
@@ -56,7 +57,7 @@ export default function CategoriesPage() {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 
@@ -68,14 +69,9 @@ export default function CategoriesPage() {
     categoryWiseProducts: [],
   });
 
-  // const called = useRef(false);
-
-  // if (called.current) return;
-
-  // called.current = true;
-
   async function getCounts() {
     try {
+      startLoading();
       const { data } = await axios.get('/api/dashboard/status');
 
       if (data.success) {
@@ -85,13 +81,12 @@ export default function CategoriesPage() {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   }
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
-
     getCategories(search, newPage);
   };
 
@@ -103,7 +98,6 @@ export default function CategoriesPage() {
     getCategories();
     getCounts();
   }, []);
-
 
   return (
     <div>

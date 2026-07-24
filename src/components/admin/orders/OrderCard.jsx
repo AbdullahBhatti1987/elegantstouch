@@ -15,11 +15,13 @@ export default function OrderCard({
   order,
   onEdit,
   onDelete,
+  onView,
 }) {
   return (
     <Link
       href={`/dashboard/orders/${order._id}`}
-    className="group rounded-2xl border border-gray-400 bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900">
+      className="group rounded-2xl border border-gray-400 bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
+    >
       {/* Top Section */}
 
       <div className="flex items-center justify-between gap-3">
@@ -59,7 +61,7 @@ export default function OrderCard({
           <p className="text-[10px] text-gray-500">Total</p>
 
           <p className="mt-1 text-xs font-bold">
-            {order.totalAmount} {order.currency}
+            {order.total} {order.currency}
           </p>
         </div>
 
@@ -110,7 +112,11 @@ export default function OrderCard({
 
       <div className="mt-3 flex gap-2">
         <button
-          onClick={() => onView(order)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onView(order);
+          }}
           className="flex flex-1 items-center justify-center gap-2 rounded-lg border py-2 text-xs transition hover:bg-gray-100 dark:hover:bg-gray-800"
         >
           <Eye size={14} />
@@ -118,14 +124,22 @@ export default function OrderCard({
         </button>
 
         <button
-          onClick={() => onEdit(order)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onEdit(order);
+          }}
           className="rounded-lg border px-3 transition hover:bg-gray-100 dark:hover:bg-gray-800"
         >
           <Edit size={15} />
         </button>
 
         <button
-          onClick={() => onDelete(order._id)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onDelete(order);
+          }}
           className="rounded-lg border px-3 text-red-600 transition hover:bg-red-100"
         >
           <Trash2 size={15} />

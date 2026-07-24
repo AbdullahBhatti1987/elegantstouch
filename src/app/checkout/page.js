@@ -10,13 +10,15 @@ import { useRouter } from 'next/navigation';
 import Checkbox from '@/components/admin/common/form/Checkbox';
 import CustomDropdown from '@/components/admin/common/form/CustomDropdown';
 import Input from '@/components/admin/common/form/Input';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { cart, guestId, clearCart, coupon, discount } = useCart();
   const [saveInfo, setSaveInfo] = useState(false);
   const [payment, setPayment] = useState('cod');
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
+  
 
   const [form, setForm] = useState({
     firstName: '',
@@ -110,7 +112,7 @@ export default function CheckoutPage() {
         return;
       }
 
-      setLoading(true);
+      startLoading();
       const { data } = await axios.post('/api/orders', {
         guestId,
         items,
@@ -134,7 +136,7 @@ export default function CheckoutPage() {
     } catch (error) {
       toast.error(error.response?.data?.message || 'Order failed');
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 

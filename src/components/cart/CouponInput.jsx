@@ -10,7 +10,7 @@ export default function CouponInput({
   setCoupon,
 }) {
   const [code, setCode] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, stopLoading } = useLoading();
 
   const handleApply = async () => {
     if (!code.trim()) {
@@ -19,7 +19,7 @@ export default function CouponInput({
     }
 
     try {
-      setLoading(true);
+      startLoading();
 
       const res = await axios.post('/api/coupons/apply', {
         code,
@@ -36,7 +36,7 @@ export default function CouponInput({
     } catch (error) {
       toast.error(error.response?.data?.message || 'Coupon failed');
     } finally {
-      setLoading(false);
+      stopLoading();
     }
   };
 
