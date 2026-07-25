@@ -28,6 +28,8 @@ export default function HeroCarousel({ slides = [] }) {
   };
 
   const goToSlide = (index) => {
+    if (index === current) return;
+
     setFade(false);
 
     setTimeout(() => {
@@ -41,88 +43,97 @@ export default function HeroCarousel({ slides = [] }) {
   const slide = slides[current];
 
   return (
-    // <section className="relative overflow-hidden bg-gradient-to-br from-rose-100 via-orange-50 to-pink-200 dark:from-zinc-950 dark:via-zinc-900 dark:to-pink-950">
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#fff1f2] via-[#fff7ed] to-[#fce7f3] dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-800">
-      {' '}
-      {/* Decorative Circle */}
-      {/* <div className="bg-primary/10 absolute -top-20 -right-20 h-72 w-72 rounded-full blur-3xl" /> */}
-      {/* <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-pink-300/30 blur-3xl" /> */}
-      <div className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-amber-300/20 blur-3xl" />
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-4 py-4 sm:px-6 md:grid-cols-2 lg:px-8 lg:py-10">
-        {/* Content */}
-        <div
-          className={`relative z-10 transition-all duration-500 ${
-            fade
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-5 opacity-0'
-          } `}
-        >
-          <span className="bg-primary/10 text-primary inline-flex rounded-full py-1 text-xs font-semibold">
-            {slide.subtitle}
-          </span>
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#fffaf5] via-white to-[#fdf2f8]">
+      {/* Background */}
+      <div className="absolute -top-40 -right-40 h-[350px] w-[350px] rounded-full bg-rose-200/40 blur-3xl" />
 
-          <h1 className="text-textcolor  max-w-xl text-3xl leading-tight font-extrabold sm:text-4xl lg:text-5xl">
-            {slide.title}
-          </h1>
+      <div className="absolute -bottom-40 -left-40 h-[350px] w-[350px] rounded-full bg-amber-200/30 blur-3xl" />
 
-          <p className="text-textcolor/70 mt-4 max-w-lg text-sm leading-relaxed sm:text-base">
-            {slide.description}
-          </p>
+      <div className="absolute top-1/2 left-1/2 h-[250px] w-[250px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-pink-100/40 blur-3xl" />
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href={slide.primaryBtnLink}
-              className="bg-primary rounded-xl px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:scale-105"
-            >
-              {slide.primaryBtnText}
-            </Link>
+      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-8 md:grid-cols-2">
+          {/* Content */}
+          <div
+            className={`transition-all duration-700 ${
+              fade
+                ? 'translate-x-0 opacity-100'
+                : '-translate-x-10 opacity-0'
+            }`}
+          >
+            <span className="inline-flex rounded-full bg-rose-100 px-4 py-1.5 text-xs font-semibold tracking-wide text-rose-700 uppercase">
+              {slide.subtitle}
+            </span>
 
-            <Link
-              href={slide.secondaryBtnLink}
-              className="border-primary text-primary hover:bg-primary rounded-xl border px-6 py-3 text-sm font-semibold transition hover:text-white"
-            >
-              {slide.secondaryBtnText}
-            </Link>
+            <h1 className="mt-4 max-w-xl text-3xl leading-tight font-black text-zinc-900 sm:text-4xl lg:text-5xl">
+              {slide.title}
+            </h1>
+
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-zinc-600 sm:text-base">
+              {slide.description}
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href={slide.primaryBtnLink || '/products'}
+                className="rounded-xl bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:scale-105"
+              >
+                {slide.primaryBtnText || 'Shop Now'}
+              </Link>
+
+              <Link
+                href={slide.secondaryBtnLink || '/categories'}
+                className="rounded-xl border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100"
+              >
+                {slide.secondaryBtnText || 'Explore'}
+              </Link>
+            </div>
+          </div>
+
+          {/* Image */}
+          <div
+            className={`flex justify-center transition-all duration-700 md:justify-end ${
+              fade
+                ? 'translate-x-0 opacity-100'
+                : 'translate-x-10 opacity-0'
+            }`}
+          >
+            <div className="relative animate-[float_6s_ease-in-out_infinite]">
+              {/* Glow */}
+              <div className="absolute inset-0 rounded-full bg-pink-200/40 blur-3xl" />
+
+              <div className="relative aspect-square w-[240px] sm:w-[280px] lg:w-[330px]">
+                <div className="absolute inset-0 rotate-6 rounded-[30px] bg-gradient-to-br from-pink-100 to-orange-100" />
+
+                <div className="relative h-full overflow-hidden rounded-[30px] border border-white bg-white shadow-xl">
+                  <Image
+                    src={slide.image}
+                    alt={slide.title}
+                    fill
+                    priority
+                    sizes="(max-width:768px) 240px, 330px"
+                    className="object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Image */}
-        <div
-          className={`relative flex justify-center transition-all duration-500 md:justify-end ${
-            fade ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
-          } `}
-        >
-          {/* Image Background */}
-          {/* <div className="relative h-[320px] w-[320px] overflow-hidden rounded-3xl bg-white shadow-xl sm:h-[340px] sm:w-[340px] lg:h-[380px] lg:w-[380px]"> */}
-          <div className="relative aspect-square w-[90vw] max-w-[320px] overflow-hidden rounded-3xl bg-white shadow-xl sm:max-w-[340px] lg:max-w-[380px]">
-            <Image
-              src={slide.image}
-              alt={slide.title}
-              fill
-              priority
-              sizes="
-                (max-width:640px) 260px,
-                (max-width:1024px) 320px,
-                380px
-              "
-              className="object-cover transition-transform duration-[3000ms] hover:scale-105"
+        {/* Dots */}
+        <div className="mt-8 flex justify-center gap-3">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`rounded-full transition-all duration-300 ${
+                current === index
+                  ? 'h-2.5 w-8 bg-zinc-900'
+                  : 'h-2.5 w-2.5 bg-zinc-300'
+              }`}
             />
-          </div>
+          ))}
         </div>
-      </div>
-      {/* Dots */}
-      <div className="relative z-10 flex justify-center gap-2 pb-5">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`h-2 rounded-full transition-all duration-300 ${
-              current === index
-                ? 'bg-primary w-8'
-                : 'bg-secondary w-2'
-            } `}
-          />
-        ))}
       </div>
     </section>
   );
