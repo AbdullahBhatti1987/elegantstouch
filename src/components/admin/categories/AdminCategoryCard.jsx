@@ -78,9 +78,9 @@ export default function AdminCategoryCard({ category, counts }) {
         <div className="rounded-lg bg-gray-50 p-2 dark:bg-gray-800">
           <Package size={12} className="text-gray-500" />
 
-          {/* <p className="mt-1 text-xs font-bold">
+          <p className="mt-1 text-xs font-bold">
             {counts.categoryWiseProducts?.categoryId === category._id ? counts.categoryWiseProducts?.productCount : 0}
-          </p> */}
+          </p>
 
           <p className="mt-1 text-xs font-bold">
             {counts.categoryWiseProducts?.find(

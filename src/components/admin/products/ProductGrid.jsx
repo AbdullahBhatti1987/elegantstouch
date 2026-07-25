@@ -9,7 +9,7 @@ export default function ProductGrid({ products = [], loading }) {
     <>
       {loading ? (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          <Loader count={8} imageHeight="h-48" />
+          <Loader type='productGrid' count={8} />
         </div>
       ) : products.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

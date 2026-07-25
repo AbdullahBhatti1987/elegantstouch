@@ -6,8 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useLoading } from '@/context/LoadingContext';
 import AdminCategoryForm from '@/components/admin/categories/AdminCategoryForm';
-import CategoryDetailSkeleton from '@/components/admin/common/skeleton/CategoryDetailSkeleton';
-import { useLoading } from '@/context/LoadingContext';
+import CategoryDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/CategoryDetailSkeleton';
 
 export default function EditCategoryPage() {
   const { id } = useParams();
@@ -24,6 +23,7 @@ export default function EditCategoryPage() {
 
   const getCategory = async () => {
     try {
+      startLoading();
       const { data } = await axios.get(`/api/categories/${id}`);
 
       if (data.success) {
@@ -39,6 +39,7 @@ export default function EditCategoryPage() {
 
   const handleUpdate = async (payload) => {
     try {
+      startLoading();
       const { data } = await axios.put(
         `/api/categories/${id}`,
         payload,
@@ -53,9 +54,10 @@ export default function EditCategoryPage() {
       console.log(error);
 
       toast.error(error.response?.data?.message || 'Update failed');
+    } finally {
+      stopLoading();
     }
   };
-
 
   if (loading) {
     return <CategoryDetailSkeleton />;

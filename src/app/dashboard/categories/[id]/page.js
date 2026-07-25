@@ -7,7 +7,7 @@ import { Edit, Trash2 } from 'lucide-react';
 import axios from 'axios';
 import ConfirmModal from '@/components/admin/common/ConfirmModal';
 import BackButton from '@/components/admin/common/header/BackButton';
-import CategoryDetailSkeleton from '@/components/admin/common/skeleton/CategoryDetailSkeleton';
+import CategoryDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/CategoryDetailSkeleton';
 import { Info } from '@/components/admin/common/form/Info';
 import { useLoading } from '@/context/LoadingContext';
 
@@ -36,7 +36,7 @@ export default function CategoryDetailPage() {
       } catch (error) {
         console.log(error);
       } finally {
-          stopLoading();
+        stopLoading();
       }
     }
 
@@ -47,6 +47,7 @@ export default function CategoryDetailPage() {
 
   const handleDelete = async () => {
     try {
+      startLoading();
       const { data } = await axios.delete(`/api/categories/${id}`);
 
       if (data.success) {
@@ -56,14 +57,13 @@ export default function CategoryDetailPage() {
       console.log(error);
     } finally {
       stopLoading();
-
       setShowDeleteModal(false);
     }
   };
 
-if (loading) {
-  return <CategoryDetailSkeleton />;
-}
+  if (loading) {
+    return <CategoryDetailSkeleton />;
+  }
 
   if (!category) {
     return <p className="p-6">Category not found</p>;
@@ -90,7 +90,10 @@ if (loading) {
           <div className="relative h-84 overflow-hidden rounded-xl border">
             {category?.image && (
               <Image
-                src={category.image.thumbnail || '/images/placeholder.jpg'}
+                src={
+                  category.image.thumbnail ||
+                  '/images/placeholder.jpg'
+                }
                 alt={category.alt || category.name}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -109,7 +112,7 @@ if (loading) {
                 onClick={() =>
                   router.push(`/dashboard/categories/update/${id}`)
                 }
-                className="rounded-lg bg-black p-2 cursor-pointer text-white transition hover:bg-gray-800"
+                className="cursor-pointer rounded-lg bg-black p-2 text-white transition hover:bg-gray-800"
                 title="Edit Category"
               >
                 <Edit size={17} />
@@ -118,7 +121,7 @@ if (loading) {
               {/* Delete */}
               <button
                 onClick={() => setShowDeleteModal(true)}
-                className="rounded-lg bg-red-600 p-2 cursor-pointer text-white transition hover:bg-red-700"
+                className="cursor-pointer rounded-lg bg-red-600 p-2 text-white transition hover:bg-red-700"
                 title="Delete Category"
               >
                 <Trash2 size={17} />
@@ -182,4 +185,3 @@ if (loading) {
     </>
   );
 }
-

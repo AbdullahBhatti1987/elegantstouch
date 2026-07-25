@@ -213,9 +213,7 @@ export default async function RootLayout({ children }) {
               <Toaster
                 position="top-right"
                 reverseOrder={false}
-                containerStyle={{
-                  top: '80px',
-                }}
+                containerClassName="toast-container"
               />
             </WishlistProvider>
           </CartProvider>

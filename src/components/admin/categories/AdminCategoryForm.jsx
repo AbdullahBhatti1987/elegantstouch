@@ -208,7 +208,7 @@ export default function CategoryForm({
         {/* BASIC */}
 
         <section>
-          <h2 className="mb-5 text-lg font-semibold">
+          <h2 className="mb-5 text-lg font-semibold underline">
             Basic Information
           </h2>
 
@@ -243,12 +243,12 @@ export default function CategoryForm({
 
         {/* IMAGE */}
 
-        <section className="rounded-xl border p-6">
+        <section className="rounded-xl underline">
           <h2 className="mb-5 text-lg font-semibold">
             Category Image
           </h2>
 
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="grid gap-4 md:gap-8 md:grid-cols-2">
             <FileUpload
               label="Image"
               name="image"
@@ -271,7 +271,7 @@ export default function CategoryForm({
         {/* DESCRIPTION */}
 
         <section>
-          <h2 className="mb-5 text-lg font-semibold">Description</h2>
+          <h2 className="mb-5 text-lg font-semibold underline">Description</h2>
 
           <Textarea
             label="Category Description"
@@ -295,8 +295,8 @@ export default function CategoryForm({
 
         {/* SEO */}
 
-        <section className="rounded-xl border p-6">
-          <h2 className="mb-5 text-lg font-semibold">SEO Settings</h2>
+        <section className="rounded-xl">
+          <h2 className="mb-5 text-lg font-semibold underline">SEO Settings</h2>
 
           <div className="space-y-5">
             <Input

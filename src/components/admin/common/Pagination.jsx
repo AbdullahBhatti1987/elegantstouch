@@ -20,10 +20,10 @@ export default function Pagination({
   }
 
   return (
-    <div className="mt-6 flex flex-col gap-4 rounded-xl border bg-white p-4 sm:flex-row sm:items-center sm:justify-between dark:border-gray-800 dark:bg-gray-900">
+    <div className="mt-4 w-full flex justify-between gap-4 rounded-xl border bg-white p-2 md:p-4 sm:flex-row sm:items-center sm:justify-between dark:border-gray-800 dark:bg-gray-900">
       {/* Information */}
 
-      <p className=" flex justify-between items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
+      <p className=" flex justify-center items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
         Showing
         <span className="font-semibold text-gray-900 dark:text-white">
           {total === 0 ? 0 : (page - 1) * limit + 1}
@@ -41,7 +41,7 @@ export default function Pagination({
 
       {/* Pagination Buttons */}
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center justify-center gap-2">
         <button
           disabled={page === 1 || pages.length === 0}
           onClick={() => onPageChange(page - 1)}

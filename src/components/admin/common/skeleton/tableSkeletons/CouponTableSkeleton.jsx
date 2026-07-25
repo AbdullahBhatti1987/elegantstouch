@@ -1,6 +1,6 @@
 'use client';
 
-export default function AdminCouponTableSkeleton({ rows = 6 }) {
+export default function CouponTableSkeleton({ rows = 6 }) {
   return (
     <>
       {Array.from({ length: rows }).map((_, i) => (

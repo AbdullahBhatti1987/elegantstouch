@@ -111,8 +111,8 @@ export async function PUT(req, context) {
   try {
     await connectDB();
 
-    // const { id } = await context.params;
-    const { id } = await params;
+    const { id } = await context.params;
+    // const { id } = await params;
 
     const formData = await req.formData();
 

@@ -8,7 +8,7 @@ import {
   User,
 } from 'lucide-react';
 
-import AdminCartTableSkeleton from '../common/skeleton/AdminCartTableSkeleton';
+import AdminCartTableSkeleton from '../common/skeleton/tableSkeletons/CartTableSkeleton';
 
 export default function AdminCartTable({ carts, loading }) {
   const router = useRouter();

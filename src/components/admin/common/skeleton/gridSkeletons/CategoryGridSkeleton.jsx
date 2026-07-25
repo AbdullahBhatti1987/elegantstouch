@@ -1,4 +1,4 @@
-export default function AdminCategorySkeleton() {
+export default function CategoryGridSkeleton() {
   return (
     <div className="rounded-2xl border bg-white p-3 shadow-sm dark:border-gray-800 dark:bg-gray-900">
       {/* Top Section */}

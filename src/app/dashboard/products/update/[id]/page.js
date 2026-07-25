@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
-import ProductDetailSkeleton from '@/components/admin/common/skeleton/ProductDetailSkeleton';
+import ProductDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/ProductDetailSkeleton';
 import AdminProductForm from '@/components/admin/products/AdminProductForm';
 
 export default function EditProductPage() {

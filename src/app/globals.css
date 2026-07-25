@@ -8,6 +8,19 @@
   --text: #2d2d2d;
 }
 
+
+.toast-container {
+  top: 80px !important;
+}
+
+@media (max-width: 768px) {
+  .toast-container {
+    top: 40px !important;
+  }
+}
+
+
+
 .bg-primary {
   background-color: var(--primary);
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
@@ -8,25 +8,26 @@ import AdminCategoryGrid from '@/components/admin/categories/AdminCategoryGrid';
 import AdminCategoryTable from '@/components/admin/categories/AdminCategoryTable';
 import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
 import Pagination from '@/components/admin/common/Pagination';
-import { useLoading } from '@/context/LoadingContext';
 
 export default function CategoriesPage() {
   const router = useRouter();
-
   const [categories, setCategories] = useState([]);
-  const [view, setView] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('categoryView') || 'grid';
-    }
 
-    return 'grid';
-  });
+  const [view, setView] = useState('grid');
+
+  useEffect(() => {
+    const savedView = localStorage.getItem('categoryView');
+
+    if (savedView) {
+      setView(savedView);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('categoryView', view);
   }, [view]);
 
-  const { loading, startLoading, stopLoading } = useLoading();
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(8);
@@ -38,9 +39,8 @@ export default function CategoriesPage() {
   });
 
   const getCategories = async (keyword = '', currentPage = 1) => {
-    startLoading();
-
     try {
+      setLoading(true);
       const { data } = await axios.get(
         `/api/categories?search=${keyword}&page=${currentPage}&limit=${limit}`,
         {
@@ -57,7 +57,7 @@ export default function CategoriesPage() {
     } catch (error) {
       console.log(error);
     } finally {
-      stopLoading();
+      setLoading(false);
     }
   };
 
@@ -71,17 +71,13 @@ export default function CategoriesPage() {
 
   async function getCounts() {
     try {
-      startLoading();
       const { data } = await axios.get('/api/dashboard/status');
 
       if (data.success) {
         setCounts(data.data);
-        // console.log('Data Status==>', data.data);
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      stopLoading();
     }
   }
 
@@ -90,13 +86,9 @@ export default function CategoriesPage() {
     getCategories(search, newPage);
   };
 
-  const called = useRef(false);
-
   useEffect(() => {
-    if (called.current) called.current = true;
-
-    getCategories();
     getCounts();
+    getCategories();
   }, []);
 
   return (
@@ -123,6 +115,7 @@ export default function CategoriesPage() {
         <AdminCategoryTable
           categories={categories}
           loading={loading}
+          view={view}
         />
       )}
       <Pagination

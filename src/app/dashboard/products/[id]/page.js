@@ -16,7 +16,7 @@ import {
 import toast from 'react-hot-toast';
 import { Info } from '@/components/admin/common/form/Info';
 import ConfirmModal from '@/components/admin/common/ConfirmModal';
-import ProductDetailSkeleton from '@/components/admin/common/skeleton/ProductDetailSkeleton';
+import ProductDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/ProductDetailSkeleton';
 import BackButton from '@/components/admin/common/header/BackButton';
 import { useLoading } from '@/context/LoadingContext';
 

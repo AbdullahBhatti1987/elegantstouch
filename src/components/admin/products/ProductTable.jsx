@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import ProductTableSkeleton from '../common/skeleton/ProductTableSkeleton';
+import ProductTableSkeleton from '../common/skeleton/tableSkeletons/ProductTableSkeleton';
+import Loader from '../common/loaders/Loader';
 
 export default function ProductTable({ products, loading }) {
   const router = useRouter();
@@ -50,7 +51,7 @@ export default function ProductTable({ products, loading }) {
           </tr>
         </thead>
         {loading ? (
-          <ProductTableSkeleton rows={10} />
+          <Loader type='productTable' count={8} />
         ) : (
           <tbody>
             {products.map((product) => (

@@ -1,139 +1,327 @@
+// 'use client';
+
+// import Image from 'next/image';
+// import { Star,  CalendarDays } from 'lucide-react';
+// import { useRouter } from 'next/navigation';
+// import AdminCategoryTableSkeleton from '../common/skeleton/AdminCategoryTableSkeleton';
+// import EmptyCategoryState from './EmptyCategoryState';
+
+// export default function AdminCategoryTable({ categories, loading }) {
+//   const router = useRouter();
+
+//   return (
+//     <div className="w-full max-w-full overflow-x-auto rounded-xl border bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+//       <table className="w-full table-fixed text-xs md:text-sm">
+//         <thead className="border-b bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
+//           <tr className="h-10 md:h-12">
+//             <th className="w-[60px] px-2 text-center font-semibold md:w-[70px]">
+//               Image
+//             </th>
+
+//             <th className="px-2 text-left font-semibold md:px-4">
+//               Category
+//             </th>
+//             <th className="hidden px-2 text-left align-middle font-semibold md:table-cell ">
+//               Description
+//             </th>
+//             {/* <th className="hidden px-2 text-left font-semibold md:block md:px-4">
+//               Description
+//             </th> */}
+
+//             <th className="px-2 text-left font-semibold md:px-4">
+//               Slug
+//             </th>
+
+//             {/* <th className="px-2 text-left font-semibold md:px-4">
+//               Products
+//             </th> */}
+
+//             <th className="px-2 text-left font-semibold md:px-4">
+//               Status
+//             </th>
+
+//             <th className="px-2 text-center font-semibold md:px-4">
+//               Featured
+//             </th>
+
+//             <th className="px-2 text-left font-semibold md:px-4">
+//               Created
+//             </th>
+//           </tr>
+//         </thead>
+
+//         <tbody>
+//           {loading ? (
+//             <AdminCategoryTableSkeleton rows={4} />
+//           ) : (
+//             categories.length > 0 ? categories.map((category) => (
+//               <tr
+//                 key={category._id}
+//                 onClick={() =>
+//                   router.push(`/dashboard/categories/${category._id}`)
+//                 }
+//                 className="h-14 border-b transition hover:bg-blue-50 dark:border-gray-800 dark:hover:bg-gray-800"
+//               >
+//                 {/* IMAGE */}
+
+//                 <td className="w-12 px-2 py-2 md:max-w-16 md:px-4">
+//                   <div className="relative h-9 w-9 overflow-hidden rounded-lg border md:h-10 md:w-10">
+//                     <Image
+//                       src={category.image.url}
+//                       alt={category.alt || category.name}
+//                       fill
+//                       sizes="40px"
+//                       className="object-cover"
+//                     />
+//                   </div>
+//                 </td>
+
+//                 {/* CATEGORY */}
+
+//                 {/* <td className="px-2 py-2 md:px-4">
+//                   <div className="max-w-[120px] md:max-w-xs">
+//                     <p className="font-semibold text-gray-900 dark:text-white">
+//                       {category.name}
+//                     </p>
+
+//                     <p className="line-clamp-2 hidden text-xs text-gray-500 md:block">
+//                       {category.description}
+//                     </p>
+//                   </div>
+//                 </td> */}
+
+//                 <td className="px-2 py-2 md:px-4">
+//                   <div className="max-w-[120px] md:w-[120px]">
+//                     <p className="font-semibold text-gray-900 dark:text-white">
+//                       {category.name}
+//                     </p>
+//                   </div>
+//                 </td>
+//                 <td className="hidden px-2 py-2 md:table-cell md:px-2">
+//                   <div className="">
+//                     <p
+//                       className="text-xs text-gray-500"
+//                       style={{
+//                         display: '-webkit-box',
+//                         WebkitLineClamp: 2,
+//                         WebkitBoxOrient: 'vertical',
+//                         overflow: 'hidden',
+//                       }}
+//                     >
+//                       {category.description}
+//                     </p>
+//                   </div>
+//                 </td>
+
+//                 {/* SLUG */}
+
+//                 <td className="px-2 md:table-cell md:px-4">
+//                   {category.slug}
+//                 </td>
+
+//                 {/* PRODUCTS */}
+
+//                 {/* <td className="px-2 py-2 md:px-4">
+//                   <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+//                     <Package size={13} />
+
+//                     {category.productCount || 0}
+//                   </span>
+//                 </td> */}
+
+//                 {/* STATUS */}
+
+//                 <td className="px-2 py-2 md:px-4">
+//                   <span
+//                     className={`rounded-full px-2 py-1 text-[10px] font-semibold md:text-xs ${
+//                       category.status === 'active'
+//                         ? 'bg-green-100 text-green-700'
+//                         : 'bg-red-100 text-red-700'
+//                     }`}
+//                   >
+//                     {category.status}
+//                   </span>
+//                 </td>
+
+//                 {/* FEATURED */}
+
+//                 <td className="px-4 text-center">
+//                   {category.featured ? (
+//                     <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-1 text-[10px] font-semibold text-yellow-700 md:text-xs">
+//                       <Star size={13} fill="currentColor" />
+//                       Yes
+//                     </span>
+//                   ) : (
+//                     <span className="text-xs text-gray-400">No</span>
+//                   )}
+//                 </td>
+
+//                 {/* CREATED */}
+
+//                 <td className="px-2 py-2 md:px-4">
+//                   <div className="flex items-center gap-1 text-[10px] text-gray-500 md:text-xs">
+//                     <CalendarDays size={12} />
+
+//                     {new Date(
+//                       category.createdAt,
+//                     ).toLocaleDateString()}
+//                   </div>
+//                 </td>
+//               </tr>
+//             )): <EmptyCategoryState />
+//           )}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// }
+
 'use client';
 
 import Image from 'next/image';
-import { Star,  CalendarDays } from 'lucide-react';
+import {
+  Star,
+  CalendarDays,
+  Package,
+  ShoppingBag,
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import AdminCategoryTableSkeleton from '../common/skeleton/AdminCategoryTableSkeleton';
-import EmptyCategoryState from './EmptyCategoryState';
 
-export default function AdminCategoryTable({ categories, loading }) {
+import Loader from '../common/loaders/Loader';
+import EmptyState from '../common/emptyState/EmptyState';
+
+export default function AdminCategoryTable({ categories, loading, view }) {
   const router = useRouter();
 
   return (
-    <div className="w-full max-w-full overflow-x-auto rounded-xl border bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
-      <table className="w-full table-fixed text-xs md:text-sm">
+    <div className="w-full overflow-x-auto rounded-xl border bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+      <table className="w-full table-fixed text-[11px] md:text-sm">
         <thead className="border-b bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
           <tr className="h-10 md:h-12">
-            <th className="w-[60px] px-2 text-center font-semibold md:w-[70px]">
+            <th className="w-[8%] px-2 text-center font-semibold">
               Image
             </th>
 
-            <th className="px-2 text-left font-semibold md:px-4">
+            <th className="w-[20%] px-2 text-left font-semibold">
               Category
             </th>
-            <th className="hidden px-2 text-left align-middle font-semibold md:table-cell ">
+
+            <th className="hidden w-[18%] px-3 text-left font-semibold md:table-cell">
               Description
             </th>
-            {/* <th className="hidden px-2 text-left font-semibold md:block md:px-4">
-              Description
-            </th> */}
 
-            <th className="px-2 text-left font-semibold md:px-4">
+            <th className="hidden w-[12%] px-3 text-left font-semibold md:table-cell">
               Slug
             </th>
 
-            {/* <th className="px-2 text-left font-semibold md:px-4">
-              Products
-            </th> */}
+            <th className="hidden w-[10%] px-3 text-left font-semibold md:table-cell">
+              Keywords
+            </th>
 
-            <th className="px-2 text-left font-semibold md:px-4">
+            <th className="w-[7%] px-2 text-center font-semibold">
+              Products
+            </th>
+
+            <th className="hidden w-[7%] px-2 text-center font-semibold md:table-cell">
+              Orders
+            </th>
+
+            <th className="w-[7%] px-2 text-left font-semibold">
               Status
             </th>
 
-            <th className="px-2 text-center font-semibold md:px-4">
+            <th className="hidden w-[6%] px-2 text-center font-semibold md:table-cell">
               Featured
             </th>
 
-            <th className="px-2 text-left font-semibold md:px-4">
+            <th className="w-[8%] px-2 text-left font-semibold">
               Created
             </th>
           </tr>
         </thead>
 
         <tbody>
-          {loading ? (
-            <AdminCategoryTableSkeleton rows={4} />
-          ) : (
-            categories.length > 0 ? categories.map((category) => (
+          {loading && view === 'list' ? (
+            <tr>
+              <td colSpan="10">
+                <Loader type="categoryTable" count={8} />
+              </td>
+            </tr>
+          ) : categories.length > 0 ? (
+            categories.map((category) => (
               <tr
                 key={category._id}
                 onClick={() =>
                   router.push(`/dashboard/categories/${category._id}`)
                 }
-                className="h-14 border-b transition hover:bg-blue-50 dark:border-gray-800 dark:hover:bg-gray-800"
+                className="h-14 cursor-pointer border-b transition hover:bg-blue-50 dark:border-gray-800 dark:hover:bg-gray-800"
               >
                 {/* IMAGE */}
-
-                <td className="w-12 px-2 py-2 md:max-w-16 md:px-4">
-                  <div className="relative h-9 w-9 overflow-hidden rounded-lg border md:h-10 md:w-10">
-                    <Image
-                      src={category.image.url}
-                      alt={category.alt || category.name}
-                      fill
-                      sizes="40px"
-                      className="object-cover"
-                    />
+                <td className="w-[60px] px-2 py-2 md:w-[70px]">
+                  <div className="flex justify-center">
+                    <div className="relative h-10 w-10 overflow-hidden rounded-lg border">
+                      <Image
+                        src={
+                          category.image?.url ||
+                          '/images/placeholder.png'
+                        }
+                        alt={category.alt || category.name}
+                        fill
+                        sizes="40px"
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
                 </td>
 
-                {/* CATEGORY */}
-
-                {/* <td className="px-2 py-2 md:px-4">
-                  <div className="max-w-[120px] md:max-w-xs">
-                    <p className="font-semibold text-gray-900 dark:text-white">
-                      {category.name}
-                    </p>
-
-                    <p className="line-clamp-2 hidden text-xs text-gray-500 md:block">
-                      {category.description}
-                    </p>
-                  </div>
-                </td> */}
-
-                <td className="px-2 py-2 md:px-4">
-                  <div className="max-w-[120px] md:w-[120px]">
-                    <p className="font-semibold text-gray-900 dark:text-white">
-                      {category.name}
-                    </p>
-                  </div>
+                {/* CATEGORY - WIDTH ZIADA */}
+                <td className="w-[180px] px-2 py-2 md:w-[250px] md:px-3">
+                  <p className="line-clamp-2 font-semibold text-gray-900 md:text-xs dark:text-white">
+                    {category.name}
+                  </p>
                 </td>
-                <td className="hidden px-2 py-2 md:table-cell md:px-2">
-                  <div className="">
-                    <p
-                      className="text-xs text-gray-500"
-                      style={{
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      {category.description}
-                    </p>
-                  </div>
+
+                {/* DESCRIPTION */}
+                <td className="hidden px-3 py-2 md:table-cell">
+                  <p className="line-clamp-2 text-xs text-gray-500">
+                    {category.description}
+                  </p>
                 </td>
 
                 {/* SLUG */}
-
-                <td className="px-2 md:table-cell md:px-4">
-                  {category.slug}
+                <td className="hidden px-3 md:table-cell">
+                  <p className="line-clamp-2 text-xs text-gray-500">
+                    {category.slug}
+                  </p>
                 </td>
 
-                {/* PRODUCTS */}
+                {/* KEYWORDS */}
+                <td className="hidden px-3 md:table-cell">
+                  <p className="line-clamp-2 text-xs text-gray-500">
+                    {category.keywords}
+                  </p>
+                </td>
 
-                {/* <td className="px-2 py-2 md:px-4">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
-                    <Package size={13} />
-
+                {/* PRODUCTS - SMALL */}
+                <td className="w-[70px] px-1 text-center md:w-[80px]">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2 py-1 text-[10px] font-medium text-blue-700 md:text-xs">
+                    <Package size={12} />
                     {category.productCount || 0}
                   </span>
-                </td> */}
+                </td>
 
-                {/* STATUS */}
+                {/* ORDERS - SMALL */}
+                <td className="hidden w-[70px] px-1 text-center md:table-cell md:w-[80px]">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-purple-100 px-2 py-1 text-[10px] font-medium text-purple-700 md:text-xs">
+                    <ShoppingBag size={12} />
+                    {category.orderCount || 0}
+                  </span>
+                </td>
 
-                <td className="px-2 py-2 md:px-4">
+                {/* STATUS - SMALL */}
+                <td className="w-[70px] px-1 md:w-[90px]">
                   <span
-                    className={`rounded-full px-2 py-1 text-[10px] font-semibold md:text-xs ${
+                    className={`rounded-full px-2 py-1 text-[9px] font-semibold md:text-xs ${
                       category.status === 'active'
                         ? 'bg-green-100 text-green-700'
                         : 'bg-red-100 text-red-700'
@@ -143,12 +331,11 @@ export default function AdminCategoryTable({ categories, loading }) {
                   </span>
                 </td>
 
-                {/* FEATURED */}
-
-                <td className="px-4 text-center">
+                {/* FEATURED - DESKTOP SMALL */}
+                <td className="hidden w-[80px] px-1 text-center md:table-cell">
                   {category.featured ? (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-1 text-[10px] font-semibold text-yellow-700 md:text-xs">
-                      <Star size={13} fill="currentColor" />
+                    <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-1 text-[9px] font-semibold text-yellow-700 md:text-xs">
+                      <Star size={12} fill="currentColor" />
                       Yes
                     </span>
                   ) : (
@@ -156,9 +343,8 @@ export default function AdminCategoryTable({ categories, loading }) {
                   )}
                 </td>
 
-                {/* CREATED */}
-
-                <td className="px-2 py-2 md:px-4">
+                {/* CREATED - SMALL */}
+                <td className="w-[90px] px-1 md:w-[110px]">
                   <div className="flex items-center gap-1 text-[10px] text-gray-500 md:text-xs">
                     <CalendarDays size={12} />
 
@@ -168,7 +354,21 @@ export default function AdminCategoryTable({ categories, loading }) {
                   </div>
                 </td>
               </tr>
-            )): <EmptyCategoryState />
+            ))
+          ) : (
+            <tr>
+              <td colSpan="10" className="py-10">
+                <EmptyState
+                  title="No Categories Found"
+                  description="There are currently no categories available. Please add a category or check back later."
+                  action={
+                    <button className="rounded-lg bg-[#005b96] px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90">
+                      Clear Filters
+                    </button>
+                  }
+                />
+              </td>
+            </tr>
           )}
         </tbody>
       </table>

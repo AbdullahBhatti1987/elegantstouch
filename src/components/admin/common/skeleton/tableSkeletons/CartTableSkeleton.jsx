@@ -1,6 +1,6 @@
 'use client';
 
-export default function AdminCartTableSkeleton({ rows = 8 }) {
+export default function CartTableSkeleton({ rows = 8 }) {
   return (
     <>
       {Array.from({ length: rows }).map((_, index) => (

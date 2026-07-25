@@ -1,6 +1,6 @@
 'use client';
 
-import AdminCartSkeleton from '../skeleton/AdminCartSkeleton';
+import AdminCartSkeleton from '../skeleton/gridSkeletons/CartGridSkeleton';
 
 
 export default function CartLoader({
