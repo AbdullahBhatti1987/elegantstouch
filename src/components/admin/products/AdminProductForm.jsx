@@ -10,8 +10,8 @@ import Input from '@/components/admin/common/form/Input';
 import Textarea from '@/components/admin/common/form/Textarea';
 import Checkbox from '@/components/admin/common/form/Checkbox';
 import MultiImageUpload from '@/components/admin/common/form/MultiImageUpload';
-import BackButton from '../common/header/BackButton';
 import AdminPageTitle from '../common/header/AdminPageTitle';
+import CustomDropdown from '../common/form/CustomDropdown';
 
 const defaultForm = {
   sku: '',
@@ -56,6 +56,8 @@ export default function AdminProductForm({
   onSubmit,
   submitText = 'Save Product',
   loading,
+  startLoading,
+  stopLoading,
 }) {
   const router = useRouter();
 
@@ -70,7 +72,7 @@ export default function AdminProductForm({
   useEffect(() => {
     async function getCategories() {
       try {
-        const { data } = await axios.get('/api/categories');
+        const { data } = await axios.get('/api/categories/dropdown');
 
         if (data.success) {
           setCategories(data.data);
@@ -90,48 +92,28 @@ export default function AdminProductForm({
       sku: initialData.sku || '',
       name: initialData.name || '',
       slug: initialData.slug || '',
-
       categoryId:
         initialData.categoryId?._id || initialData.categoryId || '',
-
       brand: initialData.brand || '',
       collectionName: initialData.collectionName || '',
-
       price: initialData.price || '',
       salePrice: initialData.salePrice || '',
-
       currency: initialData.currency || 'PKR',
-
       stock: initialData.stock || '',
-
       inStock: initialData.inStock ?? true,
-
       badge: initialData.badge || '',
-
       shortDescription: initialData.shortDescription || '',
-
       description: initialData.description || '',
-
       features: initialData.features || '',
-
       material: initialData.material || '',
-
       color: initialData.color || '',
-
       ageGroup: initialData.ageGroup || '',
-
       weight: initialData.weight || '',
-
       tags: initialData.tags?.join(', ') || '',
-
       seoTitle: initialData.seoTitle || '',
-
       seoDescription: initialData.seoDescription || '',
-
       keywords: initialData.keywords?.join(', ') || '',
-
       status: initialData.status || 'active',
-
       featured: initialData.featured || false,
     });
     // Existing Product Images
@@ -174,35 +156,23 @@ export default function AdminProductForm({
 
     if (!formData.name.trim())
       errors.push('Product name is required');
-
     if (!formData.sku.trim()) errors.push('SKU is required');
-
     if (!formData.categoryId) errors.push('Category is required');
-
     if (!formData.price) errors.push('Price is required');
-
     if (!formData.stock) errors.push('Stock is required');
-
     if (images.length === 0)
       errors.push('Product images are required');
-
     if (!formData.description.trim())
       errors.push('Description is required');
-
     if (!formData.material.trim())
       errors.push('Material is required');
-
     if (!formData.color.trim()) errors.push('Color is required');
-
     if (!formData.seoTitle.trim())
       errors.push('SEO title is required');
-
     if (!formData.seoDescription.trim())
       errors.push('SEO description is required');
-
     if (!formData.keywords.trim())
       errors.push('Keywords are required');
-
     return errors;
   };
 
@@ -261,11 +231,10 @@ export default function AdminProductForm({
       {/* HEADER */}
 
       <AdminPageTitle
-        title= {initialData ? 'Edit Product' : 'Add Product'}
+        title={initialData ? 'Edit Product' : 'Add Product'}
         description=" Manage product information"
         backUrl="/dashboard/products"
       />
-
 
       <form
         onSubmit={handleSubmit}
@@ -301,26 +270,17 @@ export default function AdminProductForm({
               loading={loading}
             />
 
-            <div>
-              <label className="mb-2 block font-medium">
-                Category
-              </label>
-
-              <select
-                name="categoryId"
-                value={formData.categoryId}
-                onChange={handleChange}
-                className="w-full rounded-lg border px-3 py-2"
-              >
-                <option value="">Select Category</option>
-
-                {categories.map((cat) => (
-                  <option key={cat._id} value={cat._id}>
-                    {cat.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <CustomDropdown
+              label="Category"
+              name="categoryId"
+              value={formData.categoryId}
+              onChange={handleChange}
+              options={categories.map((cat) => ({
+                value: cat._id,
+                label: cat.name,
+              }))}
+              placeholder="Select Category"
+            />
 
             <Input
               label="Brand"
@@ -336,6 +296,20 @@ export default function AdminProductForm({
               value={formData.collectionName}
               onChange={handleChange}
               loading={loading}
+            />
+
+            <CustomDropdown
+              label="Product Badge"
+              name="badge"
+              value={formData.badge}
+              onChange={handleChange}
+              options={[
+                { value: '', label: 'No Badge' },
+                { value: 'New Arrival', label: 'New Arrival' },
+                { value: 'Best Seller', label: 'Best Seller' },
+                { value: 'Trending', label: 'Trending' },
+                { value: 'Sale', label: 'Sale' },
+              ]}
             />
           </div>
         </section>
@@ -453,6 +427,16 @@ export default function AdminProductForm({
               value={formData.weight}
               onChange={handleChange}
               loading={loading}
+            />
+          </div>
+          <div className="grid gap-5 grid-cols-1 mt-4">
+            <Input
+              label="Tags"
+              name="tags"
+              value={formData.tags}
+              onChange={handleChange}
+              loading={loading}
+              placeholder="Example: kids, girls, fashion, accessories"
             />
           </div>
         </section>

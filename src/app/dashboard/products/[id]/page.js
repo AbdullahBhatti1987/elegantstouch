@@ -63,7 +63,6 @@ export default function ProductDetailPage() {
       toast.error(error.response?.data?.message || 'Delete failed');
     } finally {
       stopLoading();
-
       setShowDeleteModal(false);
     }
   }

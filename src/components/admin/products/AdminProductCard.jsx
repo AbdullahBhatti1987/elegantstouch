@@ -1,11 +1,27 @@
-
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Tag, Package, CalendarDays, Star } from 'lucide-react';
+import {
+  Tag,
+  Package,
+  CalendarDays,
+  Star,
+  Sparkles,
+  TrendingUp,
+  BadgeDollarSign,
+  Gem,
+} from 'lucide-react';
 
 export default function AdminProductCard({ product }) {
+  const badgeIcons = {
+    'New Arrival': Sparkles,
+    'Best Seller': Star,
+    Trending: TrendingUp,
+    Sale: BadgeDollarSign,
+    'Limited Edition': Gem,
+  };
+
   return (
     <Link
       href={`/dashboard/products/${product._id}`}
@@ -22,6 +38,7 @@ export default function AdminProductCard({ product }) {
             alt={product.name}
             fill
             sizes="96px"
+            loading="eager"
             className="object-cover transition duration-500 group-hover:scale-110"
           />
 
@@ -62,10 +79,14 @@ export default function AdminProductCard({ product }) {
         {/* Price */}
 
         <div className="rounded-lg bg-gray-50 p-2 dark:bg-gray-800">
-          <p className="text-[10px] text-gray-500">Price</p>
+          <div className="flex items-center gap-1">
+            <BadgeDollarSign size={12} />
 
-          <p className="text-xs font-bold">
-            {product.salePrice || product.price} {product.currency}
+            <span className="text-[10px] text-gray-500">Price</span>
+          </div>
+
+          <p className="mt-1 text-xs font-bold">
+            {product.currency} : {product.salePrice || product.price}
           </p>
         </div>
 
@@ -74,6 +95,7 @@ export default function AdminProductCard({ product }) {
         <div className="rounded-lg bg-gray-50 p-2 dark:bg-gray-800">
           <div className="flex items-center gap-1">
             <Package size={12} />
+
             <span className="text-[10px] text-gray-500">Stock</span>
           </div>
 
@@ -83,9 +105,13 @@ export default function AdminProductCard({ product }) {
         {/* Badge */}
 
         <div className="rounded-lg bg-gray-50 p-2 dark:bg-gray-800">
-          <p className="text-[10px] text-gray-500">Badge</p>
+          <div className="flex items-center gap-1">
+            <Sparkles size={12} />
 
-          <p className="truncate text-xs font-bold">
+            <span className="text-[10px] text-gray-500">Badge</span>
+          </div>
+
+          <p className="mt-1 truncate text-xs font-bold">
             {product.badge || '-'}
           </p>
         </div>

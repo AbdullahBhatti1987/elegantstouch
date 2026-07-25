@@ -8,24 +8,27 @@ import ProductGrid from '@/components/admin/products/ProductGrid';
 import ProductTable from '@/components/admin/products/ProductTable';
 import { useRouter } from 'next/navigation';
 import Pagination from '@/components/admin/common/Pagination';
-import { useLoading } from '@/context/LoadingContext';
 
 export default function ProductsPage() {
-  const [view, setView] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('categoryView') || 'grid';
-    }
-
-    return 'grid';
-  });
+  const [view, setView] = useState('grid');
   const [products, setProducts] = useState([]);
 
-  const { loading, startLoading, stopLoading } = useLoading();
+  useEffect(() => {
+    const savedView = localStorage.getItem('productView');
+
+    if (savedView) {
+      setView(savedView);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('productView', view);
+  }, [view]);
+
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-
   const [limit, setLimit] = useState(8);
-
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 8,
@@ -36,8 +39,7 @@ export default function ProductsPage() {
   const router = useRouter();
 
   const getProducts = async (keyword = '', currentPage = 1) => {
-    startLoading();
-
+    setLoading(true);
     try {
       const { data } = await axios.get(
         `/api/products?search=${keyword}&page=${currentPage}&limit=${limit}`,
@@ -55,7 +57,7 @@ export default function ProductsPage() {
     } catch (error) {
       console.log(error);
     } finally {
-      stopLoading();
+      setLoading(false);
     }
   };
 
@@ -75,9 +77,6 @@ export default function ProductsPage() {
   };
 
   // Save view whenever changes
-  useEffect(() => {
-    localStorage.setItem('productsView', view);
-  }, [view]);
 
   useEffect(() => {
     getProducts();

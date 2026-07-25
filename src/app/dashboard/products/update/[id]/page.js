@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast';
 
 import ProductDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/ProductDetailSkeleton';
 import AdminProductForm from '@/components/admin/products/AdminProductForm';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function EditProductPage() {
   const { id } = useParams();
@@ -68,6 +69,8 @@ export default function EditProductPage() {
       onSubmit={handleUpdate}
       submitText="Update Product"
       loading={loading}
+      startLoading={startLoading} 
+      stopLoading={stopLoading}
     />
   );
 }

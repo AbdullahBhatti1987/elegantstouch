@@ -55,6 +55,8 @@ export default function AddProductPage() {
         onSubmit={handleCreate}
         submitText="Save Product"
         loading={loading}
+        startLoading={startLoading}
+        stopLoading={stopLoading}
       />
     </div>
   );
