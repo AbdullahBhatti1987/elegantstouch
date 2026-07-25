@@ -90,7 +90,7 @@ if (loading) {
           <div className="relative h-84 overflow-hidden rounded-xl border">
             {category?.image && (
               <Image
-                src={category.image.url || '/images/placeholder.jpg'}
+                src={category.image.thumbnail || '/images/placeholder.jpg'}
                 alt={category.alt || category.name}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
