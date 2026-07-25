@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  Tag,
   Package,
   CalendarDays,
   Star,
@@ -57,19 +56,35 @@ export default function AdminProductCard({ product }) {
           </h3>
 
           <div className="mt-1 flex items-center gap-1 text-xs text-gray-500">
-            <Tag size={12} />
             {product.categoryId?.name}
           </div>
 
-          <span
-            className={`mt-2 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-              product.status === 'active'
-                ? 'bg-green-100 text-green-700'
-                : 'bg-red-100 text-red-700'
-            } `}
-          >
-            {product.status}
-          </span>
+          <div className="flex items-center justify-between">
+            <span
+              className={`mt-2 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                product.status === 'active'
+                  ? 'bg-green-100 text-green-700'
+                  : 'bg-red-100 text-red-700'
+              } `}
+            >
+              {product.status}
+            </span>
+            <span
+              className={`mt-2 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                product.badge === 'New Arrival'
+                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+                  : product.badge === 'Best Seller'
+                    ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300'
+                    : product.badge === 'Trending'
+                      ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
+                      : product.badge === 'Sale'
+                        ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
+                        : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
+              } `}
+            >
+              {product.badge}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -125,14 +140,14 @@ export default function AdminProductCard({ product }) {
 
       {/* Footer */}
 
-      <div className="mt-3 flex items-center justify-between border-t pt-3 text-xs text-gray-500">
+      <div className="mt-3 flex items-center justify-between gap-3 border-t pt-3 text-xs text-gray-500">
         <div className="flex items-center gap-1">
           <CalendarDays size={13} />
 
           {new Date(product.createdAt).toLocaleDateString()}
         </div>
 
-        <span>SKU: {product.sku}</span>
+        <span className="line-clamp-1">SKU: {product.sku}</span>
       </div>
     </Link>
   );

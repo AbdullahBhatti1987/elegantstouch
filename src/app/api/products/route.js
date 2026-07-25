@@ -20,10 +20,10 @@ export async function GET(request) {
     const page = Number(searchParams.get('page')) || 1;
     const limit = Number(searchParams.get('limit')) || 8;
     const skip = (page - 1) * limit;
-
     const priceMin = searchParams.get('priceMin');
     const priceMax = searchParams.get('priceMax');
 
+    const badge = searchParams.get('badge');
     const featured = searchParams.get('featured');
     const status = searchParams.get('status');
 
@@ -67,6 +67,12 @@ export async function GET(request) {
         },
         {
           tags: {
+            $regex: search,
+            $options: 'i',
+          },
+        },
+        {
+          badge: {
             $regex: search,
             $options: 'i',
           },
@@ -147,6 +153,11 @@ export async function GET(request) {
 
     if (featured === 'false') {
       query.featured = false;
+    }
+
+    // Badge Filter
+    if (badge) {
+      query.badge = badge;
     }
 
     // Status Filter

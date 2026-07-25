@@ -8,22 +8,25 @@ import AdminCartGrid from '@/components/admin/carts/AdminCartGrid';
 import AdminCartTable from '@/components/admin/carts/AdminCartTable';
 import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
 import Pagination from '@/components/admin/common/Pagination';
-import { useLoading } from '@/context/LoadingContext';
 
 export default function CartsPage() {
   const router = useRouter();
 
   const [carts, setCarts] = useState([]);
 
-  const [view, setView] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('cartView') || 'grid';
+  const [view, setView] = useState('grid');
+  useEffect(() => {
+    const savedView = localStorage.getItem('cartView');
+    if (savedView) {
+      setView(savedView);
     }
+  }, []);
 
-    return 'grid';
-  });
+  useEffect(() => {
+    localStorage.setItem('cartView', view);
+  }, [view]);
 
-  const { loading, startLoading, stopLoading } = useLoading();
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(8);
@@ -36,9 +39,8 @@ export default function CartsPage() {
 
   // GET CARTS
   const getCarts = async (keyword = '', currentPage = 1) => {
-    startLoading();
-
     try {
+      setLoading(true);
       const { data } = await axios.get(
         `/api/carts?search=${keyword}&page=${currentPage}&limit=${limit}`,
         {
@@ -55,23 +57,18 @@ export default function CartsPage() {
     } catch (error) {
       console.log(error);
     } finally {
-      stopLoading();
+      setLoading(false);
     }
   };
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
-
     getCarts(search, newPage);
   };
 
   useEffect(() => {
     getCarts();
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem('cartView', view);
-  }, [view]);
 
   return (
     <div>

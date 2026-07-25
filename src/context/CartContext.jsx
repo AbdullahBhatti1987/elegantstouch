@@ -22,7 +22,7 @@ export function CartProvider({ children }) {
   const [coupon, setCoupon] = useState(null);
   const [discount, setDiscount] = useState(0);
   const [initialLoading, setInitialLoading] = useState(true);
-  const { loading , startLoading, stopLoading} = useLoading();
+  const { loading, startLoading, stopLoading } = useLoading();
 
   // Get Guest Id
   useEffect(() => {
@@ -39,7 +39,7 @@ export function CartProvider({ children }) {
 
       try {
         const { data } = await axios.get(
-          `/api/cart/count?guestId=${id}`,
+          `/api/carts/count?guestId=${id}`,
         );
 
         if (data.success) {
@@ -68,11 +68,10 @@ export function CartProvider({ children }) {
           setInitialLoading(true);
         }
 
-        const response = await axios.get(`/api/cart?guestId=${id}`);
+        const response = await axios.get(`/api/carts?guestId=${id}`);
         console.log('CART API RESPONSE:', response.data);
         if (response.data.success) {
           setCart(response.data.data[0] || null);
-          
         }
       } catch (error) {
         console.error('FETCH CART ERROR:', error);
@@ -111,7 +110,7 @@ export function CartProvider({ children }) {
         setGuestId(currentGuestId);
       }
 
-      const { data } = await axios.post('/api/cart', {
+      const { data } = await axios.post('/api/carts', {
         guestId: currentGuestId,
         productId: product._id,
         quantity,
@@ -129,15 +128,15 @@ export function CartProvider({ children }) {
         };
       }
     } catch (error) {
-      console.log('FULL CART ERROR ==> ', error);
-      console.log('RESPONSE ERROR ==> ', error.response?.data);
-      console.log('STATUS ==> ', error.response?.status);
+      // console.log('FULL CART ERROR ==> ', error);
+      // console.log('RESPONSE ERROR ==> ', error.response?.data);
+      // console.log('STATUS ==> ', error.response?.status);
 
       toast.error(
         error.response?.data?.message || 'Something went wrong',
       );
 
-      console.log('ADD CART ERROR ==> ', error.response?.data);
+      // console.log('ADD CART ERROR ==> ', error.response?.data);
 
       return {
         success: false,
@@ -147,14 +146,13 @@ export function CartProvider({ children }) {
 
   // Remove From Cart
   const removeFromCart = async (productId) => {
-
     startLoading();
     try {
       const updatedItems = cart.items.filter(
         (item) => item.productId._id !== productId,
       );
 
-      await axios.put(`/api/cart/${guestId}`, {
+      await axios.put(`/api/carts/${guestId}`, {
         items: updatedItems.map((item) => ({
           productId: item.productId._id,
           quantity: item.quantity,
@@ -182,14 +180,15 @@ export function CartProvider({ children }) {
       return {
         success: false,
       };
-    } finally{
-      stopLoading()
+    } finally {
+      stopLoading();
     }
   };
 
   // Update Quantity
   const updateCartQuantity = async (productId, quantity) => {
     try {
+      startLoading();
       const updatedItems = cart.items.map((item) => {
         if (item.productId._id === productId) {
           return {
@@ -204,7 +203,7 @@ export function CartProvider({ children }) {
         };
       });
 
-      await axios.put(`/api/cart/${guestId}`, {
+      await axios.put(`/api/carts/${guestId}`, {
         items: updatedItems,
       });
 
@@ -221,13 +220,15 @@ export function CartProvider({ children }) {
       return {
         success: false,
       };
+    } finally {
+      stopLoading();
     }
   };
 
   // Clear Cart
   const clearCart = async () => {
     try {
-      await axios.delete(`/api/cart/${guestId}`, {
+      await axios.delete(`/api/carts/${guestId}`, {
         data: {
           guestId,
         },

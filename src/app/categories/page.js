@@ -5,12 +5,11 @@ import axios from 'axios';
 
 import CategoryCard from '@/components/category/CategoryCard';
 import CategoryCardSkeleton from '@/components/category/CategoryCardSkeleton';
-import { useLoading } from '@/context/LoadingContext';
 import Pagination from '@/components/admin/common/Pagination';
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
-
+  const [ loading, setLoading ] = useState(true);
   const [pagination, setPagination] = useState({
     page: 1,
     totalPages: 1,
@@ -18,12 +17,11 @@ export default function CategoriesPage() {
     limit: 8,
   });
 
-  const { loading, startLoading, stopLoading } = useLoading();
 
   const fetchCategories = useCallback(
     async (page = 1) => {
       try {
-        startLoading();
+        setLoading(true);
 
         const { data } = await axios.get(
           `/api/categories?page=${page}&limit=${pagination.limit}`,
@@ -37,10 +35,10 @@ export default function CategoriesPage() {
       } catch (error) {
         console.error('Categories Fetch Error:', error);
       } finally {
-        stopLoading();
+        setLoading(false);
       }
     },
-    [pagination.limit, startLoading, stopLoading],
+    [pagination.limit],
   );
 
   useEffect(() => {

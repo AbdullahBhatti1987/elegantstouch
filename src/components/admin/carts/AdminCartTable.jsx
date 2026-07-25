@@ -8,10 +8,31 @@ import {
   User,
 } from 'lucide-react';
 
-import AdminCartTableSkeleton from '../common/skeleton/tableSkeletons/CartTableSkeleton';
-
 export default function AdminCartTable({ carts, loading }) {
   const router = useRouter();
+  const getCartAmount = (cart) => {
+    const subtotal =
+      cart.items?.reduce(
+        (total, item) =>
+          total +
+          (item.productId?.salePrice || item.productId?.price || 0) *
+            (item.quantity || 0),
+        0,
+      ) || 0;
+
+    const delivery = subtotal >= 2000 ? 0 : 250;
+
+    return subtotal + delivery;
+  };
+
+  const getTotalQuantity = (cart) => {
+    return (
+      cart.items?.reduce(
+        (total, item) => total + (item.quantity || 0),
+        0,
+      ) || 0
+    );
+  };
 
   return (
     <div className="w-full max-w-full overflow-x-auto rounded-xl border bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
@@ -50,7 +71,7 @@ export default function AdminCartTable({ carts, loading }) {
 
         <tbody>
           {loading ? (
-            <AdminCartTableSkeleton rows={6} />
+            <Loader type={'cartTable'} rows={6} />
           ) : (
             carts.map((cart, index) => (
               <tr
@@ -76,11 +97,7 @@ export default function AdminCartTable({ carts, loading }) {
 
                     <div className="min-w-0">
                       <p className="truncate font-semibold">
-                        {cart.user?.name || 'Guest'}
-                      </p>
-
-                      <p className="truncate text-[10px] text-gray-500">
-                        {cart.user?.email || '-'}
+                        {cart.guestId || 'Guest'}
                       </p>
                     </div>
                   </div>
@@ -102,14 +119,14 @@ export default function AdminCartTable({ carts, loading }) {
                   <div className="flex items-center gap-1">
                     <ShoppingCart size={14} />
 
-                    {cart.totalItems || 0}
+                    {getTotalQuantity(cart)}
                   </div>
                 </td>
 
                 {/* AMOUNT */}
 
                 <td className="px-2 font-semibold md:px-4">
-                  PKR {cart.total || 0}
+                  PKR {getCartAmount(cart)}
                 </td>
 
                 {/* CART AGE */}

@@ -12,6 +12,19 @@ import {
 export default function AdminCartCard({ cart }) {
   const router = useRouter();
 
+  const subtotal =
+    cart.items?.reduce(
+      (total, item) =>
+        total +
+        (item.productId?.salePrice || item.productId?.price || 0) *
+          (item.quantity || 0),
+      0,
+    ) || 0;
+
+  const deliveryCharges = subtotal >= 2000 ? 0 : 250;
+
+  const totalAmount = subtotal + deliveryCharges;
+
   return (
     <div
       onClick={() => router.push(`/dashboard/carts/${cart._id}`)}
@@ -31,12 +44,8 @@ export default function AdminCartCard({ cart }) {
 
         <div className="min-w-0 flex-1">
           <h3 className="truncate text-sm font-bold text-gray-900 dark:text-white">
-            {cart.user?.name || 'Guest User'}
+            {cart.guestId || 'Guest User'}
           </h3>
-
-          <p className="mt-1 truncate text-xs text-gray-500">
-            {cart.user?.email || '-'}
-          </p>
 
           <span
             className={`mt-2 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${
@@ -71,7 +80,10 @@ export default function AdminCartCard({ cart }) {
           <ShoppingCart size={12} className="text-gray-500" />
 
           <p className="mt-1 text-xs font-bold">
-            {cart.totalItems || 0}
+            {cart.items?.reduce(
+              (total, item) => total + item.quantity,
+              0,
+            ) || 0}
           </p>
 
           <span className="text-[10px] text-gray-500">Qty</span>
@@ -83,7 +95,7 @@ export default function AdminCartCard({ cart }) {
           <Banknote size={12} className="text-gray-500" />
 
           <p className="mt-1 truncate text-xs font-bold">
-            {cart.total || 0}
+            {totalAmount}
           </p>
 
           <span className="text-[10px] text-gray-500">PKR</span>
@@ -98,12 +110,12 @@ export default function AdminCartCard({ cart }) {
         </p>
 
         <div className="flex gap-1 overflow-hidden">
-          {cart.items?.slice(0, 3).map((item) => (
+          {cart.items?.slice(0, 3).map((item, index) => (
             <span
-              key={item._id}
+              key={item.productId?._id || index}
               className="rounded-full bg-gray-50 px-2 py-1 text-[10px] whitespace-nowrap text-gray-600 dark:bg-blue-900/30"
             >
-              {item.product?.name || 'Product'}
+              {item.productId?.name || 'Product'}
             </span>
           ))}
         </div>

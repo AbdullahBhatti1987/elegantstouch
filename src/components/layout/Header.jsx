@@ -155,7 +155,7 @@ export default function Header() {
           {/* Wishlist */}
           <button
             type="button"
-            onClick={() => router.push('/wish')}
+            onClick={() => router.push('/wishlist')}
             className={`group hover:text-primary relative cursor-pointer transition ${
               pathname === '/wish' ? 'text-primary' : ''
             }`}
@@ -178,7 +178,7 @@ export default function Header() {
           {/* Cart */}
           <button
             type="button"
-            onClick={() => router.push('/cart')}
+            onClick={() => router.push('/carts')}
             className={`group hover:text-primary relative cursor-pointer transition ${
               pathname === '/cart' ? 'text-primary' : ''
             }`}

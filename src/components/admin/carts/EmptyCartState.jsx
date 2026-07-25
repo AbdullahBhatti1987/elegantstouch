@@ -3,8 +3,7 @@
 import { ShoppingCart } from 'lucide-react';
 
 export default function EmptyCartState({
-  title = 'No Carts Found',
-  description = 'There are currently no customer carts available. Cart information will appear here when customers add products.',
+ 
 }) {
   return (
     <div className="col-span-full">

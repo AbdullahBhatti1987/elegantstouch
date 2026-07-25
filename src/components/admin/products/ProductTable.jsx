@@ -86,7 +86,7 @@ export default function ProductTable({ products, loading }) {
                     {product.name}
                   </p>
 
-                  <p className="text-[10px] text-gray-500 md:text-xs">
+                  <p className="text-[10px] text-gray-500 md:text-xs line-clamp-1">
                     SKU: {product.sku}
                   </p>
                 </td>

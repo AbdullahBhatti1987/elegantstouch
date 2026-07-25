@@ -1,19 +1,16 @@
 'use client';
 
-
 import CartList from '@/components/cart/CartList';
 import CartSummary from '@/components/cart/CartSummary';
 import EmptyCart from '@/components/cart/EmptyCart';
 import CartSkeleton from '@/components/cart/CartSkeleton';
 import { useCart } from '@/context/CartContext';
 
-
 export default function CartPage() {
   const { cart, initialLoading, updateCartQuantity, removeFromCart } =
     useCart();
 
-
-  // Show Skeleton While Fetching Cart
+  // Loading
   if (initialLoading) {
     return <CartSkeleton />;
   }
@@ -29,7 +26,7 @@ export default function CartPage() {
       image: item.productId.images?.[0]?.thumbnail,
     })) || [];
 
-  // Show Empty Cart Only After Loading Finished
+  // Empty Cart
   if (!cart || cartItems.length === 0) {
     return <EmptyCart />;
   }

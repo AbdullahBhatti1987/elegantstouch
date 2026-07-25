@@ -10,23 +10,22 @@ import Pagination from '@/components/admin/common/Pagination';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import ProductCardSkeleton from '@/components/products/ProductCardSkeleton';
-import { useLoading } from '@/context/LoadingContext';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
+  const [ loading, setLoading ] = useState(true);
   const [limit] = useState(12);
   const [pagination, setPagination] = useState({});
   const router = useRouter();
   const { addToCart, isInCart } = useCart();
   const { addToWishlist, isInWishlist, removeFromWishlist } =
     useWishlist();
-  const { loading, startLoading, stopLoading } = useLoading();
 
   const fetchProducts = useCallback(
     async (currentPage = 1) => {
       try {
-        startLoading();
+        setLoading(true);
 
         const { data } = await axios.get(
           `/api/products?page=${currentPage}&limit=${limit}`,
@@ -40,7 +39,7 @@ export default function ProductsPage() {
       } catch (error) {
         console.error('Products Fetch Error:', error);
       } finally {
-        stopLoading();
+        setLoading(false);
       }
     },
     [limit],

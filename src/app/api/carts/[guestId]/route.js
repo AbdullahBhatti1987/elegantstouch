@@ -65,6 +65,71 @@ export async function GET(req, { params }) {
 
 // ================= UPDATE CART =================
 
+// export async function PUT(req, { params }) {
+//   try {
+//     await connectDB();
+
+//     const { guestId } = await params;
+
+//     const body = await req.json();
+
+//     const cart = await Cart.findOneAndUpdate(
+//       {
+//         guestId,
+//       },
+//       body,
+//       {
+//         new: true,
+//         runValidators: true,
+//       },
+//     ).populate({
+//       path: 'items.productId',
+//       select: `
+//     name
+//     sku
+//     images
+//     price
+//     salePrice
+//     categoryId
+//     brand
+//     stock
+//   `,
+//     });
+
+//     if (!cart) {
+//       return NextResponse.json(
+//         {
+//           success: false,
+//           message: 'Cart not found',
+//         },
+//         {
+//           status: 404,
+//         },
+//       );
+//     }
+
+//     return NextResponse.json({
+//       success: true,
+
+//       message: 'Cart updated successfully',
+
+//       data: cart,
+//     });
+//   } catch (error) {
+//     console.log('UPDATE CART ERROR:', error);
+
+//     return NextResponse.json(
+//       {
+//         success: false,
+//         message: error.message,
+//       },
+//       {
+//         status: 500,
+//       },
+//     );
+//   }
+// }
+
 export async function PUT(req, { params }) {
   try {
     await connectDB();
@@ -73,27 +138,9 @@ export async function PUT(req, { params }) {
 
     const body = await req.json();
 
-    const cart = await Cart.findOneAndUpdate(
-      {
-        guestId,
-      },
-      body,
-      {
-        returnDocument: 'after',
-        runValidators: true,
-      },
-    ).populate({
-      path: 'items.productId',
-      select: `
-        name
-        sku
-        images
-        price
-        salePrice
-        categoryId
-        brand
-        stock
-      `,
+    const cart = await Cart.findOne({
+      guestId,
+      status: 'active',
     });
 
     if (!cart) {
@@ -108,11 +155,36 @@ export async function PUT(req, { params }) {
       );
     }
 
+    if (body.items) {
+      cart.items = body.items.map((item) => ({
+        productId: item.productId,
+        quantity: Number(item.quantity) || 1,
+      }));
+    }
+
+    await cart.save();
+
+    await cart.populate({
+      path: 'items.productId',
+      select: `
+        name
+        sku
+        images
+        price
+        salePrice
+        categoryId
+        brand
+        stock
+      `,
+      populate: {
+        path: 'categoryId',
+        select: 'name slug',
+      },
+    });
+
     return NextResponse.json({
       success: true,
-
       message: 'Cart updated successfully',
-
       data: cart,
     });
   } catch (error) {
@@ -129,7 +201,6 @@ export async function PUT(req, { params }) {
     );
   }
 }
-
 // ================= DELETE CART =================
 
 export async function DELETE(req, { params }) {

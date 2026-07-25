@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function CouponInput({
   subtotal,
