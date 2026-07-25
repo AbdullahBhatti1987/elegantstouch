@@ -364,7 +364,7 @@ export default function AdminProductForm({
         />
 
         <section>
-          <h2 className="mb-5 text-lg font-semibold">Description</h2>
+          <h2 className=" text-lg font-semibold">Description</h2>
 
           <Textarea
             label="Short Description"
@@ -392,7 +392,7 @@ export default function AdminProductForm({
         </section>
 
         <section>
-          <h2 className="mb-5 text-lg font-semibold">
+          <h2 className="mb-4 text-lg font-semibold">
             Specifications
           </h2>
 

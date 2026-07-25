@@ -47,7 +47,7 @@ export default function CustomDropdown({
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium">
+      <label className="my-1.5 block text-sm font-medium">
         {label}
       </label>
 

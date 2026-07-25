@@ -12,7 +12,7 @@ export default function Textarea({
   className = '',
 }) {
   return (
-    <div className="w-full">
+    <div className="w-full mt-4">
       {label && (
         <label
           htmlFor={name}
