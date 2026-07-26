@@ -9,14 +9,13 @@ import Pagination from '@/components/admin/common/Pagination';
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
-  const [ loading, setLoading ] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
     page: 1,
     totalPages: 1,
     total: 0,
     limit: 8,
   });
-
 
   const fetchCategories = useCallback(
     async (page = 1) => {
@@ -84,9 +83,11 @@ export default function CategoriesPage() {
             ))} */}
           </>
         ) : categories.length > 0 ? (
-          categories.map((category) => (
-            <CategoryCard key={category._id} category={category} />
-          ))
+          [...categories]
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((category) => (
+              <CategoryCard key={category._id} category={category} />
+            ))
         ) : (
           <p className="col-span-full text-center text-gray-500">
             No categories found

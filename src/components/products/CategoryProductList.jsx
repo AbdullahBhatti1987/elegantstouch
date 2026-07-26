@@ -74,7 +74,7 @@ export default function CategoryProductList({
               addToCart={addToCart}
 
               isInCart={isInCart(product._id)}
-
+              loading={loading}
               onClick={() => router.push(`/products/${product._id}`)}
             />
           ))

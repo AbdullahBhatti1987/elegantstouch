@@ -168,7 +168,7 @@ export default function Header() {
               />
 
               {wishlistCount >= 0 && (
-                <span className="bg-primary text-app absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-bold">
+                <span className="border border-gray-500 bg-gray-100 absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-bold">
                   {wishlistCount}
                 </span>
               )}
@@ -191,7 +191,7 @@ export default function Header() {
               />
 
               {cartCount >= 0 && (
-                <span className="bg-primary text-app absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-bold">
+                <span className="border border-gray-500 bg-gray-100 text-gray-600 absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-semibold">
                   {cartCount}
                 </span>
               )}
