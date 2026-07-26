@@ -38,8 +38,9 @@ export function WishlistProvider({ children }) {
 
       try {
         const { data } = await axios.get(
-          `/api/wishlist/count?guestId=${id}`,
+          `/api/wishlists/count?guestId=${id}`,
         );
+        console.log('wish Data==>', data);
 
         if (data.success) {
           setWishlistCount(data.count);
@@ -65,7 +66,7 @@ export function WishlistProvider({ children }) {
           setInitialLoading(true);
         }
 
-        const { data } = await axios.get(`/api/wishlist/${id}`);
+        const { data } = await axios.get(`/api/wishlists/${id}`);
 
         if (data.success) {
           setWishlist(data.data);
@@ -86,12 +87,14 @@ export function WishlistProvider({ children }) {
   // Initial Fetch
   useEffect(() => {
     if (guestId) {
-      fetchWishlist();
       fetchWishlistCount();
-    } else {
-      stopLoading();
     }
-  }, [guestId, fetchWishlist, fetchWishlistCount]);
+  }, [guestId]);
+
+  //  Fetch
+  useEffect(() => {
+    fetchWishlist();
+  }, []);
 
   // Add To Wishlist
   const addToWishlist = async (product) => {
@@ -106,7 +109,7 @@ export function WishlistProvider({ children }) {
         setGuestId(currentGuestId);
       }
 
-      const { data } = await axios.post('/api/wishlist', {
+      const { data } = await axios.post('/api/wishlists', {
         guestId: currentGuestId,
         productId: product._id,
       });
@@ -143,7 +146,7 @@ export function WishlistProvider({ children }) {
 
       // Last item remove ho gaya
       if (updatedItems.length === 0) {
-        await axios.delete(`/api/wishlist/${guestId}`);
+        await axios.delete(`/api/wishlists/${guestId}`);
 
         setWishlist(null);
         setWishlistCount(0);
@@ -153,8 +156,7 @@ export function WishlistProvider({ children }) {
         };
       }
 
-
-      await axios.put(`/api/wishlist/${guestId}`, {
+      await axios.put(`/api/wishlists/${guestId}`, {
         items: updatedItems.map((item) => ({
           productId: item.productId._id,
         })),
@@ -178,7 +180,7 @@ export function WishlistProvider({ children }) {
   // Clear Wishlist
   const clearWishlist = async () => {
     try {
-      await axios.delete(`/api/wishlist/${guestId}`, {
+      await axios.delete(`/api/wishlists/${guestId}`, {
         data: {
           guestId,
         },

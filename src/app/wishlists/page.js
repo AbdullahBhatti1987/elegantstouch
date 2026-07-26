@@ -24,6 +24,9 @@ export default function WishlistPage() {
   const [filter, setFilter] = useState('all');
   const [sort, setSort] = useState('newest');
 
+
+  console.log("wishlist==>", wishlist)
+  console.log("wishlistCount==>", wishlistCount)
   // Wishlist items
 
   // const wishlistItems =
@@ -106,13 +109,9 @@ export default function WishlistPage() {
 
       <WishlistGrid
         items={filteredItems}
-
         onRemove={removeFromWishlist}
-
         onAddToCart={addToCart}
-
         isInWishlist={isInWishlist}
-
         isInCart={isInCart}
       />
     </div>

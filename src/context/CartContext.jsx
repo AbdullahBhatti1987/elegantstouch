@@ -118,7 +118,7 @@ export function CartProvider({ children }) {
 
       if (data.success) {
         toast.success(data.message);
-
+        // toast.success(`${product.name} added to cart successfully`);
         // Refresh Context Cart
         await fetchCart(currentGuestId);
         await fetchCartCount(currentGuestId);

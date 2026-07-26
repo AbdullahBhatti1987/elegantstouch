@@ -155,7 +155,7 @@ export default function Header() {
           {/* Wishlist */}
           <button
             type="button"
-            onClick={() => router.push('/wishlist')}
+            onClick={() => router.push('/wishlists')}
             className={`group hover:text-primary relative cursor-pointer transition ${
               pathname === '/wish' ? 'text-primary' : ''
             }`}

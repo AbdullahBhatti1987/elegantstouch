@@ -15,23 +15,16 @@ export async function GET(req) {
         {
           success: false,
           count: 0,
-          message: 'Guest ID is required',
         },
-        {
-          status: 400,
-        },
+        { status: 400 },
       );
     }
 
-    const wishlist = await Wishlist.findOne({
-      guestId,
-    });
-
-    const count = wishlist?.items?.length || 0;
+    const wishlist = await Wishlist.findOne({ guestId });
 
     return NextResponse.json({
       success: true,
-      count,
+      count: wishlist?.items?.length || 0,
     });
   } catch (error) {
     console.log('WISHLIST COUNT ERROR:', error);
@@ -40,11 +33,8 @@ export async function GET(req) {
       {
         success: false,
         count: 0,
-        message: error.message,
       },
-      {
-        status: 500,
-      },
+      { status: 500 },
     );
   }
 }

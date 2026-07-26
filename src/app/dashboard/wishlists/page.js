@@ -3,11 +3,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import AdminWishlistGrid from '@/components/admin/wishlists/AdminWishlistGrid';
-import AdminWishlistTable from '@/components/admin/wishlists/AdminWishlistTable';
+
 
 import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
 import Pagination from '@/components/admin/common/Pagination';
+import AdminWishlistGrid from '@/components/admin/wishlists/AdminWishlistGrid';
+import AdminWishlistTable from '@/components/admin/wishlists/AdminWishlistTable';
 
 export default function WishlistsPage() {
   const [wishlists, setWishlists] = useState([]);
