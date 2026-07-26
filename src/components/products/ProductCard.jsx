@@ -14,7 +14,6 @@ export default function ProductCard({
   onClick,
   addToCart,
   isInCart = false,
-  loading,
 }) {
   return (
     <article className="group cursor-pointer rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
@@ -129,7 +128,7 @@ export default function ProductCard({
             onClick={() => {
               addToCart(product, 1);
             }}
-            disabled={loading || isInCart}
+            disabled={isInCart}
             className={`mt-3 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-medium text-white transition ${
               isInCart
                 ? 'cursor-not-allowed bg-gray-400'
@@ -137,11 +136,7 @@ export default function ProductCard({
             }`}
           >
             <ShoppingCart size={17} />
-            {loading
-              ? 'Adding...'
-              : isInCart
-                ? 'Already In Cart'
-                : 'Add To Cart'}
+            {isInCart ? 'Already In Cart' : 'Add To Cart'}
           </button>
         )}
       </div>

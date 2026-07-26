@@ -65,11 +65,9 @@ export default function CategoryProductList({
               product={product}
               addToWishlist={addToWishlist}
               removeFromWishlist={removeFromWishlist}
-              // isInWishlist={isInWishlist(product._id)}
-              isInWishlist={isInWishlist}
+              isInWishlist={isInWishlist(product._id)}
               addToCart={addToCart}
-              // isInCart={isInCart(product._id)}
-              isInCart={isInCart}
+              isInCart={isInCart(product._id)}
               loading={loading}
               onClick={() => router.push(`/products/${product._id}`)}
             />

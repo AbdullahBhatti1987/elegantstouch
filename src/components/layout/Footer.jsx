@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="border-secondary mb-16 md:mb-0 border-t">
+    <footer className="border-secondary mb-16 border-t md:mb-0">
       <div className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         {/* Top Section */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-6">
@@ -102,12 +102,12 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        {/* Bottom Section */}
-        <div className="border-primery mt-10 flex items-center gap-4 border-t pt-6 md:flex-row">
-          <p className="text-textcolor text-center text-sm w-full">
-            © 2026 Elegant Touch. All rights reserved.
-          </p>
-        </div>
+      </div>
+      {/* Bottom Section */}
+      <div className="border-primery my-5 flex items-center gap-4 border-t pt-6 md:flex-row">
+        <p className="text-textcolor w-full text-center text-sm">
+          © 2026 Elegant Touch. All rights reserved.
+        </p>
       </div>
     </footer>
   );
