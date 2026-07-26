@@ -7,11 +7,11 @@ import AdminBannerTable from '@/components/admin/banners/AdminBannerTable';
 import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
 import Pagination from '@/components/admin/common/Pagination';
 import { useRouter } from 'next/navigation';
-import { useLoading } from '@/context/LoadingContext';
 import AdminBannerGrid from '@/components/admin/banners/AdminBannerGrid';
 
 export default function BannersPage() {
   const [banners, setBanners] = useState([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [view, setView] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -21,7 +21,6 @@ export default function BannersPage() {
     return 'grid';
   });
 
-  const { loading, startLoading, stopLoading } = useLoading();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(8);
@@ -34,7 +33,7 @@ export default function BannersPage() {
 
   // GET BANNERS
   const getBanners = async (keyword = '', currentPage = 1) => {
-    startLoading();
+    setLoading(true);
 
     try {
       const { data } = await axios.get(
@@ -54,7 +53,7 @@ export default function BannersPage() {
     } catch (error) {
       console.log(error);
     } finally {
-      stopLoading();
+      setLoading(false);
     }
   };
 

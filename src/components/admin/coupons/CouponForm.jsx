@@ -30,6 +30,8 @@ export default function CouponForm({
   onSubmit,
   submitText = 'Save Coupon',
   loading,
+  startLoading,
+  stopLoading,
 }) {
   const router = useRouter();
   const [categories, setCategories] = useState([]);

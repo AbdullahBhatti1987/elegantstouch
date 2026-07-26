@@ -44,6 +44,8 @@ export default function AddCouponPage() {
         onSubmit={handleCreate}
         submitText="Save Coupon"
         loading={loading}
+        startLoading={startLoading}
+        stopLoading={stopLoading}
       />
     </div>
   );
