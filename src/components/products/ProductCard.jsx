@@ -41,7 +41,7 @@ export default function ProductCard({
         {/* BADGE */}
 
         {product.badge && (
-          <span className="absolute top-3 left-3 rounded-full bg-pink-500 px-3 py-1 text-xs font-semibold text-white">
+          <span className="absolute top-3 left-3 rounded-full border border-white/40 bg-white/30 px-3 py-1 text-[10px] font-semibold text-black shadow-lg backdrop-blur-xl">
             {product.badge}
           </span>
         )}
@@ -59,10 +59,10 @@ export default function ProductCard({
                 addToWishlist(product);
               }
             }}
-            className="absolute top-3 right-3 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/80 shadow"
+            className="absolute top-3 right-3 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-white/80 shadow"
           >
             <Heart
-              size={20}
+              size={18}
               className={
                 isInWishlist
                   ? 'fill-primary text-primary'

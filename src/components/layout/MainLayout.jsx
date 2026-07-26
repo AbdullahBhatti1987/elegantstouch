@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 // import Header from './Header';
 import Footer from './Footer';
 import Header from './Header';
+import MobileBottomNav from './MobileBottomNav';
 
 export default function MainLayout({ children }) {
   const pathname = usePathname();
@@ -21,6 +22,7 @@ export default function MainLayout({ children }) {
 
       <main className="flex-1">{children}</main>
 
+      {!isDashboard && <MobileBottomNav />}
       {!hideFooter && <Footer />}
     </div>
   );

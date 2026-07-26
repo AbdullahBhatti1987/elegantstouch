@@ -62,18 +62,14 @@ export default function CategoryProductList({
           filteredProducts.map((product) => (
             <ProductCard
               key={product._id}
-
               product={product}
-
               addToWishlist={addToWishlist}
-
               removeFromWishlist={removeFromWishlist}
-
-              isInWishlist={isInWishlist(product._id)}
-
+              // isInWishlist={isInWishlist(product._id)}
+              isInWishlist={isInWishlist}
               addToCart={addToCart}
-
-              isInCart={isInCart(product._id)}
+              // isInCart={isInCart(product._id)}
+              isInCart={isInCart}
               loading={loading}
               onClick={() => router.push(`/products/${product._id}`)}
             />
