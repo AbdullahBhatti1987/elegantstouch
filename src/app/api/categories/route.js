@@ -3,7 +3,6 @@ import { connectDB } from '@/lib/mongodb';
 import Category from '@/models/Category';
 import { singleFileToCloudinary } from '@/lib/singleFileToCloudinary';
 
-
 export async function GET(req) {
   try {
     await connectDB();
@@ -49,12 +48,48 @@ export async function GET(req) {
 
     const totalCategories = await Category.countDocuments(query);
 
-    const categories = await Category.find(query)
-      .sort({
-        sortOrder: 1,
-      })
-      .skip(skip)
-      .limit(limit);
+    const categories = await Category.aggregate([
+      {
+        $match: query,
+      },
+
+      {
+        $lookup: {
+          from: 'products',
+          localField: '_id',
+          foreignField: 'categoryId',
+          as: 'products',
+        },
+      },
+
+      {
+        $addFields: {
+          productCount: {
+            $size: '$products',
+          },
+        },
+      },
+
+      {
+        $project: {
+          products: 0,
+        },
+      },
+
+      {
+        $sort: {
+          sortOrder: 1,
+        },
+      },
+
+      {
+        $skip: skip,
+      },
+
+      {
+        $limit: limit,
+      },
+    ]);
 
     return NextResponse.json({
       success: true,

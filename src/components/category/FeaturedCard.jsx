@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react';
 export default function FeatureCard({ category }) {
   // console.log("Category Detail==>", category)
   const { _id, name, image, productCount, description } = category;
-
+  console.log('productCount==>', productCount);
   return (
     <Link
       href={`/categories/${_id}`}
@@ -16,13 +16,13 @@ export default function FeatureCard({ category }) {
     >
       {/* Image */}
 
-      <div className="relative aspect-[4/5] overflow-hidden">
+      <div className="relative aspect-[1/1] overflow-hidden">
         <Image
           src={
             image?.thumbnail ||
             image?.url ||
             '/images/default-category.jpg'
-          } 
+          }
           alt={image?.alt || name || 'Category image'}
           fill
           sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 25vw"
@@ -35,23 +35,23 @@ export default function FeatureCard({ category }) {
 
         {/* Content */}
 
-        <div className="absolute bottom-0 left-0 w-full p-5 text-white">
-          <h3 className="text-lg font-bold md:text-xl">{name}</h3>
-
-          {description && (
-            <p className="mt-1 line-clamp-2 text-sm text-white/80">
-              {description}
-            </p>
-          )}
-
-          <div className="mt-3 flex items-center justify-between">
+        <div className="absolute inset-0 flex flex-col justify-between p-5 text-white">
+          {/* Top Left - Product Count */}
+          <div className="w-fit">
             {productCount !== undefined && (
               <span className="rounded-full bg-white/20 px-3 py-1 text-xs backdrop-blur">
                 {productCount} Products
               </span>
             )}
+          </div>
 
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-black transition-transform duration-300 group-hover:translate-x-1">
+          {/* Bottom - Name + Button */}
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="line-clamp-1 text-lg font-bold md:text-xl">
+              {name}
+            </h3>
+
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform duration-300 group-hover:translate-x-1">
               <ArrowRight size={17} />
             </span>
           </div>
@@ -64,4 +64,3 @@ export default function FeatureCard({ category }) {
     </Link>
   );
 }
-

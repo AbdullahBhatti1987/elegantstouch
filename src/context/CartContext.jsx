@@ -69,7 +69,7 @@ export function CartProvider({ children }) {
         }
 
         const response = await axios.get(`/api/carts?guestId=${id}`);
-        console.log('CART API RESPONSE:', response.data);
+        // console.log('CART API RESPONSE:', response.data);
         if (response.data.success) {
           setCart(response.data.data[0] || null);
         }

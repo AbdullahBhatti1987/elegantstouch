@@ -6,19 +6,37 @@ export async function GET(req, { params }) {
   try {
     await connectDB();
 
-    const banner = await Banner.findById(params.id);
+    const { id } = await params;
+
+    const banner = await Banner.findById(id);
+
+    if (!banner) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Banner not found',
+        },
+        {
+          status: 404,
+        },
+      );
+    }
 
     return NextResponse.json({
       success: true,
-      banner,
+      data: banner,
     });
   } catch (error) {
+    console.log('GET SINGLE BANNER ERROR:', error);
+
     return NextResponse.json(
       {
         success: false,
         message: error.message,
       },
-      { status: 500 },
+      {
+        status: 500,
+      },
     );
   }
 }

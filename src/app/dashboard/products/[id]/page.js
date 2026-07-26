@@ -19,6 +19,8 @@ import ConfirmModal from '@/components/admin/common/ConfirmModal';
 import ProductDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/ProductDetailSkeleton';
 import BackButton from '@/components/admin/common/header/BackButton';
 import { useLoading } from '@/context/LoadingContext';
+import NotFound from '@/components/admin/common/states/NotFound';
+import AdminViewHeader from '@/components/admin/common/header/AdminViewHeader';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -40,7 +42,9 @@ export default function ProductDetailPage() {
       }
     } catch (error) {
       toast.error(
-        error.response?.data?.message || 'Product not found',
+
+        // error.response?.data?.message || 
+        'Product not found',
       );
     } finally {
       stopLoading();
@@ -78,22 +82,23 @@ export default function ProductDetailPage() {
   }
 
   if (!product) {
-    return <div className="p-6">Product not found</div>;
+    return (
+      <NotFound
+        title="Product Not Found"
+        message="The product you are looking for does not exist or has been removed."
+        buttonText="Back to Products"
+      />
+    );
   }
 
   return (
     <div className="space-y-6">
       {/* Header */}
 
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">{product.name}</h1>
-
-          <p className="text-gray-500">Product Details</p>
-        </div>
-
-        <BackButton onClick={() => router.back()} />
-      </div>
+      <AdminViewHeader
+        title={product.name}
+        subtitle="Product Details"
+      />
 
       {/* Main */}
 

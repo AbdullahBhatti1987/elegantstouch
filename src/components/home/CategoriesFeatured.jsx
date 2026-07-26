@@ -51,19 +51,16 @@ export default function CategoriesFeatured() {
       {/* Grid */}
 
       <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-        {loading ? (
-          [...Array(4)].map((_, index) => (
-            <FeatureCardSkeleton key={index} />
-          ))
-        ) : categories.length > 0 ? (
-          categories.slice(0, 4).map((category) => (
-            <FeatureCard key={category._id} category={category} />
-          ))
-        ) : (
-          <p className="col-span-full text-center text-gray-500">
-            No categories found
-          </p>
-        )}
+        {loading
+          ? [...Array(4)].map((_, index) => (
+              <FeatureCardSkeleton key={index} />
+            ))
+          : categories.length > 0 &&
+            categories
+              .slice(0, 4)
+              .map((category) => (
+                <FeatureCard key={category._id} category={category}  />
+              ))}
       </div>
     </section>
   );

@@ -12,19 +12,11 @@ export default function HeroBannerImage({ slide }) {
 
         <div className="relative h-full overflow-hidden rounded-[30px] border border-white bg-white shadow-xl">
           <Image
-            src={slide.image?.thumbnail || slide.image?.url}
-
+            src={slide.image?.url || slide.image?.thumbnail}
             alt={slide.title}
-
             fill
-
-            priority
-
-            sizes="
-(max-width:768px) 240px,
-330px
-"
-
+            loading="eager"
+            sizes="(max-width: 768px) 240px, 330px"
             className="object-cover transition-transform duration-700 hover:scale-105"
           />
         </div>

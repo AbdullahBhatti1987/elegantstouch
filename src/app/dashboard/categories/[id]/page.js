@@ -10,6 +10,9 @@ import BackButton from '@/components/admin/common/header/BackButton';
 import CategoryDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/CategoryDetailSkeleton';
 import { Info } from '@/components/admin/common/form/Info';
 import { useLoading } from '@/context/LoadingContext';
+import AdminViewHeader from '@/components/admin/common/header/AdminViewHeader';
+import ActionButtons from '@/components/admin/common/ActionButtons';
+import NotFound from '@/components/admin/common/states/NotFound';
 
 export default function CategoryDetailPage() {
   const params = useParams();
@@ -66,7 +69,13 @@ export default function CategoryDetailPage() {
   }
 
   if (!category) {
-    return <p className="p-6">Category not found</p>;
+    return (
+      <NotFound
+        title="Category Not Found"
+        message="The category you are looking for does not exist or has been removed."
+        buttonText="Back to Categories"
+      />
+    );
   }
 
   return (
@@ -74,20 +83,15 @@ export default function CategoryDetailPage() {
       <div className="mt-4">
         {/* Header */}
 
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">{category.name}</h1>
-
-            <p className="text-gray-500">Category Details</p>
-          </div>
-
-          <BackButton onClick={() => router.back()} />
-        </div>
+        <AdminViewHeader
+          title={category.name}
+          subtitle="Category Details"
+        />
 
         <div className="grid gap-6 md:grid-cols-3">
           {/* Image */}
 
-          <div className="relative h-84 overflow-hidden rounded-xl border">
+          <div className="relative min-h-84 overflow-hidden rounded-xl border">
             {category?.image && (
               <Image
                 src={
@@ -106,27 +110,12 @@ export default function CategoryDetailPage() {
 
           <div className="relative space-y-4 rounded-xl border bg-white p-6 md:col-span-2 dark:bg-zinc-900">
             {/* Action Icons */}
-            <div className="absolute top-4 right-4 flex gap-2">
-              {/* Edit */}
-              <button
-                onClick={() =>
-                  router.push(`/dashboard/categories/update/${id}`)
-                }
-                className="cursor-pointer rounded-lg bg-black p-2 text-white transition hover:bg-gray-800"
-                title="Edit Category"
-              >
-                <Edit size={17} />
-              </button>
-
-              {/* Delete */}
-              <button
-                onClick={() => setShowDeleteModal(true)}
-                className="cursor-pointer rounded-lg bg-red-600 p-2 text-white transition hover:bg-red-700"
-                title="Delete Category"
-              >
-                <Trash2 size={17} />
-              </button>
-            </div>
+            <ActionButtons
+              onEdit={() =>
+                router.push(`/dashboard/categories/update/${id}`)
+              }
+              onDelete={() => setShowDeleteModal(true)}
+            />
 
             {/* Information */}
 
@@ -147,7 +136,7 @@ export default function CategoryDetailPage() {
 
         {/* SEO */}
 
-        <div className="mt-6 rounded-xl border bg-white p-6 dark:bg-zinc-900">
+        <div className="mt-6 space-y-4 rounded-xl border bg-white p-6 dark:bg-zinc-900">
           <h2 className="mb-4 text-xl font-semibold">
             SEO Information
           </h2>

@@ -9,6 +9,7 @@
 }
 
 
+
 .toast-container {
   top: 80px !important;
 }
@@ -18,8 +19,6 @@
     top: 40px !important;
   }
 }
-
-
 
 .bg-primary {
   background-color: var(--primary);

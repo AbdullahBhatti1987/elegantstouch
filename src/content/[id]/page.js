@@ -9,35 +9,73 @@ import PriceRangeFilter from '@/components/tools/PriceRangeFilter';
 
 export default function CategoryPage() {
   const params = useParams();
-  console.log('params=>>', params);
   const categoryId = params.id;
-  console.log('categoryId=>>', categoryId);
 
   const [products, setProducts] = useState([]);
+
   const [sort, setSort] = useState('default');
-  const [priceRange, setPriceRange] = useState([0, 999999]);
-  const { loading, startLoading, stopLoading } = useLoading();
+
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+
+  const [rangeConfig, setRangeConfig] = useState({
+    min: 0,
+    max: 1000,
+    step: 100,
+  });
+
+  const [wishlist, setWishlist] = useState([]);
+
+  const [loading, setLoading] = useState(false);
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(
+      setLoading(true);
+
+      const { data } = await axios.get(
         `/api/products?category=${categoryId}`,
       );
-      console.log('res==>', res);
 
-      if (res.data.success) {
-        setProducts(res.data.data);
+      if (data.success) {
+        const productList = data.data;
+
+        setProducts(productList);
+
+        const prices = productList.map(
+          (item) => item.salePrice || item.price,
+        );
+
+        if (prices.length) {
+          const minPrice = Math.min(...prices);
+
+          const maxPrice = Math.max(...prices);
+
+          const step = 100;
+
+          const roundedMin = Math.floor(minPrice / step) * step;
+
+          const roundedMax = Math.ceil(maxPrice / step) * step;
+
+          setRangeConfig({
+            min: roundedMin,
+            max: roundedMax,
+            step,
+          });
+
+          setPriceRange([roundedMin, roundedMax]);
+        }
       }
     } catch (error) {
       console.log(error);
     } finally {
-      stopLoading();
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
-  }, [params.id]);
+    if (categoryId) {
+      fetchProducts();
+    }
+  }, [categoryId]);
 
   const toggleWishlist = (id) => {
     setWishlist((prev) =>
@@ -47,33 +85,42 @@ export default function CategoryPage() {
     );
   };
 
-  let filteredProducts = products.filter((p) => {
-    return (
-      p.categoryId?.slug === categoryId &&
-      p.price >= priceRange[0] &&
-      p.price <= priceRange[1]
-    );
+  let filteredProducts = products.filter((product) => {
+    const price = product.salePrice || product.price;
+
+    return price >= priceRange[0] && price <= priceRange[1];
   });
 
   if (sort === 'low') {
-    filteredProducts.sort((a, b) => a.price - b.price);
+    filteredProducts.sort(
+      (a, b) => (a.salePrice || a.price) - (b.salePrice || b.price),
+    );
   }
 
   if (sort === 'high') {
-    filteredProducts.sort((a, b) => b.price - a.price);
+    filteredProducts.sort(
+      (a, b) => (b.salePrice || b.price) - (a.salePrice || a.price),
+    );
   }
 
   return (
     <main className="flex flex-col gap-6 bg-gray-50 px-4 py-10 md:flex-row md:px-12 dark:bg-zinc-950">
-      <PriceRangeFilter
-        values={priceRange}
-        setValues={setPriceRange}
-      />
+      <div className="w-full md:w-64">
+        <PriceRangeFilter
+          values={priceRange}
+
+          setValues={setPriceRange}
+
+          min={rangeConfig.min}
+
+          max={rangeConfig.max}
+
+          step={rangeConfig.step}
+        />
+      </div>
 
       <section className="flex-1">
-        {/* Header */}
-
-        <div className="mb-6 flex items-center justify-between rounded-2xl bg-white p-4 shadow-sm dark:bg-zinc-900">
+        <div className="mb-6 flex items-center justify-between rounded-2xl bg-white p-4 shadow dark:bg-zinc-900">
           <div>
             <h2 className="text-xl font-bold">Products</h2>
 
@@ -84,7 +131,9 @@ export default function CategoryPage() {
 
           <select
             value={sort}
+
             onChange={(e) => setSort(e.target.value)}
+
             className="rounded-lg border px-3 py-2 text-sm dark:bg-zinc-800"
           >
             <option value="default">Sort By</option>
@@ -95,11 +144,9 @@ export default function CategoryPage() {
           </select>
         </div>
 
-        {/* Products Grid */}
-
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {loading ? (
-            <p>Loading products...</p>
+            <p>Loading...</p>
           ) : filteredProducts.length === 0 ? (
             <p className="col-span-full text-center text-gray-500">
               No products found
@@ -108,10 +155,8 @@ export default function CategoryPage() {
             filteredProducts.map((product) => (
               <div
                 key={product._id}
-                className="group overflow-hidden rounded-2xl bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:bg-zinc-900"
+                className="group overflow-hidden rounded-2xl bg-white shadow dark:bg-zinc-900"
               >
-                {/* IMAGE */}
-
                 <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
                     src={
@@ -120,54 +165,33 @@ export default function CategoryPage() {
                     }
 
                     alt={product.name}
-
+                    loading="eager"
                     fill
-
-                    sizes="
-                (max-width:640px) 50vw,
-                (max-width:1024px) 33vw,
-                25vw
-                "
 
                     className="object-cover transition duration-500 group-hover:scale-110"
                   />
 
-                  {/* Wishlist */}
-
                   <button
                     onClick={() => toggleWishlist(product._id)}
 
-                    className="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow"
+                    className="absolute top-3 right-3 rounded-full bg-white p-2"
                   >
                     <Heart
-                      size={20}
+                      size={18}
+
                       className={
                         wishlist.includes(product._id)
                           ? 'fill-red-500 text-red-500'
-                          : 'text-gray-700'
+                          : ''
                       }
                     />
                   </button>
-
-                  {product.badge && (
-                    <span className="absolute top-3 left-3 rounded-full bg-pink-500 px-3 py-1 text-xs text-white">
-                      {product.badge}
-                    </span>
-                  )}
                 </div>
 
-                {/* CONTENT */}
-
                 <div className="p-4">
-                  <p className="text-xs text-gray-500">
-                    {product.categoryId?.name}
-                  </p>
-
-                  <h3 className="mt-1 line-clamp-2 font-semibold">
+                  <h3 className="line-clamp-2 font-semibold">
                     {product.name}
                   </h3>
-
-                  {/* Rating */}
 
                   <div className="mt-2 flex items-center gap-1">
                     <Star
@@ -178,29 +202,11 @@ export default function CategoryPage() {
                     <span className="text-xs">4.8</span>
                   </div>
 
-                  {/* PRICE */}
+                  <p className="mt-3 font-bold">
+                    Rs {product.salePrice || product.price}
+                  </p>
 
-                  <div className="mt-3">
-                    {product.salePrice ? (
-                      <>
-                        <span className="font-bold text-pink-500">
-                          Rs {product.salePrice}
-                        </span>
-
-                        <span className="ml-2 text-xs text-gray-400 line-through">
-                          Rs {product.price}
-                        </span>
-                      </>
-                    ) : (
-                      <span className="font-bold">
-                        Rs {product.price}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* CART BUTTON */}
-
-                  <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-black py-2 text-sm text-white transition hover:bg-gray-800">
+                  <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-black py-2 text-white">
                     <ShoppingCart size={16} />
                     Add Cart
                   </button>

@@ -1,5 +1,6 @@
 'use client';
 
+import EmptyState from '../common/emptyState/EmptyState';
 import Loader from '../common/loaders/Loader';
 import BannerCard from './BannerCard';
 
