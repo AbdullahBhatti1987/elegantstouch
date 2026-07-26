@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
-import PriceRangeFilter from '@/components/tools/PriceRangeFilter';
 import { toast } from 'react-hot-toast';
 import CategoryProductList from '@/components/products/CategoryProductList';
 import { useCart } from '@/context/CartContext';
@@ -12,13 +11,15 @@ import { useLoading } from '@/context/LoadingContext';
 
 export default function CategoryIdPage() {
   const params = useParams();
-  console.log('Category Params');
+  console.log('Category Params==>', params);
+
   const categoryId = params.id;
 
   const [products, setProducts] = useState([]);
   const [sort, setSort] = useState('default');
   const [values, setValues] = useState([0, 9999]);
   const { addToCart, isInCart } = useCart();
+  const [categoryName, setCategoryName] = useState('');
   const [priceRange, setPriceRange] = useState({
     minPrice: 0,
     maxPrice: 999999,
@@ -26,6 +27,14 @@ export default function CategoryIdPage() {
   const { addToWishlist, removeFromWishlist, isInWishlist } =
     useWishlist();
   const { loading, startLoading, stopLoading } = useLoading();
+
+  const fetchCategory = async () => {
+    const { data } = await axios.get(`/api/categories/${categoryId}`);
+
+    if (data.success) {
+      setCategoryName(data.data.name);
+    }
+  };
 
   const fetchProducts = async () => {
     startLoading();
@@ -35,6 +44,7 @@ export default function CategoryIdPage() {
       );
       // console.log('Data Fetching==>', data.data);
       if (data.success) {
+        console.log('category data==>', data);
         setProducts(data.data);
       }
     } catch (error) {
@@ -64,8 +74,8 @@ export default function CategoryIdPage() {
   useEffect(() => {
     if (categoryId) {
       fetchProducts();
-
       getPriceRange();
+      fetchCategory();
     }
   }, [categoryId]);
 
@@ -92,16 +102,7 @@ export default function CategoryIdPage() {
   }
 
   return (
-    <main className="flex flex-col gap-6 bg-gray-50 p-4 md:flex-row md:pl-4 dark:bg-zinc-950">
-      <div className="w-full shrink-0 md:w-64 lg:w-60">
-        <PriceRangeFilter
-          values={values}
-          setValues={setValues}
-          min={priceRange.minPrice}
-          max={priceRange.maxPrice}
-          step={step}
-        />
-      </div>
+    <section className="m-auto w-full max-w-7xl bg-white px-6 py-4 md:px-12 dark:bg-black">
       <CategoryProductList
         filteredProducts={filteredProducts}
         loading={loading}
@@ -112,8 +113,8 @@ export default function CategoryIdPage() {
         removeFromWishlist={removeFromWishlist}
         addToCart={addToCart}
         isInCart={isInCart}
+        categoryName={categoryName}
       />
-      
-    </main>
+    </section>
   );
 }

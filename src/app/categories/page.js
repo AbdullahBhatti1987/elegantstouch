@@ -69,19 +69,19 @@ export default function CategoriesPage() {
         {loading ? (
           <>
             {Array.from({ length: 8 }).map((_, index) => (
-              <div key={index} className="lg:hidden">
+              <div key={index} className="">
                 <CategoryCardSkeleton />
               </div>
             ))}
 
-            {Array.from({ length: 12 }).map((_, index) => (
+            {/* {Array.from({ length: 12 }).map((_, index) => (
               <div
                 key={`desktop-${index}`}
                 className="hidden lg:block"
               >
                 <CategoryCardSkeleton />
               </div>
-            ))}
+            ))} */}
           </>
         ) : categories.length > 0 ? (
           categories.map((category) => (

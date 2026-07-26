@@ -10,14 +10,18 @@ export default function MainLayout({ children }) {
   const pathname = usePathname();
 
   const isDashboard = pathname.startsWith('/dashboard');
+  const isProducts = pathname.startsWith('/products');
+  const isCategories = pathname.startsWith('/categories');
+
+  const hideFooter = isDashboard || isProducts || isCategories;
 
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col">
       {!isDashboard && <Header />}
 
-      <main className="flex-1 ">{children}</main>
+      <main className="flex-1">{children}</main>
 
-      {!isDashboard && <Footer />}
+      {!hideFooter && <Footer />}
     </div>
   );
 }

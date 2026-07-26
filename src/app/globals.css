@@ -8,8 +8,6 @@
   --text: #2d2d2d;
 }
 
-
-
 .toast-container {
   top: 80px !important;
 }
@@ -160,4 +158,14 @@ body {
 
 .animate-spin-reverse {
   animation: spin-reverse 1s linear infinite;
+}
+
+/* Hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
