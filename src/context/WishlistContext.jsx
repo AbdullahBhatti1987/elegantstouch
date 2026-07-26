@@ -141,6 +141,19 @@ export function WishlistProvider({ children }) {
         (item) => item.productId._id !== productId,
       );
 
+      // Last item remove ho gaya
+      if (updatedItems.length === 0) {
+        await axios.delete(`/api/wishlist/${guestId}`);
+
+        setWishlist(null);
+        setWishlistCount(0);
+
+        return {
+          success: true,
+        };
+      }
+
+
       await axios.put(`/api/wishlist/${guestId}`, {
         items: updatedItems.map((item) => ({
           productId: item.productId._id,

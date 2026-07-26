@@ -152,6 +152,18 @@ export function CartProvider({ children }) {
         (item) => item.productId._id !== productId,
       );
 
+      // Last item remove ho gaya
+      if (updatedItems.length === 0) {
+        await axios.delete(`/api/carts/${guestId}`);
+
+        setCart(null);
+        setCartCount(0);
+
+        return {
+          success: true,
+        };
+      }
+
       await axios.put(`/api/carts/${guestId}`, {
         items: updatedItems.map((item) => ({
           productId: item.productId._id,
@@ -168,7 +180,6 @@ export function CartProvider({ children }) {
       }
 
       await fetchCart(guestId);
-
       await fetchCartCount(guestId);
 
       return {
@@ -228,6 +239,7 @@ export function CartProvider({ children }) {
   // Clear Cart
   const clearCart = async () => {
     try {
+      startLoading();
       await axios.delete(`/api/carts/${guestId}`, {
         data: {
           guestId,
@@ -246,6 +258,8 @@ export function CartProvider({ children }) {
       return {
         success: false,
       };
+    } finally {
+      stopLoading();
     }
   };
 
