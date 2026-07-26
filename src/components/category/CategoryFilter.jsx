@@ -69,7 +69,7 @@ export default function CategoryFilter({
         {categories.map((category) => (
           <button
             key={category._id}
-            onClick={() => setSelectedCategory(category._id)}
+            onClick={() => setSelectedCategory(category)}
             className={`w-full rounded-lg px-3 py-1.5 text-left text-sm transition-all duration-200 ${
               selectedCategory === category._id
                 ? 'bg-black text-white shadow-sm dark:bg-white dark:text-black'
