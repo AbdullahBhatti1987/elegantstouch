@@ -42,9 +42,7 @@ export default function AdminBannerTable({
                   <div className="relative h-14 w-24 overflow-hidden rounded-lg">
                     <Image
                       src={
-                        banner.image?.thumbnail ||
-                        banner.image?.url ||
-                        '/images/placeholder.png'
+                        banner.image?.url || banner.image?.thumbnail
                       }
                       alt={banner.title}
                       fill

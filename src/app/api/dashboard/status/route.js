@@ -1,53 +1,80 @@
 // import { NextResponse } from 'next/server';
-
+// import { connectDB } from '@/lib/mongodb';
 // import Category from '@/models/Category';
 // import Product from '@/models/Product';
-// // import User from '@/models/User';
-// // import Customer from '@/models/Customer';
-// // import Order from '@/models/Order';
 // import Cart from '@/models/Cart';
+// import Order from '@/models/Order';
 
 // export async function GET() {
 //   try {
-//     const [
-//       categories,
-//       products,
-//       users,
-//       // customers,
-//       // orders,
-//       carts,
-//     ] = await Promise.all([
-//       Category.countDocuments(),
+//     await connectDB();
 
-//       Product.countDocuments(),
+//     const [categories, products, carts, categoryWiseProducts] =
+//       await Promise.all([
+//         Category.countDocuments(),
 
-//       // User.countDocuments(),
+//         Product.countDocuments(),
 
-//       // Customer.countDocuments(),
+//         Cart.countDocuments(),
 
-//       // Order.countDocuments(),
+//         Order.countDocuments(),
 
-//       Cart.countDocuments(),
-//     ]);
+//         Product.aggregate([
+//           {
+//             $group: {
+//               _id: '$categoryId',
+//               productCount: {
+//                 $sum: 1,
+//               },
+//             },
+//           },
+
+//           {
+//             $lookup: {
+//               from: 'categories',
+//               localField: '_id',
+//               foreignField: '_id',
+//               as: 'category',
+//             },
+//           },
+
+//           {
+//             $unwind: '$category',
+//           },
+
+//           {
+//             $project: {
+//               _id: 0,
+//               categoryId: '$_id',
+//               categoryName: '$category.name',
+//               productCount: 1,
+//             },
+//           },
+//         ]),
+//       ]);
 
 //     return NextResponse.json({
 //       success: true,
 
 //       data: {
 //         categories,
+
 //         products,
-//         users: users || 0,
-//         customers: 0,
-//         orders: 0,
-//         carts: 0,
+
+//         carts,
+
+//         Orders,
+
+//         categoryWiseProducts,
 //       },
 //     });
 //   } catch (error) {
-//     console.log('COUNT API ERROR:', error);
+//     console.log('DASHBOARD STATUS ERROR:', error);
 
 //     return NextResponse.json(
 //       {
 //         success: false,
+
 //         message: error.message,
 //       },
 //       {
@@ -64,52 +91,75 @@ import { connectDB } from '@/lib/mongodb';
 import Category from '@/models/Category';
 import Product from '@/models/Product';
 import Cart from '@/models/Cart';
+import Order from '@/models/Order';
+import Banner from '@/models/Banner';
+import Wishlist from '@/models/Wishlist';
 
 export async function GET() {
   try {
     await connectDB();
 
-    const [categories, products, carts, categoryWiseProducts] =
-      await Promise.all([
-        Category.countDocuments(),
+    const [
+      categories,
+      products,
+      carts,
+      orders,
+      banners,
+      wishlists,
+      categoryWiseProducts,
+    ] = await Promise.all([
+      Category.countDocuments(),
 
-        Product.countDocuments(),
+      Product.countDocuments(),
 
-        Cart.countDocuments(),
+      Cart.countDocuments(),
 
-        Product.aggregate([
-          {
-            $group: {
-              _id: '$categoryId',
-              productCount: {
-                $sum: 1,
-              },
+      Order.countDocuments(),
+
+      Banner.countDocuments(),
+
+      Wishlist.countDocuments(),
+
+      Product.aggregate([
+        {
+          $group: {
+            _id: '$categoryId',
+
+            productCount: {
+              $sum: 1,
             },
           },
+        },
 
-          {
-            $lookup: {
-              from: 'categories',
-              localField: '_id',
-              foreignField: '_id',
-              as: 'category',
-            },
-          },
+        {
+          $lookup: {
+            from: 'categories',
 
-          {
-            $unwind: '$category',
-          },
+            localField: '_id',
 
-          {
-            $project: {
-              _id: 0,
-              categoryId: '$_id',
-              categoryName: '$category.name',
-              productCount: 1,
-            },
+            foreignField: '_id',
+
+            as: 'category',
           },
-        ]),
-      ]);
+        },
+
+        {
+          $unwind: '$category',
+        },
+
+        {
+          $project: {
+            _id: 0,
+
+            categoryId: '$_id',
+
+            categoryName: '$category.name',
+
+            productCount: 1,
+          },
+        },
+      ]),
+    ]);
 
     return NextResponse.json({
       success: true,
@@ -120,6 +170,12 @@ export async function GET() {
         products,
 
         carts,
+
+        orders,
+
+        banners,
+
+        wishlists,
 
         categoryWiseProducts,
       },
@@ -133,6 +189,7 @@ export async function GET() {
 
         message: error.message,
       },
+
       {
         status: 500,
       },

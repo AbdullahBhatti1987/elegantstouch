@@ -244,13 +244,11 @@ export default function CategoryForm({
         {/* IMAGE */}
 
         <section className="rounded-xl underline">
-          <h2 className="mb-5 text-lg font-semibold">
-            Category Image
-          </h2>
+          
 
           <div className="grid gap-4 md:gap-8 md:grid-cols-2">
             <FileUpload
-              label="Image"
+              label="Category Image"
               name="image"
               value={uploadImage}
               loading={loading}

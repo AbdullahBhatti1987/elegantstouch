@@ -121,7 +121,7 @@ export default function Header() {
                 >
                   <Search
                     size={20}
-                    className="mt-2 cursor-pointer transition-transform duration-300 group-hover:scale-125"
+                    className="mt-2 hover:text-primary cursor-pointer transition-transform duration-300 group-hover:scale-125"
                   />
                 </button>
               ) : (
@@ -168,7 +168,7 @@ export default function Header() {
               />
 
               {wishlistCount >= 0 && (
-                <span className="border border-gray-500 bg-gray-100 absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-bold">
+                <span className=" bg-primary absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-bold">
                   {wishlistCount}
                 </span>
               )}
@@ -191,7 +191,7 @@ export default function Header() {
               />
 
               {cartCount >= 0 && (
-                <span className="border border-gray-500 bg-gray-100 text-gray-600 absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-semibold">
+                <span className="bg-primary text-gray-600 absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-semibold">
                   {cartCount}
                 </span>
               )}

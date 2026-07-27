@@ -11,15 +11,12 @@ import { useLoading } from '@/context/LoadingContext';
 
 export default function UpdateBannerPage() {
   const router = useRouter();
-  const { params } = useParams();
-  
-  console.log("params==>", params )
+  const { id } = useParams();
+
   const { startLoading, stopLoading } = useLoading();
 
   const [banner, setBanner] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  // GET SINGLE BANNER
 
   const getBanner = async () => {
     try {
@@ -28,11 +25,9 @@ export default function UpdateBannerPage() {
       const { data } = await axios.get(`/api/banners/${id}`);
 
       if (data.success) {
-        setBanner(data.banner || data.data);
+        setBanner(data.data);
       }
     } catch (error) {
-      console.log(error);
-
       toast.error(
         error.response?.data?.message || 'Failed to load banner',
       );
@@ -47,23 +42,16 @@ export default function UpdateBannerPage() {
     }
   }, [id]);
 
-  // UPDATE BANNER
-
   const handleUpdate = async (formData) => {
     try {
       startLoading();
 
-      const response = await axios.put(
-        `/api/banners/${params.id}`,
+      const { data } = await axios.put(
+        `/api/banners/${id}`,
         formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
       );
 
-      if (response.data.success) {
+      if (data.success) {
         toast.success('Banner updated successfully');
 
         setTimeout(() => {
@@ -71,13 +59,7 @@ export default function UpdateBannerPage() {
         }, 1500);
       }
     } catch (error) {
-      console.log(error);
-
-      toast.error(
-        error.response?.data?.message ||
-          error.message ||
-          'Update failed',
-      );
+      toast.error(error.response?.data?.message || 'Update failed');
     } finally {
       stopLoading();
     }
@@ -88,20 +70,16 @@ export default function UpdateBannerPage() {
   }
 
   if (!banner) {
-    return (
-      <div className="p-10 text-center text-gray-500">
-        Banner not found
-      </div>
-    );
+    return <div className="p-10 text-center">Banner not found</div>;
   }
 
   return (
-    <div className="mx-auto">
-      <BannerForm
-        initialData={banner}
-        onSubmit={handleUpdate}
-        submitText="Update Banner"
-      />
-    </div>
+    <BannerForm
+      initialData={banner}
+
+      onSubmit={handleUpdate}
+
+      submitText="Update Banner"
+    />
   );
 }

@@ -35,7 +35,7 @@ export default function CategoriesFeatured() {
   }, [fetchCategories]);
 
   return (
-    <section className="w-full bg-white px-6 py-16 md:px-12 dark:bg-black">
+    <section className="w-full bg-white py-8 md:py-16 px-6 md:px-12 dark:bg-black">
       {/* Header */}
 
       <div className="mb-10 text-center">

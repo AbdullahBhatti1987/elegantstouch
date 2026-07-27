@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import Banner from '@/models/Banner';
-import { bannerFileToCloudinary } from '@/lib/bannerFileToCloudinary';
+import { singleFileToCloudinary } from '@/lib/singleFileToCloudinary';
 
 export async function GET() {
   try {
@@ -37,7 +37,7 @@ export async function POST(req) {
     let image = null;
 
     if (imageFile && imageFile.size > 0) {
-      image = await bannerFileToCloudinary(
+      image = await singleFileToCloudinary(
         imageFile,
         'elegantstouch/banner',
       );
@@ -51,6 +51,8 @@ export async function POST(req) {
       description: formData.get('description'),
 
       image,
+
+      alt: formData.get('alt'),
 
       primaryBtnText: formData.get('primaryBtnText'),
 

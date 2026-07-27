@@ -17,11 +17,11 @@ export default function HeroBannerContent({ slide }) {
         {slide.description}
       </p>
 
-      {/* <div className="mt-6 flex flex-wrap gap-3">
+      <div className="mt-6 md:flex flex-wrap gap-3 hidden">
         <Link
           href={slide.primaryBtnLink || '/products'}
 
-          className="rounded-xl bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:scale-105"
+          className="rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:scale-105"
         >
           {slide.primaryBtnText || 'Shop Now'}
         </Link>
@@ -33,7 +33,7 @@ export default function HeroBannerContent({ slide }) {
         >
           {slide.secondaryBtnText || 'Explore'}
         </Link>
-      </div> */}
+      </div>
     </>
   );
 }

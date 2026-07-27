@@ -40,7 +40,7 @@ export function WishlistProvider({ children }) {
         const { data } = await axios.get(
           `/api/wishlists/count?guestId=${id}`,
         );
-        console.log('wish Data==>', data);
+        // console.log('wish Data==>', data);
 
         if (data.success) {
           setWishlistCount(data.count);

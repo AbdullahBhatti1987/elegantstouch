@@ -17,6 +17,8 @@ const defaultForm = {
   title: '',
   description: '',
 
+  alt: '',
+
   primaryBtnText: 'Shop Now',
   primaryBtnLink: '/products',
 
@@ -25,7 +27,6 @@ const defaultForm = {
 
   status: 'active',
   order: 0,
-  alt: '',
 };
 
 export default function BannerForm({
@@ -49,6 +50,8 @@ export default function BannerForm({
 
       description: initialData.description || '',
 
+      alt: initialData.alt || '',
+
       primaryBtnText: initialData.primaryBtnText || 'Shop Now',
 
       primaryBtnLink: initialData.primaryBtnLink || '/products',
@@ -60,13 +63,18 @@ export default function BannerForm({
       status: initialData.status || 'active',
 
       order: initialData.order ?? 0,
-
-      alt: initialData.image?.alt || '',
     });
 
     if (initialData.image?.url) {
       setUploadImage(initialData.image.url);
     }
+
+    // if (initialData.image?.url) {
+    //   setUploadImage({
+    //     preview: initialData.image.url,
+    //     old: true,
+    //   });
+    // }
   }, [initialData]);
 
   const handleChange = (e) => {
@@ -106,28 +114,25 @@ export default function BannerForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const errors = validateForm();
-
     if (errors.length) {
       errors.forEach((err) => toast.error(err));
-
       return;
     }
-
     try {
       startLoading();
-
       const data = new FormData();
-
       Object.keys(formData).forEach((key) => {
         data.append(key, formData[key]);
       });
-
-      if (uploadImage && typeof uploadImage !== 'string') {
+      console.log('FORM DATA ALT ==> ', formData.alt);
+      console.log([...data.entries()]);
+      // if (uploadImage && typeof uploadImage !== 'string') {
+      //   data.append('image', uploadImage);
+      // }
+      if (uploadImage && uploadImage.old !== true) {
         data.append('image', uploadImage);
       }
-
       await onSubmit(data);
     } catch (error) {
       toast.error(error.message || 'Something went wrong');
@@ -202,18 +207,12 @@ export default function BannerForm({
         {/* IMAGE */}
 
         <section className="rounded-xl border p-6">
-          <h2 className="mb-5 text-lg font-semibold">Banner Image</h2>
-
           <div className="grid gap-8 md:grid-cols-2">
             <FileUpload
-              label="Image"
-
+              label="Banner Image"
               name="image"
-
               value={uploadImage}
-
               loading={loading}
-
               onChange={setUploadImage}
             />
 

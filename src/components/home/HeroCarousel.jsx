@@ -73,7 +73,7 @@ export default function HeroCarousel() {
   const slide = slides[current];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#fffaf5] via-white to-[#fdf2f8]">
+    <section className="relative py-4 overflow-hidden bg-gradient-to-br from-[#fffaf5] via-white to-[#fdf2f8] dark:from-gray-950 dark:via-gray-900 dark:to-gray-800">
       {/* Background */}
 
       <div className="absolute -top-40 -right-40 h-[350px] w-[350px] rounded-full bg-rose-200/40 blur-3xl" />

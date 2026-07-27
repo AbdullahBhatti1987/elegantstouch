@@ -288,9 +288,7 @@ export default function ProductDetails({
                   alt={product.name}
 
                   fill
-
                   sizes="80px"
-
                   className="object-cover"
                 />
               </button>
@@ -307,7 +305,7 @@ export default function ProductDetails({
 
               fill
 
-              priority
+              loading='eager'
 
               sizes="
                 (max-width:640px) 100vw,

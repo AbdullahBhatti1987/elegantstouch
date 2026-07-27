@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/mongodb';
 import Banner from '@/models/Banner';
+import { singleFileToCloudinary } from '@/lib/singleFileToCloudinary';
+import { deleteFromCloudinary } from '@/lib/deleteFromCloudinary';
 
 export async function GET(req, { params }) {
   try {
@@ -41,27 +43,115 @@ export async function GET(req, { params }) {
   }
 }
 
-export async function PUT(req, { params }) {
+export async function PUT(req, context) {
   try {
     await connectDB();
 
-    const body = await req.json();
+    const { id } = await context.params;
 
-    const banner = await Banner.findByIdAndUpdate(params.id, body, {
+    const formData = await req.formData();
+
+    const oldBanner = await Banner.findById(id);
+
+    if (!oldBanner) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Banner not found',
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
+    let image = oldBanner.image;
+
+    const imageFile = formData.get('image');
+
+    // New image upload
+
+    if (imageFile && typeof imageFile !== 'string') {
+      const uploadedImage = await singleFileToCloudinary(
+        imageFile,
+        'elegantstouch/banner',
+      );
+
+      // delete old image
+
+      if (oldBanner.image?.public_id) {
+        await deleteFromCloudinary(oldBanner.image.public_id);
+      }
+
+      image = {
+        url: uploadedImage.url,
+
+        thumbnail: uploadedImage.thumbnail,
+
+        public_id: uploadedImage.public_id,
+      };
+    } else {
+      // only alt update
+
+      image = {
+        ...oldBanner.image,
+      };
+    }
+
+  
+    const updateData = {
+      subtitle: formData.get('subtitle'),
+
+      title: formData.get('title'),
+
+      description: formData.get('description'),
+
+      alt: formData.get('alt'),
+
+      primaryBtnText: formData.get('primaryBtnText'),
+
+      primaryBtnLink: formData.get('primaryBtnLink'),
+
+      secondaryBtnText: formData.get('secondaryBtnText'),
+
+      secondaryBtnLink: formData.get('secondaryBtnLink'),
+
+      status: formData.get('status'),
+
+      order: Number(formData.get('order')) || 0,
+
+      image,
+    };
+
+
+    //   console.log('ALT FROM FORM DATA ==> ', formData.get('alt'));
+
+    // console.log('UPDATE DATA ==> ', updateData);
+
+    
+    const banner = await Banner.findByIdAndUpdate(id, updateData, {
       new: true,
     });
 
     return NextResponse.json({
       success: true,
-      banner,
+
+      message: 'Banner updated successfully',
+
+      data: banner,
     });
   } catch (error) {
+    console.log('BANNER UPDATE ERROR:', error);
+
     return NextResponse.json(
       {
         success: false,
+
         message: error.message,
       },
-      { status: 500 },
+      {
+        status: 500,
+      },
     );
   }
 }

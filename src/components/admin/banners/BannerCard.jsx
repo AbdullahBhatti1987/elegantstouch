@@ -29,7 +29,8 @@ export default function BannerCard({ banner }) {
         <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
           {banner?.image ? (
             <Image
-              src={banner.image.thumbnail || banner.image.url}
+              // src={banner.image.thumbnail || banner.image.url}
+              src={banner.image.thumbnail}
 
               alt={banner.image.alt || banner.title}
 

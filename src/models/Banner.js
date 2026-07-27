@@ -16,6 +16,10 @@ const BannerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    alt: {
+      type: String,
+      required: true,
+    },
 
     image: {
       url: {

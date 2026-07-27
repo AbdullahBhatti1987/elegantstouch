@@ -47,7 +47,7 @@ export default function BannersPage() {
 
       if (data.success) {
         setBanners(data.banners);
-        console.log('Banners==>', data.banners);
+        // console.log('Banners==>', data.banners);
         setPagination(data.pagination);
       }
     } catch (error) {
