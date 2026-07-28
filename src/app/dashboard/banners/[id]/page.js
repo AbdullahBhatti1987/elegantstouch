@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { Edit, Trash2 } from 'lucide-react';
-import ConfirmModal from '@/components/admin/common/ConfirmModal';
+
 import BackButton from '@/components/admin/common/header/BackButton';
 import axios from 'axios';
 import {
@@ -18,6 +18,7 @@ import { Info } from '@/components/admin/common/form/Info';
 import BannerDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/BannerDetailSkeleton';
 import { useLoading } from '@/context/LoadingContext';
 import ActionButtons from '@/components/admin/common/ActionButtons';
+import ConfirmModal from '@/components/admin/common/ConfirmModal';
 
 export default function BannerDetailPage() {
   const params = useParams();
@@ -121,15 +122,15 @@ export default function BannerDetailPage() {
 
         {/* DETAILS */}
 
-        <div className="relative space-y-6  lg:col-span-2">
-          <div className="rounded-2xl border  bg-white p-6 shadow-sm flex flex-col gap-6">
+        <div className="relative space-y-6 lg:col-span-2">
+          <div className="flex flex-col gap-6 rounded-2xl border bg-white p-6 shadow-sm">
             <h2 className="text-xl font-semibold">
               Basic Information
             </h2>
 
             {/* ACTION ICONS */}
 
-            <div className="relative space-y-4 rounded-xl  border  p-6 md:col-span-2 dark:bg-zinc-900">
+            <div className="relative space-y-4 rounded-xl border p-6 md:col-span-2 dark:bg-zinc-900">
               {/* Action Icons */}
               <ActionButtons
                 onEdit={() =>
@@ -223,14 +224,18 @@ export default function BannerDetailPage() {
           </div>
         </div>
       </div>
-      {showDeleteModal && (
-        <ConfirmModal
-          title="Delete Banner"
-          message="Are you sure you want to delete this banner?"
-          onConfirm={handleDelete}
-          onCancel={() => setShowDeleteModal(false)}
-        />
-      )}
+
+
+      <ConfirmModal
+        open={showDeleteModal}
+        title="Delete Banner"
+        message="This banner will be permanently deleted."
+        requireText={banner.title}
+        confirmText="Delete Banner"
+        loading={loading}
+        onCancel={() => setShowDeleteModal(false)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

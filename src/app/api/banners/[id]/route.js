@@ -98,7 +98,6 @@ export async function PUT(req, context) {
       };
     }
 
-  
     const updateData = {
       subtitle: formData.get('subtitle'),
 
@@ -123,12 +122,10 @@ export async function PUT(req, context) {
       image,
     };
 
-
     //   console.log('ALT FROM FORM DATA ==> ', formData.get('alt'));
 
     // console.log('UPDATE DATA ==> ', updateData);
 
-    
     const banner = await Banner.findByIdAndUpdate(id, updateData, {
       new: true,
     });
@@ -160,19 +157,44 @@ export async function DELETE(req, { params }) {
   try {
     await connectDB();
 
-    await Banner.findByIdAndDelete(params.id);
+    const { id } = await params;
+
+    const banner = await Banner.findById(id);
+
+    if (!banner) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Banner not found',
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
+    // Delete Cloudinary image
+    if (banner.image?.public_id) {
+      await deleteFromCloudinary(banner.image.public_id);
+    }
+
+    await Banner.findByIdAndDelete(id);
 
     return NextResponse.json({
       success: true,
-      message: 'Banner deleted',
+      message: 'Banner deleted successfully',
     });
   } catch (error) {
+    console.log('DELETE BANNER ERROR:', error);
+
     return NextResponse.json(
       {
         success: false,
         message: error.message,
       },
-      { status: 500 },
+      {
+        status: 500,
+      },
     );
   }
 }

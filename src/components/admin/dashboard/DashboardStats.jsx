@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import DashboardCard from './DashboardCard';
 import { dashboardStats } from '@/content/data';
-import { useLoading } from '@/context/LoadingContext';
 
 export default function DashboardStats() {
 
@@ -17,26 +16,23 @@ export default function DashboardStats() {
     users: 0,
   });
 
-  const { loading, startLoading, stopLoading } = useLoading();
+const [loading, setLoading] = useState(true);
 
   const called = useRef(false);
 
   useEffect(() => {
     if (called.current) return;
-
     called.current = true;
-
     async function getCounts() {
       try {
         const { data } = await axios.get('/api/dashboard/status');
-
         if (data.success) {
           setCounts(data.data);
         }
       } catch (error) {
         console.log(error);
       } finally {
-        stopLoading();
+        setLoading(false);
       }
     }
 
