@@ -19,7 +19,7 @@ export async function GET(req, { params }) {
       .populate('categoryId')
       .lean();
 
-    console.log('PRODUCT ==> ', "confirm");
+    // console.log('PRODUCT ==> ', "confirm");
 
     if (!product) {
       return NextResponse.json(

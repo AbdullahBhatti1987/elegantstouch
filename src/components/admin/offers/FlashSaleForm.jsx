@@ -7,10 +7,11 @@ import ProductSelector from './ProductSelector';
 import CategorySelector from './CategorySelector';
 import AdminPageTitle from '../common/header/AdminPageTitle';
 import Input from '../common/form/Input';
-import Select from '../common/form/Select';
 import Textarea from '../common/form/Textarea';
 import CustomDropdown from '../common/form/CustomDropdown';
 import { Loader2 } from 'lucide-react';
+import FlashSaleSkeleton from '../common/skeleton/detailSkeletons/FlashSaleSkeleton';
+
 
 export default function FlashSaleForm({
   initialData,
@@ -67,6 +68,10 @@ export default function FlashSaleForm({
 
     onSubmit(payload);
   };
+
+  if (!loading) {
+    return <FlashSaleSkeleton />;
+  }
 
   return (
     <div className="mx-auto space-y-6 rounded-2xl bg-white p-6 shadow dark:bg-neutral-900">

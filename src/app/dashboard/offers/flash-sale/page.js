@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
-
-
 import { useLoading } from '@/context/LoadingContext';
 
 import Pagination from '@/components/admin/common/Pagination';
@@ -113,13 +111,14 @@ export default function FlashSalePage() {
       {view === 'grid' ? (
         <FlashSaleGrid
           flashSales={flashSales}
-
+          router={router}
           loading={loading}
         />
       ) : (
         <FlashSaleTable
           flashSales={flashSales}
 
+          router={router}
           loading={loading}
         />
       )}

@@ -3,7 +3,7 @@
 import FlashSaleCard from './FlashSaleCard';
 import FlashSaleSkeleton from './FlashSaleSkeleton';
 
-export default function FlashSaleGrid({ flashSales, loading }) {
+export default function FlashSaleGrid({ flashSales, loading, router }) {
   if (loading) {
     return <FlashSaleSkeleton />;
   }
@@ -19,7 +19,7 @@ export default function FlashSaleGrid({ flashSales, loading }) {
   return (
     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {flashSales.map((sale) => (
-        <FlashSaleCard key={sale._id} sale={sale} />
+        <FlashSaleCard key={sale._id} sale={sale} router={router}/>
       ))}
     </div>
   );

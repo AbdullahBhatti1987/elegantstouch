@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 
 import FlashSaleForm from '@/components/admin/offers/FlashSaleForm';
 import { useLoading } from '@/context/LoadingContext';
+import FlashSaleSkeleton from '@/components/admin/common/skeleton/detailSkeletons/FlashSaleSkeleton';
 
 export default function Page() {
   const router = useRouter();
@@ -33,6 +34,10 @@ export default function Page() {
       stopLoading();
     }
   };
+
+  if (loading) {
+    return <FlashSaleSkeleton />;
+  }
 
   return (
     <div>

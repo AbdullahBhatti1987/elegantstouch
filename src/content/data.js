@@ -379,11 +379,11 @@ export const dashboardStats = [
     link: '/dashboard/banners',
   },
   {
-    title: 'Users',
-    key: 'users',
-    icon: UserRound,
+    title: 'Offers',
+    key: 'offer',
+    icon: TicketPercent,
     gradient: 'bg-gradient-to-br from-teal-100 to-lime-200',
-    link: '/dashboard/users',
+    link: '/dashboard/offers/coupons',
   },
   {
     title: 'Wishlists',

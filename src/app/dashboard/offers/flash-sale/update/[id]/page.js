@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast';
 
 import { useLoading } from '@/context/LoadingContext';
 import FlashSaleForm from '@/components/admin/offers/FlashSaleForm';
+import FlashSaleSkeleton from '@/components/admin/common/skeleton/detailSkeletons/FlashSaleSkeleton';
 
 export default function UpdateFlashSalePage() {
   const params = useParams();
@@ -73,12 +74,8 @@ export default function UpdateFlashSalePage() {
     }
   };
 
-  if (!flashSale) {
-    return (
-      <div className="flex min-h-[300px] items-center justify-center">
-        Loading...
-      </div>
-    );
+  if (loading) {
+    return <FlashSaleSkeleton />;
   }
 
   return (

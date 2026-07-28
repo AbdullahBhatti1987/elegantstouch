@@ -4,12 +4,12 @@ import axios from 'axios';
 import ProductDetails from '@/components/products/ProductDetails';
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
+import ProductDetailSkeleton from '@/components/products/ProductDetailSkeleton';
 
 export default function ProductDetailPage() {
+  const [loading, setLoading] = useState(false);
   const params = useParams();
-
   const id = params.id;
-
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
@@ -30,15 +30,9 @@ export default function ProductDetailPage() {
     getProduct();
   }, [id]);
 
-  if (!product) {
-    return <div className="py-20 text-center">Loading...</div>;
+  if (loading || !product) {
+    return <ProductDetailSkeleton />;
   }
 
-  return (
-    <ProductDetails
-      product={product}
-      toggleWishlist={() => {}}
-      addToCart={() => {}}
-    />
-  );
+  return <ProductDetails product={product} />;
 }

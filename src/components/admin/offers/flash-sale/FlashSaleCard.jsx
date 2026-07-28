@@ -5,9 +5,16 @@ import Link from 'next/link';
 
 import { CalendarDays, Package, Pencil } from 'lucide-react';
 
-export default function FlashSaleCard({ sale }) {
+export default function FlashSaleCard({ sale, router }) {
+  
   return (
-    <div className="overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:shadow-md dark:border-neutral-700 dark:bg-neutral-900">
+    <div
+      className="overflow-hidden cursor-pointer rounded-2xl border bg-white shadow-sm transition hover:shadow-md dark:border-neutral-700 dark:bg-neutral-900"
+
+      onClick={() =>
+        router.push(`/dashboard/offers/flash-sale/${sale._id}`)
+      }
+    >
       {/* Product Preview */}
 
       <div className="grid grid-cols-3 gap-1 bg-neutral-100 p-2 dark:bg-neutral-800">

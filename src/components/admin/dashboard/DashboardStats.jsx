@@ -44,17 +44,11 @@ const [loading, setLoading] = useState(true);
       {dashboardStats.map((item) => (
         <DashboardCard
           key={item.title}
-
           title={item.title}
-
           value={counts[item.key]}
-
           icon={item.icon}
-          
           link={item.link}
-
           gradient={item.gradient}
-
           loading={loading}
         />
       ))}

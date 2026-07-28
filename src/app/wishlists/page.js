@@ -25,8 +25,8 @@ export default function WishlistPage() {
   const [sort, setSort] = useState('newest');
 
 
-  console.log("wishlist==>", wishlist)
-  console.log("wishlistCount==>", wishlistCount)
+  // console.log("wishlist==>", wishlist)
+  // console.log("wishlistCount==>", wishlistCount)
   // Wishlist items
 
   // const wishlistItems =
