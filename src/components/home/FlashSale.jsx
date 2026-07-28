@@ -30,8 +30,10 @@ export default function FlashSale() {
 
       if (data.success && data.data) {
         setSale(data.data);
-
         setProducts(data.data.products || []);
+      } else {
+        setSale(null);
+        setProducts([]);
       }
     } catch (error) {
       console.error('Flash Sale Error:', error);
@@ -59,12 +61,8 @@ export default function FlashSale() {
       if (distance <= 0) {
         clearInterval(timer);
 
-        setTimeLeft({
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: 0,
-        });
+        setSale(null);
+        setProducts([]);
 
         return;
       }
@@ -81,7 +79,7 @@ export default function FlashSale() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [sale]);
+  }, [sale?.endTime]);
 
   if (loading) {
     return <FlashSaleSkeleton />;
