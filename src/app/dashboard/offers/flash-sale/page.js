@@ -1,0 +1,134 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+
+
+
+import { useLoading } from '@/context/LoadingContext';
+
+import Pagination from '@/components/admin/common/Pagination';
+import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
+import FlashSaleGrid from '@/components/admin/offers/flash-sale/FlashSaleGrid';
+import FlashSaleTable from '@/components/admin/offers/flash-sale/FlashSaleTable';
+
+export default function FlashSalePage() {
+  const router = useRouter();
+
+  const [flashSales, setFlashSales] = useState([]);
+
+  const [view, setView] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('flashSaleView') || 'grid';
+    }
+
+    return 'grid';
+  });
+
+  const { loading, startLoading, stopLoading } = useLoading();
+
+  const [search, setSearch] = useState('');
+
+  const [page, setPage] = useState(1);
+
+  const [limit, setLimit] = useState(8);
+
+  const [pagination, setPagination] = useState({
+    page: 1,
+
+    limit: 8,
+
+    total: 0,
+
+    totalPages: 0,
+  });
+
+  // GET FLASH SALES
+
+  const getFlashSales = async (keyword = '', currentPage = 1) => {
+    startLoading();
+
+    try {
+      const { data } = await axios.get(
+        `/api/flash-sale?search=${keyword}&page=${currentPage}&limit=${limit}`,
+
+        {
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        },
+      );
+
+      if (data.success) {
+        setFlashSales(data.data);
+
+        setPagination(data.pagination);
+      }
+    } catch (error) {
+      console.log('GET FLASH SALE ERROR:', error);
+    } finally {
+      stopLoading();
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+
+    getFlashSales(search, newPage);
+  };
+
+  useEffect(() => {
+    getFlashSales();
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('flashSaleView', view);
+  }, [view]);
+
+  return (
+    <div>
+      <AdminPageHeader
+        title="Flash Sale"
+
+        description="Manage limited time offers and sale products"
+
+        searchPlaceholder="Search flash sales..."
+
+        search={search}
+
+        onChange={(value) => setSearch(value)}
+
+        onSearch={(value) => getFlashSales(value)}
+
+        addText="Add Flash Sale"
+
+        onAdd={() => router.push('/dashboard/offers/flash-sale/add')}
+
+        view={view}
+
+        setView={setView}
+      />
+
+      {view === 'grid' ? (
+        <FlashSaleGrid
+          flashSales={flashSales}
+
+          loading={loading}
+        />
+      ) : (
+        <FlashSaleTable
+          flashSales={flashSales}
+
+          loading={loading}
+        />
+      )}
+
+      <Pagination
+        pagination={pagination}
+
+        onPageChange={handlePageChange}
+      />
+    </div>
+  );
+}

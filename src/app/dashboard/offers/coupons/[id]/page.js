@@ -57,7 +57,7 @@ export default function CouponDetailPage() {
       const { data } = await axios.delete(`/api/coupons/${id}`);
 
       if (data.success) {
-        router.push('/dashboard/coupons');
+        router.push('/dashboard/offers/coupons');
       }
     } catch (error) {
       console.log(error);
@@ -121,7 +121,7 @@ export default function CouponDetailPage() {
           <div className="relative space-y-4 rounded-xl border bg-white p-6 md:col-span-2 dark:bg-zinc-900">
             <ActionButtons
               onEdit={() =>
-                router.push(`/dashboard/coupons/update/${id}`)
+                router.push(`/dashboard/offers/coupons/update/${id}`)
               }
 
               onDelete={() => setShowDeleteModal(true)}

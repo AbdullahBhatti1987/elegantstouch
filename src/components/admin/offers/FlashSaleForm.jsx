@@ -1,20 +1,32 @@
 'use client';
 
 import { useState } from 'react';
-
-import axios from 'axios';
-
-import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 import ProductSelector from './ProductSelector';
+import CategorySelector from './CategorySelector';
+import AdminPageTitle from '../common/header/AdminPageTitle';
+import Input from '../common/form/Input';
+import Select from '../common/form/Select';
+import Textarea from '../common/form/Textarea';
+import CustomDropdown from '../common/form/CustomDropdown';
+import { Loader2 } from 'lucide-react';
 
-export default function FlashSaleForm({ initialData }) {
-  const router = useRouter();
-
+export default function FlashSaleForm({
+  initialData,
+  submitText = 'Add Flash Sale',
+  onSubmit,
+  loading,
+}) {
+  const [activeCategory, setActiveCategory] = useState(null);
   const [title, setTitle] = useState(initialData?.title || '');
 
   const [description, setDescription] = useState(
     initialData?.description || '',
+  );
+
+  const [categories, setCategories] = useState(
+    initialData?.categories || [],
   );
 
   const [products, setProducts] = useState(
@@ -33,109 +45,151 @@ export default function FlashSaleForm({ initialData }) {
     initialData?.status || 'inactive',
   );
 
-  async function submit() {
+  const submit = async () => {
     const payload = {
       title,
-
       description,
-
       products,
-
       startTime,
-
       endTime,
-
       status,
     };
 
-    if (initialData) {
-      await axios.put(
-        `/api/flash-sale/${initialData._id}`,
-
-        payload,
-      );
-    } else {
-      await axios.post(
-        '/api/flash-sale',
-
-        payload,
-      );
+    if (!title) {
+      toast.error('Sale title is required');
+      return;
     }
 
-    router.push('/admin/offers/flash-sale');
-  }
+    if (!products.length) {
+      toast.error('Please select at least one product');
+      return;
+    }
+
+    onSubmit(payload);
+  };
 
   return (
-    <div className="space-y-6 rounded-2xl bg-white p-6 shadow dark:bg-neutral-900">
-      <input
-        value={title}
-
-        onChange={(e) => setTitle(e.target.value)}
-
-        placeholder="Sale Title"
-
-        className="input"
+    <div className="mx-auto space-y-6 rounded-2xl bg-white p-6 shadow dark:bg-neutral-900">
+      <AdminPageTitle
+        title={initialData ? 'Edit Flash Sale' : 'Add Flash Sale'}
+        description="Manage flash sale information"
+        backUrl="/dashboard/offers/flash-sale"
       />
 
-      <textarea
-        value={description}
+      <div className="space-y-8 rounded-2xl border bg-white p-8 dark:bg-gray-900">
+        <section>
+          <h2 className="mb-5 text-lg font-semibold underline">
+            Basic Information
+          </h2>
 
-        onChange={(e) => setDescription(e.target.value)}
+          <div className="space-y-5">
+            <Input
+              label="Flash Sale Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              loading={loading}
+            />
 
-        placeholder="Description"
+            <Textarea
+              label="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={4}
+              loading={loading}
+            />
+          </div>
+        </section>
+        <section>
+          <h2 className="mb-5 text-lg font-semibold underline">
+            Sale Schedule
+          </h2>
 
-        className="input"
-      />
+          <div className="grid gap-5 md:grid-cols-2">
+            <Input
+              label="Start Time"
+              type="datetime-local"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              loading={loading}
+            />
 
-      <div className="grid grid-cols-2 gap-4">
-        <input
-          type="datetime-local"
+            <Input
+              label="End Time"
+              type="datetime-local"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+              loading={loading}
+            />
+          </div>
+        </section>
+        <section>
+          <h2 className="mb-5 text-lg font-semibold underline">
+            Products Selection
+          </h2>
 
-          value={startTime}
+          <div className="space-y-8">
+            <div>
+              <h3 className="mb-3 font-medium">
+                Filter Products By Category
+              </h3>
 
-          onChange={(e) => setStartTime(e.target.value)}
+              <CategorySelector
+                selectedCategories={categories}
+                setSelectedCategories={setCategories}
+                activeCategory={activeCategory}
+                setActiveCategory={setActiveCategory}
+              />
+            </div>
 
-          className="input"
-        />
+            <div>
+              <h3 className="mb-3 font-medium">Select Products</h3>
 
-        <input
-          type="datetime-local"
+              <ProductSelector
+                category={activeCategory}
+                selectedProducts={products}
+                setSelectedProducts={setProducts}
+              />
+            </div>
+          </div>
+        </section>
 
-          value={endTime}
-
-          onChange={(e) => setEndTime(e.target.value)}
-
-          className="input"
-        />
+        <section>
+          <div className="rounded-xl border p-5">
+            <CustomDropdown
+              label="Status"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              loading={loading}
+              options={[
+                {
+                  value: 'active',
+                  label: 'Active',
+                },
+                {
+                  value: 'inactive',
+                  label: 'Inactive',
+                },
+              ]}
+            />
+          </div>
+        </section>
+        <div className="flex justify-end">
+          <button
+            onClick={submit}
+            disabled={loading}
+            className="flex items-center gap-2 rounded-lg bg-black px-8 py-3 text-white"
+          >
+            {loading ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                Saving...
+              </>
+            ) : (
+              submitText
+            )}
+          </button>
+        </div>
       </div>
-
-      <select
-        value={status}
-
-        onChange={(e) => setStatus(e.target.value)}
-
-        className="input"
-      >
-        <option value="active">Active</option>
-
-        <option value="inactive">Inactive</option>
-      </select>
-
-      <h3 className="font-bold">Select Products</h3>
-
-      <ProductSelector
-        selected={products}
-
-        setSelected={setProducts}
-      />
-
-      <button
-        onClick={submit}
-
-        className="rounded-xl bg-rose-600 px-6 py-3 font-semibold text-white"
-      >
-        Save Flash Sale
-      </button>
     </div>
   );
 }

@@ -176,7 +176,8 @@ export default function CouponForm({
       <AdminPageTitle
         title={initialData ? 'Edit Coupon' : 'Add Coupon'}
         description="Manage discount coupons"
-        backUrl="/dashboard/coupons"
+        backUrl="/dashboard/coupons/offers"
+ 
       />
 
       <form

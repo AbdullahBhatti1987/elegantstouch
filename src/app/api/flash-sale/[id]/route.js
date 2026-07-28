@@ -7,38 +7,98 @@ import FlashSale from '@/models/FlashSale';
 export async function GET(req, { params }) {
   await connectDB();
 
-  const sale = await FlashSale.findById(params.id).populate(
-    'products',
-    'name price salePrice images',
-  );
+  try {
+    const { id } = await params;
 
-  return NextResponse.json({
-    success: true,
+    const sale = await FlashSale.findById(id).populate(
+      'products',
+      'name price salePrice images',
+    );
 
-    data: sale,
-  });
+    if (!sale) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Flash Sale not found',
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+
+      data: sale,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message,
+      },
+
+      {
+        status: 500,
+      },
+    );
+  }
 }
-
 export async function PUT(req, { params }) {
   await connectDB();
 
-  const body = await req.json();
+  try {
+    const { id } = await params;
 
-  const sale = await FlashSale.findByIdAndUpdate(
-    params.id,
+    const body = await req.json();
 
-    body,
+    const sale = await FlashSale.findByIdAndUpdate(
+      id,
+      {
+        title: body.title,
+        description: body.description,
+        products: body.products,
+        startTime: body.startTime,
+        endTime: body.endTime,
+        status: body.status,
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
 
-    {
-      new: true,
-    },
-  );
+    if (!sale) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Flash Sale not found',
+        },
+        {
+          status: 404,
+        },
+      );
+    }
 
-  return NextResponse.json({
-    success: true,
+    return NextResponse.json({
+      success: true,
+      message: 'Flash Sale updated successfully',
+      data: sale,
+    });
+  } catch (error) {
+    console.log('UPDATE FLASH SALE ERROR:', error);
 
-    data: sale,
-  });
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message || 'Failed to update flash sale',
+      },
+      {
+        status: 500,
+      },
+    );
+  }
 }
 
 export async function DELETE(req, { params }) {

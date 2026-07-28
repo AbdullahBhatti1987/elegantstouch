@@ -16,7 +16,7 @@ export default function AdminCouponCard({ coupon }) {
 
   return (
     <div
-      onClick={() => router.push(`/dashboard/coupons/${coupon._id}`)}
+      onClick={() => router.push(`/dashboard/offers/coupons/${coupon._id}`)}
 
       className="group cursor-pointer rounded-2xl border border-gray-400 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-3 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900"
     >

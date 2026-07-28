@@ -18,6 +18,8 @@ import {
   MonitorPlay,
   Heart,
   ListOrdered,
+  BadgePercent,
+  Zap
 } from 'lucide-react';
 
 export const dashboardSidebar = [
@@ -46,16 +48,33 @@ export const dashboardSidebar = [
     href: '/dashboard/orders',
     icon: ListOrdered,
   },
-  {
-    title: 'Coupons',
-    href: '/dashboard/coupons',
-    icon: TicketPercent,
-  },
-  {
-    title: 'Offers',
-    href: '/dashboard/offers',
-    icon: Tag,
-  },
+  // {
+  //   title: 'Coupons',
+  //   href: '/dashboard/coupons',
+  //   icon: TicketPercent,
+  // },
+{
+  title: "Offers",
+  icon: Tag,
+
+  children: [
+    {
+      title: "Flash Sale",
+      href: "/dashboard/offers/flash-sale",
+      icon: Zap,
+    },
+    {
+      title: "Deals",
+      href: "/dashboard/offers/deals",
+      icon: BadgePercent,
+    },
+    {
+      title: "Coupons",
+      href: "/dashboard/offers/coupons",
+      icon: TicketPercent,
+    },
+  ],
+},
   {
     title: 'Customers',
     href: '/dashboard/customers',

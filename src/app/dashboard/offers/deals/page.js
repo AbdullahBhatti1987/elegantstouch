@@ -4,20 +4,22 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
-import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
-import Pagination from '@/components/admin/common/Pagination';
 import { useLoading } from '@/context/LoadingContext';
-import AdminCouponGrid from '@/components/admin/coupons/AdminCouponGrid';
-import AdminCouponTable from '@/components/admin/coupons/AdminCouponTable';
 
-export default function CouponsPage() {
+import Pagination from '@/components/admin/common/Pagination';
+import AdminPageHeader from '@/components/admin/common/header/AdminPageHeader';
+
+import DealsGrid from '@/components/admin/offers/deals/DealsGrid';
+import DealsTable from '@/components/admin/offers/deals/DealsTable';
+
+export default function DealsPage() {
   const router = useRouter();
 
-  const [coupons, setCoupons] = useState([]);
+  const [deals, setDeals] = useState([]);
 
   const [view, setView] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('couponView') || 'grid';
+      return localStorage.getItem('dealsView') || 'grid';
     }
 
     return 'grid';
@@ -33,19 +35,23 @@ export default function CouponsPage() {
 
   const [pagination, setPagination] = useState({
     page: 1,
+
     limit: 8,
+
     total: 0,
+
     totalPages: 0,
   });
 
-  // GET COUPONS
+  // GET DEALS
 
-  const getCoupons = async (keyword = '', currentPage = 1) => {
+  const getDeals = async (keyword = '', currentPage = 1) => {
     startLoading();
 
     try {
       const { data } = await axios.get(
-        `/api/coupons?search=${keyword}&page=${currentPage}&limit=${limit}`,
+        `/api/deals?search=${keyword}&page=${currentPage}&limit=${limit}`,
+
         {
           headers: {
             'Cache-Control': 'no-cache',
@@ -54,12 +60,12 @@ export default function CouponsPage() {
       );
 
       if (data.success) {
-        setCoupons(data.data);
+        setDeals(data.data);
 
         setPagination(data.pagination);
       }
     } catch (error) {
-      console.log('GET COUPON ERROR:', error);
+      console.log('GET DEALS ERROR:', error);
     } finally {
       stopLoading();
     }
@@ -68,36 +74,53 @@ export default function CouponsPage() {
   const handlePageChange = (newPage) => {
     setPage(newPage);
 
-    getCoupons(search, newPage);
+    getDeals(search, newPage);
   };
 
   useEffect(() => {
-    getCoupons();
+    getDeals();
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('couponView', view);
+    localStorage.setItem('dealsView', view);
   }, [view]);
 
   return (
     <div>
       <AdminPageHeader
-        title="Coupons"
-        description="Manage discount coupons"
-        searchPlaceholder="Search coupons..."
+        title="Deals"
+
+        description="Manage product deals and special offers"
+
+        searchPlaceholder="Search deals..."
+
         search={search}
+
         onChange={(value) => setSearch(value)}
-        onSearch={(value) => getCoupons(value)}
-        addText="Add Coupon"
-        onAdd={() => router.push('/dashboard/coupons/add')}
+
+        onSearch={(value) => getDeals(value)}
+
+        addText="Add Deal"
+
+        onAdd={() => router.push('/dashboard/offers/deals/add')}
+
         view={view}
+
         setView={setView}
       />
 
       {view === 'grid' ? (
-        <AdminCouponGrid coupons={coupons} loading={loading} />
+        <DealsGrid
+          deals={deals}
+
+          loading={loading}
+        />
       ) : (
-        <AdminCouponTable coupons={coupons} loading={loading} />
+        <DealsTable
+          deals={deals}
+
+          loading={loading}
+        />
       )}
 
       <Pagination
