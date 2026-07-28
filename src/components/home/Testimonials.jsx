@@ -72,142 +72,87 @@ export default function Testimonials() {
     const maxIndex = testimonials.length - visibleCards;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prev) =>
-        prev >= maxIndex ? 0 : prev + 1
-      );
+      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
     }, 5000);
 
     return () => clearInterval(interval);
   }, [visibleCards]);
 
   return (
-  <section className="bg-gradient-to-br from-[#fffaf5] via-white to-[#fdf2f8] py-14 dark:from-[#111] dark:via-[#171717] dark:to-[#24191f]">
-  <div className="mx-auto max-w-7xl px-4">
+    <section className="bg-gradient-to-br from-[#fffaf5] via-white to-[#fdf2f8] py-14 dark:from-[#111] dark:via-[#171717] dark:to-[#24191f]">
+      <div className="mx-auto max-w-7xl px-4">
+        {/* Heading */}
+        <div className="mb-10 text-center">
+          <span className="text-sm font-medium text-pink-600 dark:text-pink-400">
+            Customer Love
+          </span>
 
-    {/* Heading */}
-    <div className="mb-10 text-center">
-      <span className="text-sm font-medium text-pink-600 dark:text-pink-400">
-        Customer Love
-      </span>
+          <h2 className="mt-2 text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
+            What Our Customers Say
+          </h2>
 
-      <h2 className="mt-2 text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
-        What Our Customers Say
-      </h2>
+          <p className="mx-auto mt-2 max-w-xl text-sm text-gray-600 dark:text-gray-400">
+            Real experiences from our lovely customers who trust
+            ElegantTouch.
+          </p>
+        </div>
 
-      <p className="mx-auto mt-2 max-w-xl text-sm text-gray-600 dark:text-gray-400">
-        Real experiences from our lovely customers who trust ElegantTouch.
-      </p>
-    </div>
-
-
-    {/* Slider */}
-    <div className="overflow-hidden -mx-3">
-      <div
-        className="flex transition-transform duration-700 ease-in-out"
-        style={{
-          transform: `translateX(-${currentIndex * (100 / visibleCards)}%)`,
-        }}
-      >
-        {testimonials.map((item) => (
+        {/* Slider */}
+        <div className="-mx-3 overflow-hidden">
           <div
-            key={item.id}
-            className="w-full shrink-0 px-3 md:w-1/2 lg:w-1/3"
+            className="flex transition-transform duration-700 ease-in-out"
+            style={{
+              transform: `translateX(-${currentIndex * (100 / visibleCards)}%)`,
+            }}
           >
-            <div
-              className="
-                h-full
-                rounded-2xl
-                border
-                border-gray-100
-                bg-white
-                p-4
-                shadow-sm
-                transition-all
-                duration-300
-                hover:-translate-y-1
-                hover:shadow-lg
-                dark:border-neutral-800
-                dark:bg-neutral-900
-              "
-            >
+            {testimonials.map((item) => (
+              <div
+                key={item.id}
+                className="w-full shrink-0 px-3 md:w-1/2 lg:w-1/3"
+              >
+                <div className="h-full rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-900">
+                  {/* Customer */}
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-pink-200 bg-pink-50 text-xl font-bold text-pink-600 dark:border-pink-500 dark:bg-pink-900/30 dark:text-pink-300">
+                      {item.name?.charAt(0).toUpperCase()}
+                    </div>
 
-              {/* Customer */}
-              <div className="flex items-center gap-3">
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+                        {item.name}
+                      </h3>
 
-                <div
-                  className="
-                    flex
-                    h-12
-                    w-12
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-full
-                    border
-                    border-pink-200
-                    bg-pink-50
-                    text-xl
-                    font-bold
-                    text-pink-600
-                    dark:border-pink-500
-                    dark:bg-pink-900/30
-                    dark:text-pink-300
-                  "
-                >
-                  {item.name?.charAt(0).toUpperCase()}
-                </div>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {item.role}
+                      </p>
+                    </div>
+                  </div>
 
+                  {/* Stars */}
+                  <div className="mt-3 flex gap-0.5">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <Star
+                        key={index}
+                        size={15}
+                        className={
+                          index < item.rating
+                            ? 'fill-yellow-400 text-yellow-400'
+                            : 'text-gray-300 dark:text-gray-600'
+                        }
+                      />
+                    ))}
+                  </div>
 
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                    {item.name}
-                  </h3>
-
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {item.role}
+                  {/* Review */}
+                  <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+                    "{item.message}"
                   </p>
                 </div>
-
               </div>
-
-
-              {/* Stars */}
-              <div className="mt-3 flex gap-0.5">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <Star
-                    key={index}
-                    size={15}
-                    className={
-                      index < item.rating
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-gray-300 dark:text-gray-600"
-                    }
-                  />
-                ))}
-              </div>
-
-
-              {/* Review */}
-              <p
-                className="
-                  mt-3
-                  line-clamp-3
-                  text-sm
-                  leading-relaxed
-                  text-gray-600
-                  dark:text-gray-300
-                "
-              >
-                "{item.message}"
-              </p>
-
-            </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
-    </div>
-
-  </div>
-</section>
+    </section>
   );
 }

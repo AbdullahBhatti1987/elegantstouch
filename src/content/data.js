@@ -52,6 +52,11 @@ export const dashboardSidebar = [
     icon: TicketPercent,
   },
   {
+    title: 'Offers',
+    href: '/dashboard/offers',
+    icon: Tag,
+  },
+  {
     title: 'Customers',
     href: '/dashboard/customers',
     icon: Users,
@@ -110,7 +115,6 @@ export const navLinks = [
     icon: Tag,
   },
 ];
-
 
 export const footerLinks = {
   shop: [
