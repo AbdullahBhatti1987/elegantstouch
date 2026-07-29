@@ -6,19 +6,23 @@ export function generateGuestId() {
   let guestId = localStorage.getItem('guestId');
 
   if (!guestId) {
-    if (crypto.randomUUID) {
-      guestId = crypto.randomUUID();
-    } else {
-      guestId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-        /[xy]/g,
-        (c) => {
-          const r = (Math.random() * 16) | 0;
-          const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    const date = new Date();
 
-          return v.toString(16);
-        },
+    const year = String(date.getFullYear()).slice(-2);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+    let random = '';
+
+    for (let i = 0; i < 8; i++) {
+      random += chars.charAt(
+        Math.floor(Math.random() * chars.length),
       );
     }
+
+    guestId = `ET-${year}${month}${day}-${random}`;
 
     localStorage.setItem('guestId', guestId);
   }
