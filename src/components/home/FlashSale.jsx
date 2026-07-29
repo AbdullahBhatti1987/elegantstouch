@@ -26,7 +26,9 @@ export default function FlashSale() {
     try {
       setLoading(true);
 
-      const { data } = await axios.get('/api/flash-sale');
+      const { data } = await axios.get('/api/flash-sale/active');
+
+      console.log('PRODUCTS:', data.data.products);
 
       if (data.success && data.data) {
         setSale(data.data);

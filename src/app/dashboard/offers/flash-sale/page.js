@@ -48,6 +48,7 @@ export default function FlashSalePage() {
     startLoading();
 
     try {
+      startLoading();
       const { data } = await axios.get(
         `/api/flash-sale?search=${keyword}&page=${currentPage}&limit=${limit}`,
 
@@ -88,23 +89,15 @@ export default function FlashSalePage() {
     <div>
       <AdminPageHeader
         title="Flash Sale"
-
         description="Manage limited time offers and sale products"
-
         searchPlaceholder="Search flash sales..."
-
         search={search}
-
         onChange={(value) => setSearch(value)}
-
         onSearch={(value) => getFlashSales(value)}
-
         addText="Add Flash Sale"
-
         onAdd={() => router.push('/dashboard/offers/flash-sale/add')}
-
         view={view}
-
+        loading={loading}
         setView={setView}
       />
 

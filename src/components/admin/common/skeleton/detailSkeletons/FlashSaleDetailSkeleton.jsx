@@ -1,6 +1,6 @@
 'use client';
 
-export default function FlashSaleSkeleton() {
+export default function FlashSaleDetailSkeleton() {
   return (
     <div className="mx-auto animate-pulse space-y-6 rounded-2xl bg-white p-6 shadow dark:bg-neutral-900">
       {/* Header Skeleton */}

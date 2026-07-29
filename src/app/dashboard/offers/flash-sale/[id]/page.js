@@ -8,9 +8,9 @@ import AdminViewHeader from '@/components/admin/common/header/AdminViewHeader';
 import ActionButtons from '@/components/admin/common/ActionButtons';
 import { Info } from '@/components/admin/common/form/Info';
 import NotFound from '@/components/admin/common/states/NotFound';
-import FlashSaleDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/FlashSaleDetailSkeleton';
 
 import { useLoading } from '@/context/LoadingContext';
+import FlashSaleDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/FlashSaleDetailSkeleton';
 
 export default function FlashSaleDetailPage() {
   const params = useParams();

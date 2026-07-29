@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Image from 'next/image';
 
 export default function ProductSelector({
   category,
@@ -55,7 +56,7 @@ export default function ProductSelector({
         <p className="text-sm text-gray-500">Loading products...</p>
       )}
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-6">
         {products.map((product) => (
           <div
             key={product._id}
@@ -64,19 +65,20 @@ export default function ProductSelector({
 
             className={`cursor-pointer rounded-xl border p-3 transition ${
               selectedProducts.includes(product._id)
-                ? 'border-rose-500 bg-rose-50 dark:bg-rose-950'
+                ? 'border-blue-500 bg-blue-50 dark:bg-blue-950'
                 : 'border-gray-200 dark:border-neutral-700'
             } `}
           >
-            <img
+            <Image
               src={
                 product.images?.[0]?.thumbnail ||
                 product.images?.[0]?.url
               }
 
               alt={product.name}
-
-              className="h-28 w-full rounded-lg object-cover"
+              width={200}
+              height={200}
+              className=" rounded-lg object-cover"
             />
 
             <input
@@ -86,7 +88,7 @@ export default function ProductSelector({
 
               onChange={() => toggleProduct(product._id)}
 
-              className="mt-2"
+              className="mt-2 absolute z-50"
             />
 
             <p className="mt-2 line-clamp-1 text-xs font-semibold">

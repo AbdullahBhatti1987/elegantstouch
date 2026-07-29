@@ -51,7 +51,7 @@ export default function CategorySelector({
 
           className={`rounded-xl border p-3 transition ${
             activeCategory === category._id
-              ? 'border-rose-500 bg-rose-50 text-rose-600'
+              ? 'border-blue-500 bg-blue-50 text-blue-600'
               : selectedCategories.includes(category._id)
                 ? 'bg-gray-100'
                 : ''

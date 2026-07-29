@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast';
 
 import { useLoading } from '@/context/LoadingContext';
 import FlashSaleForm from '@/components/admin/offers/FlashSaleForm';
-import FlashSaleSkeleton from '@/components/admin/common/skeleton/detailSkeletons/FlashSaleSkeleton';
+import FlashSaleSkeleton from '@/components/admin/common/skeleton/detailSkeletons/FlashSaleDetailSkeleton';
 
 export default function UpdateFlashSalePage() {
   const params = useParams();
