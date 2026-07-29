@@ -112,6 +112,7 @@ export const navLinks = [
   {
     id: 2,
     name: 'Categories',
+    dropdown: true,
     href: '/categories',
     icon: Layers,
   },
