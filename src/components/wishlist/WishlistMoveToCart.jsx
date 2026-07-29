@@ -31,19 +31,24 @@ import { ShoppingCart } from 'lucide-react';
 export default function WishlistMoveToCart({
   onMoveAll,
   disabled = false,
+  loading = false,
 }) {
+  const isDisabled = disabled || loading;
   return (
     <button
       onClick={onMoveAll}
-      disabled={disabled}
+      disabled={isDisabled}
       className={`flex items-center justify-center gap-1 rounded-lg px-3 py-2 text-xs shadow-lg transition-all duration-200 sm:gap-2 sm:px-4 sm:py-2 sm:text-sm ${
-        disabled
+        isDisabled
           ? 'cursor-not-allowed bg-gray-400 opacity-50'
           : 'bg-primary text-white hover:opacity-90 active:scale-95 active:shadow-inner'
       }`}
     >
       <ShoppingCart className="h-4 w-4 sm:h-[18px] sm:w-[18px]" />
-      <span className="truncate">Move All To Cart</span>
+
+      <span className="truncate">
+        {loading ? 'Moving...' : 'Move All To Cart'}
+      </span>
     </button>
   );
 }

@@ -8,6 +8,7 @@ export default function WishlistActions({
   totalItems,
   items,
   onMoveAll,
+  loading
 }) {
   return (
     <div className="mb-8 flex flex-col gap-4 rounded-xl border p-4 lg:flex-row lg:items-center lg:justify-between">
@@ -22,7 +23,7 @@ export default function WishlistActions({
 
         <WishlistMoveToCart
           onMoveAll={onMoveAll}
-          disabled={!totalItems}
+          loading={!totalItems}
         />
 
         <Link

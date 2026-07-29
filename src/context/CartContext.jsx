@@ -264,8 +264,10 @@ export function CartProvider({ children }) {
   };
 
   const isInCart = (productId) => {
-    return cart?.items?.some(
-      (item) => item.productId?._id === productId,
+    return (
+      cart?.items?.some(
+        (item) => item.productId?._id === productId,
+      ) || false
     );
   };
 

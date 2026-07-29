@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function ProductCard({
   product,
@@ -11,17 +12,18 @@ export default function ProductCard({
   removeFromWishlist,
   showCartButton = true,
   showRating = true,
-  onClick,
   addToCart,
-  isInCart = false,
+  isInCart,
 }) {
+  const router = useRouter();
+
   return (
     <article className="group cursor-pointer rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
       {/* IMAGE */}
 
       <div
         className="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100 sm:h-52"
-        onClick={onClick}
+        onClick={() => router.push(`/products/${product._id}`)}
       >
         <Image
           src={
@@ -126,17 +128,19 @@ export default function ProductCard({
         {showCartButton && (
           <button
             onClick={() => {
-              addToCart(product, 1);
+              if (!isInCart) {
+                addToCart(product, 1);
+              }
             }}
-            disabled={isInCart}
+            disabled={Boolean(isInCart)}
             className={`mt-3 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-medium text-white transition ${
-              isInCart
+              Boolean(isInCart)
                 ? 'cursor-not-allowed bg-gray-400'
                 : 'bg-black hover:bg-zinc-800'
             }`}
           >
             <ShoppingCart size={17} />
-            {isInCart ? 'Already In Cart' : 'Add To Cart'}
+            {Boolean(isInCart) ? 'Already In Cart' : 'Add To Cart'}
           </button>
         )}
       </div>

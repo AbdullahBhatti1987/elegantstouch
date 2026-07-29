@@ -468,32 +468,22 @@ export function WishlistProvider({ children }) {
   const isInWishlist = (productId) => {
     return wishlist?.items?.some(
       (item) => item.productId?._id === productId,
-    );
+    ) || false 
   };
 
   return (
     <WishlistContext.Provider
       value={{
         guestId,
-
         wishlist,
-
         wishlistCount,
-
         loading,
-
         initialLoading,
-
         fetchWishlist,
-
         fetchWishlistCount,
-
         addToWishlist,
-
         removeFromWishlist,
-
         clearWishlist,
-
         isInWishlist,
       }}
     >

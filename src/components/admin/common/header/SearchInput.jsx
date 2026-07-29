@@ -50,7 +50,7 @@ export default function SearchInput({
   onSearch,
   placeholder = 'Search...',
   className = '',
-  disabled = false,
+  loading = false,
 }) {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -64,7 +64,7 @@ export default function SearchInput({
       <input
         type="text"
         value={value}
-        disabled={disabled}
+        disabled={loading}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -75,7 +75,7 @@ export default function SearchInput({
       <button
         type="button"
         onClick={() => onSearch?.(value)}
-        disabled={disabled}
+        disabled={loading}
         className="absolute top-1/2 right-2 cursor-pointer -translate-y-1/2 rounded-md p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-black disabled:opacity-50 dark:hover:bg-gray-800"
       >
         <Search size={18} />

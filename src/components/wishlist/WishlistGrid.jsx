@@ -10,30 +10,21 @@ export default function WishlistGrid({
   isInCart,
 }) {
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-cols-2 gap-6 lg:grid-cols-3 xl:grid-cols-4">
       {items.map((item) => {
         const product = item.productId;
 
         return (
           <ProductCard
             key={product._id}
-
             product={product}
-
             showWishlistButton={true}
-
             removeFromWishlist={onRemove}
-
             isInWishlist={isInWishlist(product._id)}
-
             addToCart={onAddToCart}
-
-            isInCart={isInCart}
-
+            isInCart={isInCart(item.productId._id)}
             showCartButton={true}
-
             showRating={true}
-
             onClick={() => router.push(`/products/${product.slug}`)}
           />
         );

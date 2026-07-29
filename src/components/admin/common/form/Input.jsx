@@ -59,7 +59,6 @@ export default function Input({
   placeholder = '',
   required = false,
   loading = false,
-  disabled = false,
   error = '',
   success = false,
   autoComplete = 'off',

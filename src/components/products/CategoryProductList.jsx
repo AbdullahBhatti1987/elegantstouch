@@ -1,7 +1,6 @@
 'use client';
 
 import ProductCard from './ProductCard';
-import { useRouter } from 'next/navigation';
 
 export default function CategoryProductList({
   filteredProducts = [],
@@ -15,7 +14,6 @@ export default function CategoryProductList({
   removeFromWishlist,
   categoryName,
 }) {
-  const router = useRouter();
 
   return (
     <section className="min-w-0 flex-1">
@@ -69,7 +67,7 @@ export default function CategoryProductList({
               addToCart={addToCart}
               isInCart={isInCart(product._id)}
               loading={loading}
-              onClick={() => router.push(`/products/${product._id}`)}
+              // onClick={() => router.push(`/products/${product._id}`)}
             />
           ))
         )}
