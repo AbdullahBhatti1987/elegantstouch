@@ -26,10 +26,9 @@ export function CartProvider({ children }) {
 
   // Get Guest Id
   useEffect(() => {
-    const storedGuestId = localStorage.getItem('guestId');
-    if (storedGuestId) {
-      setGuestId(storedGuestId);
-    }
+    const id = generateGuestId();
+
+    setGuestId(id);
   }, []);
 
   // Fetch Cart Count
@@ -89,13 +88,14 @@ export function CartProvider({ children }) {
   // Initial Fetch
 
   useEffect(() => {
-    if (guestId) {
-      fetchCart(guestId, true);
-      fetchCartCount(guestId);
-    } else {
+    if (!guestId) {
       setInitialLoading(false);
+      return;
     }
-  }, [guestId, fetchCart, fetchCartCount]);
+
+    fetchCart(guestId, true);
+    fetchCartCount(guestId);
+  }, [guestId]);
 
   // Add To Cart
   const addToCart = async (product, quantity = 1) => {

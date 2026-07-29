@@ -7,8 +7,8 @@ export default function WishlistFilters({
   setSort,
 }) {
   return (
-    <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-      <div>
+    <div className="mb-6 flex justify-between gap-4 md:flex-row md:items-center">
+      <div className="w-1/2">
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
@@ -20,7 +20,7 @@ export default function WishlistFilters({
         </select>
       </div>
 
-      <div>
+      <div className="w-1/2">
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value)}

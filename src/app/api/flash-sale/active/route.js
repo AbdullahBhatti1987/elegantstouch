@@ -1,27 +1,33 @@
 import { NextResponse } from 'next/server';
+
 import { connectDB } from '@/lib/mongodb';
 
 import FlashSale from '@/models/FlashSale';
+import Product from '@/models/Product'; // 👈 add this
 
 export async function GET() {
-  await connectDB();
-
   try {
+    await connectDB();
+
     const sale = await FlashSale.findOne({
       status: 'active',
-
       endTime: {
         $gt: new Date(),
       },
-    })
-      .populate('products', 'name price salePrice images slug')
-      .sort({
-        createdAt: -1,
+    }).populate({
+      path: 'products',
+      model: Product,
+    });
+
+    if (!sale) {
+      return NextResponse.json({
+        success: true,
+        data: null,
       });
+    }
 
     return NextResponse.json({
       success: true,
-
       data: sale,
     });
   } catch (error) {
@@ -30,7 +36,6 @@ export async function GET() {
     return NextResponse.json(
       {
         success: false,
-
         message: error.message,
       },
       {

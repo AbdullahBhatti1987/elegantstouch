@@ -15,7 +15,8 @@ export default function HeroBannerImage({ slide }) {
             src={slide.image?.url || slide.image?.thumbnail}
             alt={slide.title}
             fill
-            loading="eager"
+            // loading="eager"
+            priority
             sizes="(max-width: 768px) 240px, 330px"
             className="object-cover transition-transform duration-700 hover:scale-105"
           />

@@ -28,7 +28,7 @@ export default function WishlistGrid({
 
             addToCart={onAddToCart}
 
-            isInCart={isInCart(product._id)}
+            isInCart={isInCart}
 
             showCartButton={true}
 
