@@ -17,7 +17,7 @@ export default function WishlistActions({
         <p className="text-gray-500">{totalItems} item(s) saved</p>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="grid grid-cols-2 gap-3 lg:flex lg:items-center">
         <WishlistShare items={items} />
 
         <WishlistMoveToCart
@@ -27,7 +27,7 @@ export default function WishlistActions({
 
         <Link
           href="/products"
-          className="bg-primary rounded-lg px-4 py-2 text-white"
+          className="bg-primary rounded-lg px-3 py-2 text-center text-xs text-white transition-all duration-200 hover:opacity-90 active:scale-95 sm:px-4 sm:text-sm"
         >
           Continue Shopping
         </Link>
