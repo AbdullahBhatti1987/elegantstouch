@@ -497,19 +497,22 @@ export default function Header() {
           <button
             type="button"
             onClick={() => router.push('/wishlists')}
-            className={`group hover:text-primary relative cursor-pointer transition ${
-              pathname === '/wish' ? 'text-primary' : ''
-            }`}
+            className="group hover:text-primary relative cursor-pointer transition"
           >
             <div className="relative">
               <Heart
                 size={20}
-                fill={pathname === '/wish' ? 'currentColor' : 'none'}
+                fill={
+                  pathname === '/wishlists'
+                    ? 'var(--primary)'
+                    : 'none'
+                }
+                stroke="black"
                 className="cursor-pointer transition-transform duration-300 group-hover:scale-125"
               />
 
               {wishlistCount >= 0 && (
-                <span className="bg-primary absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-bold">
+                <span className="bg-primary absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-bold text-black">
                   {wishlistCount}
                 </span>
               )}
@@ -520,19 +523,20 @@ export default function Header() {
           <button
             type="button"
             onClick={() => router.push('/carts')}
-            className={`group hover:text-primary relative cursor-pointer transition ${
-              pathname === '/cart' ? 'text-primary' : ''
-            }`}
+            className="group hover:text-primary relative cursor-pointer transition"
           >
             <div className="relative">
               <ShoppingCart
                 size={20}
-                fill={pathname === '/cart' ? 'currentColor' : 'none'}
-                className="transition-transform duration-300 group-hover:scale-125"
+                fill={
+                  pathname === '/carts' ? 'var(--primary)' : 'none'
+                }
+                stroke="black"
+                className="cursor-pointer transition-transform duration-300 group-hover:scale-125"
               />
 
               {cartCount >= 0 && (
-                <span className="bg-primary absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-semibold text-gray-600">
+                <span className="bg-primary absolute  -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-semibold text-black">
                   {cartCount}
                 </span>
               )}
