@@ -75,6 +75,7 @@ export default function ProductDetails({ product }) {
                   src={img.thumbnail || img.url}
                   alt={product.name}
                   fill
+                  
                   sizes="80px"
                   className="object-cover"
                 />
@@ -89,6 +90,7 @@ export default function ProductDetails({ product }) {
               src={activeImage}
               alt={product.name}
               fill
+              priority
               sizes="(max-width:640px) 100vw, 50vw"
               className="object-cover"
             />
