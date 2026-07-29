@@ -6,129 +6,27 @@ import Product from '@/models/Product';
 // ================= GET CART BY GUEST ID =================
 
 export async function GET(req, { params }) {
-  try {
-    await connectDB();
+  const { guestId } = await params;
 
-    const { guestId } = await params;
+  const cart = await Cart.findOne({
+    guestId,
+    status: 'active',
+  }).populate({
+    path: 'items.productId',
+    select: 'name sku images price salePrice categoryId brand stock',
+    populate: {
+      path: 'categoryId',
+      select: 'name slug',
+    },
+  });
 
-    const cart = await Cart.findOne({
-      guestId,
-      status: 'active',
-    }).populate({
-      path: 'items.productId',
-      select: `
-    name
-    sku
-    images
-    price
-    salePrice
-    categoryId
-    brand
-    stock
-  `,
-      populate: {
-        path: 'categoryId',
-        select: 'name slug',
-      },
-    });
-
-    if (!cart) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Cart not found',
-        },
-        {
-          status: 404,
-        },
-      );
-    }
-
-    return NextResponse.json({
-      success: true,
-      data: cart,
-    });
-  } catch (error) {
-    console.log('GET CART ERROR:', error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: error.message,
-      },
-      {
-        status: 500,
-      },
-    );
-  }
+  return NextResponse.json({
+    success: true,
+    data: cart,
+  });
 }
 
-// ================= UPDATE CART =================
 
-// export async function PUT(req, { params }) {
-//   try {
-//     await connectDB();
-
-//     const { guestId } = await params;
-
-//     const body = await req.json();
-
-//     const cart = await Cart.findOneAndUpdate(
-//       {
-//         guestId,
-//       },
-//       body,
-//       {
-//         new: true,
-//         runValidators: true,
-//       },
-//     ).populate({
-//       path: 'items.productId',
-//       select: `
-//     name
-//     sku
-//     images
-//     price
-//     salePrice
-//     categoryId
-//     brand
-//     stock
-//   `,
-//     });
-
-//     if (!cart) {
-//       return NextResponse.json(
-//         {
-//           success: false,
-//           message: 'Cart not found',
-//         },
-//         {
-//           status: 404,
-//         },
-//       );
-//     }
-
-//     return NextResponse.json({
-//       success: true,
-
-//       message: 'Cart updated successfully',
-
-//       data: cart,
-//     });
-//   } catch (error) {
-//     console.log('UPDATE CART ERROR:', error);
-
-//     return NextResponse.json(
-//       {
-//         success: false,
-//         message: error.message,
-//       },
-//       {
-//         status: 500,
-//       },
-//     );
-//   }
-// }
 
 export async function PUT(req, { params }) {
   try {

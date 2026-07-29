@@ -2,11 +2,7 @@
 
 import BackButton from './BackButton';
 
-export default function AdminViewHeader({
-  title,
-  subtitle,
-  showBack = true,
-}) {
+export default function AdminViewHeader({ title, subtitle }) {
   return (
     <div className="mb-6 flex items-center justify-between">
       {/* Title Area */}
@@ -24,8 +20,7 @@ export default function AdminViewHeader({
         </h1>
       </div>
 
-      {/* Back Button */}
-      {showBack && <BackButton />}
+      {<BackButton />}
     </div>
   );
 }

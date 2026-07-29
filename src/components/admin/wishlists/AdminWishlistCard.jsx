@@ -15,9 +15,9 @@ export default function AdminWishlistCard({ wishlist }) {
 
   return (
     <div
-      onClick={() =>
-        router.push(`/dashboard/wishlists/${wishlist._id}`)
-      }
+      // onClick={() =>
+      //   router.push(`/dashboard/wishlists/${wishlist._id}`)
+      // }
 
       className="group cursor-pointer rounded-2xl border border-gray-400 bg-white p-3 shadow-sm transition-all duration-300 ease-out hover:-translate-y-3 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900"
     >
