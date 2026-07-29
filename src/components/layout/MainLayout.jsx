@@ -17,7 +17,7 @@ export default function MainLayout({ children }) {
   const hideFooter = isDashboard || isProducts || isCategories;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex min-h-screen flex-col">
       {!isDashboard && <Header />}
 
       <main className="flex-1">{children}</main>

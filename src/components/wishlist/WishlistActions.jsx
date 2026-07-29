@@ -18,7 +18,7 @@ export default function WishlistActions({
         <p className="text-gray-500">{totalItems} item(s) saved</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 lg:flex lg:items-center">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 lg:flex lg:items-center">
         <WishlistShare items={items} />
 
         <WishlistMoveToCart

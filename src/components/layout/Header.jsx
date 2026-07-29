@@ -166,130 +166,171 @@ export default function Header() {
           })}
         </nav>
 
-        {/* RIGHT ICONS */}
+        {/* Right Icons */}
+        <div className="text-textcolor flex items-center gap-4">
+          {/* Search */}
+          {/* <div ref={searchRef} className="relative"> */}
+          <div ref={searchRef}>
+            {/* Desktop Search */}
+            <div className="relative hidden lg:block">
+              {!searchOpen ? (
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(true)}
+                  className="group hover:text-primary cursor-pointer transition"
+                >
+                  <Search
+                    size={20}
+                    className="hover:text-primary mt-2 cursor-pointer transition-transform duration-300 group-hover:scale-125"
+                  />
+                </button>
+              ) : (
+                <div className="absolute -top-4.5 -right-2.5 flex h-10 w-64 items-center rounded-xl border border-gray-400 bg-white shadow-sm">
+                  <input
+                    autoFocus
+                    type="text"
+                    value={searchQuery}
+                    placeholder="Search..."
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="flex-1 bg-white px-3 outline-none"
+                  />
 
-        <div className="flex items-center gap-4">
-          {/* SEARCH */}
+                  <button onClick={handleSearch} className="mr-3">
+                    <Search size={20} />
+                  </button>
+                </div>
+              )}
+            </div>
 
-          <div ref={searchRef} className="relative">
+            {/* Mobile Search Icon */}
             <button
+              type="button"
               onClick={() => setSearchOpen(!searchOpen)}
-              className="hover:text-primary"
+              className="hover:text-primary lg:hidden"
             >
               <Search size={20} />
             </button>
 
-            {searchOpen && (
-              <div className="absolute top-8 right-0 hidden w-64 rounded-xl border bg-white p-2 shadow-xl lg:flex">
-                <input
-                  autoFocus
-
-                  value={searchQuery}
-
-                  onChange={(e) => setSearchQuery(e.target.value)}
-
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleSearch();
-                  }}
-
-                  placeholder="Search..."
-
-                  className="flex-1 px-2 outline-none"
+            {/* Wishlist */}
+            <button
+              type="button"
+              onClick={() => router.push('/wishlists')}
+              className={`group hover:text-primary relative cursor-pointer transition ${
+                pathname === '/wish' ? 'text-primary' : ''
+              }`}
+            >
+              <div className="relative">
+                <Heart
+                  size={20}
+                  fill={
+                    pathname === '/wish' ? 'currentColor' : 'none'
+                  }
+                  className="cursor-pointer transition-transform duration-300 group-hover:scale-125"
                 />
 
-                <button onClick={handleSearch}>
-                  <Search size={18} />
-                </button>
+                {wishlistCount >= 0 && (
+                  <span className="bg-primary absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-bold">
+                    {wishlistCount}
+                  </span>
+                )}
               </div>
-            )}
+            </button>
+
+            {/* Cart */}
+            <button
+              type="button"
+              onClick={() => router.push('/carts')}
+              className={`group hover:text-primary relative cursor-pointer transition ${
+                pathname === '/cart' ? 'text-primary' : ''
+              }`}
+            >
+              <div className="relative">
+                <ShoppingCart
+                  size={20}
+                  fill={
+                    pathname === '/cart' ? 'currentColor' : 'none'
+                  }
+                  className="transition-transform duration-300 group-hover:scale-125"
+                />
+
+                {cartCount >= 0 && (
+                  <span className="bg-primary absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-semibold text-gray-600">
+                    {cartCount}
+                  </span>
+                )}
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setMobileOpen((prev) => !prev)}
+              className="hover:text-primary relative z-50 transition lg:hidden"
+            >
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
-
-          {/* WISHLIST */}
-
-          <button
-            onClick={() => router.push('/wishlists')}
-            className="hover:text-primary relative"
-          >
-            <Heart size={20} />
-
-            <span className="bg-primary absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold">
-              {wishlistCount}
-            </span>
-          </button>
-
-          {/* CART */}
-
-          <button
-            onClick={() => router.push('/carts')}
-            className="hover:text-primary relative"
-          >
-            <ShoppingCart size={20} />
-
-            <span className="bg-primary absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold">
-              {cartCount}
-            </span>
-          </button>
-
-          {/* MOBILE BUTTON */}
-
-          <button
-            className="lg:hidden"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
         </div>
       </div>
 
-      {/* MOBILE MENU */}
+      {/* Mobile Search Box */}
 
+      {searchOpen && (
+        <div className="border-t bg-white px-4 py-3 lg:hidden">
+          <div className="flex h-10 items-center rounded-xl border bg-white shadow">
+            <input
+              autoFocus
+              type="text"
+              value={searchQuery}
+              placeholder="Search products..."
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch();
+                }
+              }}
+              className="flex-1 px-3 outline-none"
+            />
+
+            <button onClick={handleSearch} className="mr-3">
+              <Search size={20} />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Menu */}
       <div
-        className={`overflow-hidden border-t transition-all lg:hidden ${
-          mobileOpen ? 'max-h-screen' : 'max-h-0'
-        } `}
+        className={`border-primary bg-app overflow-hidden border-t transition-all duration-500 ease-in-out lg:hidden ${
+          mobileOpen
+            ? 'pointer-events-auto max-h-96 opacity-100'
+            : 'pointer-events-none max-h-0 opacity-0'
+        }`}
       >
-        <nav className="flex flex-col gap-3 px-5 py-4">
-          {navLinks.map((link) => {
-            const isCategory = link.name === 'Categories';
+        <nav className="text-app flex flex-col gap-4 px-4 py-4">
+          {navLinks.map((link, index) => {
+            const LinkIcon = link.icon;
 
             return (
-              <div key={link.name}>
-                {isCategory ? (
-                  <button
-                    onClick={() =>
-                      setMobileCategoryOpen(!mobileCategoryOpen)
-                    }
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className={`group hover:text-primary flex items-center gap-3 transition-all duration-500 ${
+                  mobileOpen
+                    ? 'translate-x-0 opacity-100'
+                    : '-translate-x-8 opacity-0'
+                }`}
+                style={{
+                  transitionDelay: `${index * 100}ms`,
+                }}
+              >
+                <LinkIcon
+                  size={20}
+                  className="transition-transform duration-300 group-hover:scale-125"
+                />
 
-                    className="flex w-full items-center justify-between"
-                  >
-                    Categories
-                    <ChevronDown size={18} />
-                  </button>
-                ) : (
-                  <Link
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                )}
-
-                {isCategory && mobileCategoryOpen && (
-                  <div className="mt-2 ml-4 flex flex-col gap-2">
-                    {categories.map((cat) => (
-                      <Link
-                        key={cat._id}
-
-                        href={`/categories/${cat._id}`}
-
-                        onClick={() => setMobileOpen(false)}
-                      >
-                        {cat.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+                <span>{link.name}</span>
+              </Link>
             );
           })}
         </nav>
