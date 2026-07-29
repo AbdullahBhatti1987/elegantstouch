@@ -13,7 +13,7 @@ export async function GET(req) {
     const featured = searchParams.get('featured');
 
     const page = Number(searchParams.get('page')) || 1;
-    const limit = Number(searchParams.get('limit')) || 12;
+    const limit = Number(searchParams.get('limit')) || 8;
     const skip = (page - 1) * limit;
 
     let query = {};

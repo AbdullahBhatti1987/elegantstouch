@@ -1,15 +1,21 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 import CategoryCard from '@/components/category/CategoryCard';
 import CategoryCardSkeleton from '@/components/category/CategoryCardSkeleton';
-import Pagination from '@/components/admin/common/Pagination';
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  const [page, setPage] = useState(1);
+
+  const loaderRef = useRef(null);
+  const scrollRef = useRef(null);
+
   const [pagination, setPagination] = useState({
     page: 1,
     totalPages: 1,
@@ -17,94 +23,127 @@ export default function CategoriesPage() {
     limit: 8,
   });
 
-  const fetchCategories = useCallback(
-    async (page = 1) => {
-      try {
+  const fetchCategories = useCallback(async (currentPage = 1) => {
+    try {
+      if (currentPage === 1) {
         setLoading(true);
-
-        const { data } = await axios.get(
-          `/api/categories?page=${page}&limit=${pagination.limit}`,
-        );
-
-        if (data.success) {
-          setCategories(data.data);
-
-          setPagination(data.pagination);
-        }
-      } catch (error) {
-        console.error('Categories Fetch Error:', error);
-      } finally {
-        setLoading(false);
+      } else {
+        setLoadingMore(true);
       }
-    },
-    [pagination.limit],
-  );
+
+      const { data } = await axios.get(
+        `/api/categories?page=${currentPage}&limit=8`,
+      );
+
+      if (data.success) {
+        if (currentPage === 1) {
+          setCategories(data.data);
+        } else {
+          setCategories((prev) => [...prev, ...data.data]);
+        }
+
+        setPagination(data.pagination);
+      }
+    } catch (error) {
+      console.error('Categories Fetch Error:', error);
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  }, []);
 
   useEffect(() => {
-    fetchCategories(1);
-  }, [fetchCategories]);
-
-  const handlePageChange = (page) => {
     fetchCategories(page);
-  };
+  }, [page, fetchCategories]);
+
+  // Infinite Scroll
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (
+          entries[0].isIntersecting &&
+          pagination.hasNextPage &&
+          !loadingMore
+        ) {
+          setPage((prev) => prev + 1);
+        }
+      },
+      {
+        root: scrollRef.current,
+        threshold: 0.5,
+      },
+    );
+
+    const element = loaderRef.current;
+
+    if (element) {
+      observer.observe(element);
+    }
+
+    return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
+    };
+  }, [pagination.hasNextPage, loadingMore]);
 
   return (
-    <section className="m-auto w-full max-w-7xl bg-white px-6 py-4 md:px-12 dark:bg-black">
-      {/* Header */}
+    <section className="flex h-[calc(100vh-80px)] w-full flex-col overflow-hidden bg-white px-6  md:px-12 dark:bg-black">
+      <div
+        ref={scrollRef}
+        className="scrollbar-hide mx-auto flex h-full w-full max-w-7xl  py-4 flex-col overflow-y-auto"
+      >
+        <div className="mb-4 shrink-0">
+          <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
+            Categories
+          </h2>
 
-      <div className="mb-4">
-        <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
-          Categories
-        </h2>
-
-        <p className="mt-2 text-gray-500">
-          Best collections curated just for you
-        </p>
-      </div>
-
-      {/* Grid */}
-
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
-        {loading ? (
-          <>
-            {Array.from({ length: 8 }).map((_, index) => (
-              <div key={index} className="">
-                <CategoryCardSkeleton />
-              </div>
-            ))}
-
-            {/* {Array.from({ length: 12 }).map((_, index) => (
-              <div
-                key={`desktop-${index}`}
-                className="hidden lg:block"
-              >
-                <CategoryCardSkeleton />
-              </div>
-            ))} */}
-          </>
-        ) : categories.length > 0 ? (
-          [...categories]
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map((category) => (
-              <CategoryCard key={category._id} category={category} />
-            ))
-        ) : (
-          <p className="col-span-full text-center text-gray-500">
-            No categories found
+          <p className="mt-2 text-gray-500">
+            Best collections curated just for you
           </p>
-        )}
-      </div>
-
-      {/* Pagination */}
-
-      {pagination.totalPages > 1 && (
-        <div className="mt-10 flex justify-center">
-          <Pagination
-            pagination={pagination}
-            onPageChange={handlePageChange}
-          />
         </div>
-      )}
+
+        <div className="flex-1 pr-2">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+            {loading ? (
+              Array.from({ length: 8 }).map((_, index) => (
+                <CategoryCardSkeleton key={index} />
+              ))
+            ) : categories.length > 0 ? (
+              [...categories]
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((category) => (
+                  <CategoryCard
+                    key={category._id}
+                    category={category}
+                  />
+                ))
+            ) : (
+              <p className="col-span-full text-center text-gray-500">
+                No categories found
+              </p>
+            )}
+          </div>
+
+          {/* Loader Trigger */}
+
+          <div
+            ref={loaderRef}
+            className="flex h-20 items-center justify-center"
+          >
+            {loadingMore && (
+              <div className="flex items-center gap-3">
+                <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-black dark:border-gray-700 dark:border-t-white" />
+
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Loading more categories...
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

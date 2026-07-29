@@ -29,9 +29,9 @@ export default function DealsPage() {
 
   const [search, setSearch] = useState('');
 
-  const [page, setPage] = useState(1);
 
-  const [limit, setLimit] = useState(8);
+
+
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -50,7 +50,7 @@ export default function DealsPage() {
 
     try {
       const { data } = await axios.get(
-        `/api/deals?search=${keyword}&page=${currentPage}&limit=${limit}`,
+        `/api/deals?search=${keyword}&page=${currentPage}&limit=${pagination.limit}`,
 
         {
           headers: {
@@ -72,7 +72,10 @@ export default function DealsPage() {
   };
 
   const handlePageChange = (newPage) => {
-    setPage(newPage);
+     setPagination((prev) => ({
+    ...prev,
+    page: newPage,
+  }));
 
     getDeals(search, newPage);
   };

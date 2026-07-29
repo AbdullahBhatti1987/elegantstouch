@@ -4,23 +4,14 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
-import {
-  ArrowLeft,
-  Edit,
-  Trash,
-  Trash2,
-  Package,
-  Tag,
-  Layers,
-} from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Info } from '@/components/admin/common/form/Info';
 import ConfirmModal from '@/components/admin/common/ConfirmModal';
 import ProductDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/ProductDetailSkeleton';
-import BackButton from '@/components/admin/common/header/BackButton';
 import { useLoading } from '@/context/LoadingContext';
 import NotFound from '@/components/admin/common/states/NotFound';
 import AdminViewHeader from '@/components/admin/common/header/AdminViewHeader';
+import ActionButtons from '@/components/admin/common/ActionButtons';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -42,8 +33,7 @@ export default function ProductDetailPage() {
       }
     } catch (error) {
       toast.error(
-
-        // error.response?.data?.message || 
+        // error.response?.data?.message ||
         'Product not found',
       );
     } finally {
@@ -163,27 +153,14 @@ export default function ProductDetailPage() {
         <div className="space-y-5 xl:col-span-2">
           <div className="relative space-y-4 rounded-xl border bg-white p-6 md:col-span-2 dark:bg-zinc-900">
             {/* Action Icons */}
-            <div className="absolute top-4 right-4 flex gap-2">
-              {/* Edit */}
-              <button
-                onClick={() =>
-                  router.push(`/dashboard/products/update/${id}`)
-                }
-                className="cursor-pointer rounded-lg bg-black p-2 text-white transition hover:bg-gray-800"
-                title="Edit Category"
-              >
-                <Edit size={17} />
-              </button>
 
-              {/* Delete */}
-              <button
-                onClick={() => setShowDeleteModal(true)}
-                className="cursor-pointer rounded-lg bg-red-600 p-2 text-white transition hover:bg-red-700"
-                title="Delete Category"
-              >
-                <Trash2 size={17} />
-              </button>
-            </div>
+            <ActionButtons
+              onEdit={() =>
+                router.push(`/dashboard/products/update/${id}`)
+              }
+              onDelete={() => setShowDeleteModal(true)}
+            />
+
             <div className="mb-5 flex items-center justify-between">
               <h2 className="text-xl font-semibold">
                 Product Summary

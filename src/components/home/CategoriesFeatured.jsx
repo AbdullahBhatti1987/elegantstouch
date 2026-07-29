@@ -40,7 +40,7 @@ export default function CategoriesFeatured() {
   }, [fetchCategories]);
 
   return (
-    <section className="w-full bg-white px-6 py-8 md:px-12 md:py-16 dark:bg-black">
+    <section className="w-full max-w-7xl m-auto bg-white  py-8  md:py-16 dark:bg-black">
       {/* Header */}
 
       <div className="mb-10 text-center">

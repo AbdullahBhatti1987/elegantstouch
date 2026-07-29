@@ -7,7 +7,7 @@ import CartSkeleton from '@/components/cart/CartSkeleton';
 import { useCart } from '@/context/CartContext';
 
 export default function CartPage() {
-  const { cart, initialLoading, updateCartQuantity, removeFromCart } =
+  const { cart, cartCount, initialLoading, updateCartQuantity, removeFromCart } =
     useCart();
 
   // Loading
@@ -51,9 +51,11 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
-      <h1 className="mb-8 text-3xl font-bold">Shopping Cart</h1>
-
-      <div className="grid gap-8 lg:grid-cols-3">
+      <div className="mb-4 flex flex-col rounded-xl border p-4 ">
+        <h1 className="text-3xl font-bold">Shopping Cart</h1>
+         <p className="text-gray-500">{cartCount} item(s) in cart</p>
+      </div>
+      <div className="grid gap-4 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <CartList
             items={cartItems}

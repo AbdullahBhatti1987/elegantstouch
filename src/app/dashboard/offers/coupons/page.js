@@ -27,9 +27,9 @@ export default function CouponsPage() {
 
   const [search, setSearch] = useState('');
 
-  const [page, setPage] = useState(1);
 
-  const [limit, setLimit] = useState(8);
+
+
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -45,7 +45,7 @@ export default function CouponsPage() {
 
     try {
       const { data } = await axios.get(
-        `/api/coupons?search=${keyword}&page=${currentPage}&limit=${limit}`,
+        `/api/coupons?search=${keyword}&page=${currentPage}&limit=${pagination.limit}`,
         {
           headers: {
             'Cache-Control': 'no-cache',
@@ -66,7 +66,10 @@ export default function CouponsPage() {
   };
 
   const handlePageChange = (newPage) => {
-    setPage(newPage);
+     setPagination((prev) => ({
+    ...prev,
+    page: newPage,
+  }));
 
     getCoupons(search, newPage);
   };

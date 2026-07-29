@@ -27,8 +27,7 @@ export default function ProductsPage() {
 
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(8);
+
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 8,
@@ -42,7 +41,7 @@ export default function ProductsPage() {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `/api/products?search=${keyword}&page=${currentPage}&limit=${limit}`,
+        `/api/products?search=${keyword}&page=${currentPage}&limit=${pagination.limit}`,
         {
           headers: {
             'Cache-Control': 'no-cache',
@@ -71,7 +70,10 @@ export default function ProductsPage() {
   }, []);
 
   const handlePageChange = (newPage) => {
-    setPage(newPage);
+    setPagination((prev) => ({
+      ...prev,
+      page: newPage,
+    }));
 
     getProducts(search, newPage);
   };

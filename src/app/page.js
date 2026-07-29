@@ -10,8 +10,8 @@ import Testimonials from '@/components/home/Testimonials';
 export default function Home() {
   return (
     <div className="flex flex-col">
-      <HeroCarousel />
-      {/* <HeroCarouselWithCanvas  /> */}
+      {/* <HeroCarousel /> */}
+      <HeroCarouselWithCanvas  />
       <CategoriesFeatured />
       <Testimonials />
       <FlashSale />

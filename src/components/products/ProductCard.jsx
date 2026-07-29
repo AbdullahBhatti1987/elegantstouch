@@ -32,6 +32,7 @@ export default function ProductCard({
           }
           alt={product.name}
           fill
+          loading="eager"
           sizes="
           (max-width:640px) 50vw,
           25vw

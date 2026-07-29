@@ -28,9 +28,9 @@ export default function FlashSalePage() {
 
   const [search, setSearch] = useState('');
 
-  const [page, setPage] = useState(1);
 
-  const [limit, setLimit] = useState(8);
+
+
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -50,7 +50,7 @@ export default function FlashSalePage() {
     try {
       startLoading();
       const { data } = await axios.get(
-        `/api/flash-sale?search=${keyword}&page=${currentPage}&limit=${limit}`,
+        `/api/flash-sale?search=${keyword}&page=${currentPage}&limit=${pagination.limit}`,
 
         {
           headers: {
@@ -72,7 +72,10 @@ export default function FlashSalePage() {
   };
 
   const handlePageChange = (newPage) => {
-    setPage(newPage);
+     setPagination((prev) => ({
+    ...prev,
+    page: newPage,
+  }));
 
     getFlashSales(search, newPage);
   };

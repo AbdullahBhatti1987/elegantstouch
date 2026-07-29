@@ -11,7 +11,7 @@ export default function WishlistActions({
   loading
 }) {
   return (
-    <div className="mb-8 flex flex-col gap-4 rounded-xl border p-4 lg:flex-row lg:items-center lg:justify-between">
+    <div className="mb-4 flex flex-col gap-4 rounded-xl border p-4 lg:flex-row lg:items-center lg:justify-between">
       <div>
         <h1 className="text-2xl font-bold">My Wishlist</h1>
 

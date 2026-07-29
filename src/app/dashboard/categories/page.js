@@ -29,8 +29,8 @@ export default function CategoriesPage() {
 
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(8);
+
+
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 8,
@@ -42,7 +42,7 @@ export default function CategoriesPage() {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `/api/categories?search=${keyword}&page=${currentPage}&limit=${limit}`,
+        `/api/categories?search=${keyword}&page=${currentPage}&limit=${pagination.limit}`,
         {
           headers: {
             'Cache-Control': 'no-cache',
@@ -82,7 +82,10 @@ export default function CategoriesPage() {
   }
 
   const handlePageChange = (newPage) => {
-    setPage(newPage);
+     setPagination((prev) => ({
+    ...prev,
+    page: newPage,
+  }));
     getCategories(search, newPage);
   };
 

@@ -112,10 +112,14 @@ import ProductCardSkeleton from '@/components/products/ProductCardSkeleton';
 
 export default function NewArrivalsPage() {
   const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(1);
+
   const [loading, setLoading] = useState(true);
-  const [limit] = useState(12);
-  const [pagination, setPagination] = useState({});
+ const [pagination, setPagination] = useState({
+    page: 1,
+    totalPages: 1,
+    total: 0,
+    limit: 8,
+  });
   const router = useRouter();
   const { addToCart, isInCart } = useCart();
   const { addToWishlist, isInWishlist, removeFromWishlist } =
@@ -127,7 +131,7 @@ export default function NewArrivalsPage() {
         setLoading(true);
 
         const { data } = await axios.get(
-          `/api/products?page=${currentPage}&limit=${limit}&badge=New Arrival`,
+          `/api/products?page=${currentPage}&limit=${pagination.limit}&badge=New Arrival`,
         );
 
         if (data.success) {
@@ -140,22 +144,25 @@ export default function NewArrivalsPage() {
         setLoading(false);
       }
     },
-    [limit],
+    [pagination.limit],
   );
   useEffect(() => {
-    fetchProducts(page);
-  }, [fetchProducts, page]);
+    fetchProducts(pagination.page);
+  }, [fetchProducts, pagination.page]);
 
   // Wishlist Toggle
 
   const handlePageChange = (newPage) => {
-    setPage(newPage);
+     setPagination((prev) => ({
+    ...prev,
+    page: newPage,
+  }));
 
     fetchProducts(newPage);
   };
 
   return (
-    <section className="m-auto w-full max-w-7xl bg-white px-6 py-4 md:px-12 dark:bg-black">
+    <section className="m-auto w-full max-w-7xl bg-white py-4 dark:bg-black">
       {/* Header */}
 
       <div className="mb-4">

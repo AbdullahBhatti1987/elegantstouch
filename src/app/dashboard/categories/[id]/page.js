@@ -11,8 +11,8 @@ import CategoryDetailSkeleton from '@/components/admin/common/skeleton/detailSke
 import { Info } from '@/components/admin/common/form/Info';
 import { useLoading } from '@/context/LoadingContext';
 import AdminViewHeader from '@/components/admin/common/header/AdminViewHeader';
-import ActionButtons from '@/components/admin/common/ActionButtons';
 import NotFound from '@/components/admin/common/states/NotFound';
+import ActionButtons from '@/components/admin/common/ActionButtons';
 
 export default function CategoryDetailPage() {
   const params = useParams();
@@ -117,6 +117,11 @@ export default function CategoryDetailPage() {
               onDelete={() => setShowDeleteModal(true)}
             />
 
+            <div className="mb-5 flex items-center justify-between">
+              <h2 className="text-xl font-semibold">
+                Category Summary
+              </h2>
+            </div>
             {/* Information */}
 
             <Info label="Name" value={category.name} />

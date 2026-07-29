@@ -32,6 +32,7 @@ export async function GET(request) {
     let query = {};
 
     // Search
+    // Search
     if (search) {
       const matchedCategories = await Category.find({
         name: {
@@ -40,57 +41,29 @@ export async function GET(request) {
         },
       }).select('_id');
 
+      const searchRegex = {
+        $regex: search,
+        $options: 'i',
+      };
+
       query.$or = [
-        {
-          name: {
-            $regex: search,
-            $options: 'i',
-          },
-        },
-        {
-          slug: {
-            $regex: search,
-            $options: 'i',
-          },
-        },
-        {
-          brand: {
-            $regex: search,
-            $options: 'i',
-          },
-        },
-        {
-          sku: {
-            $regex: search,
-            $options: 'i',
-          },
-        },
-        {
-          tags: {
-            $regex: search,
-            $options: 'i',
-          },
-        },
-        {
-          badge: {
-            $regex: search,
-            $options: 'i',
-          },
-        },
-        {
-          keywords: {
-            $regex: search,
-            $options: 'i',
-          },
-        },
-        {
+        { name: searchRegex },
+        { slug: searchRegex },
+        { brand: searchRegex },
+        { sku: searchRegex },
+        { badge: searchRegex },
+        { keywords: searchRegex },
+        { tags: searchRegex },
+      ];
+
+      if (matchedCategories.length > 0) {
+        query.$or.push({
           categoryId: {
             $in: matchedCategories.map((cat) => cat._id),
           },
-        },
-      ];
+        });
+      }
     }
-
     // Category Filter
 
     if (categoryId) {

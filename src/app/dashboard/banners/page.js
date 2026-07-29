@@ -22,8 +22,8 @@ export default function BannersPage() {
   });
 
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(8);
+
+
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 8,
@@ -37,7 +37,7 @@ export default function BannersPage() {
 
     try {
       const { data } = await axios.get(
-        `/api/banners?search=${keyword}&page=${currentPage}&limit=${limit}`,
+        `/api/banners?search=${keyword}&page=${currentPage}&limit=${pagination.limit}`,
         {
           headers: {
             'Cache-Control': 'no-cache',
@@ -58,7 +58,10 @@ export default function BannersPage() {
   };
 
   const handlePageChange = (newPage) => {
-    setPage(newPage);
+     setPagination((prev) => ({
+    ...prev,
+    page: newPage,
+  }));
 
     getBanners(search, newPage);
   };

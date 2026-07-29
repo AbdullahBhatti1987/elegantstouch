@@ -1,19 +1,16 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-
-import ProductCard from '@/components/products/ProductCard';
-import Pagination from '@/components/admin/common/Pagination';
-import ProductCardSkeleton from '@/components/products/ProductCardSkeleton';
-
+import { useSearchParams } from 'next/navigation';
 import PriceRangeFilter from '@/components/tools/PriceRangeFilter';
 import CategoryFilter from '@/components/category/CategoryFilter';
 
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import CategoryProductList from '@/components/products/CategoryProductList';
+
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -23,12 +20,22 @@ export default function ProductsPage() {
     minPrice: 0,
     maxPrice: 100000,
   });
+  const searchParams = useSearchParams();
+  const search = searchParams.get('search') || '';
   const [values, setValues] = useState([0, 100000]);
   const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  const loaderRef = useRef(null);
   const [sort, setSort] = useState('default');
   const [loading, setLoading] = useState(true);
-  const [limit] = useState(12);
-  const [pagination, setPagination] = useState({});
+  const [pagination, setPagination] = useState({
+    page: 1,
+    totalPages: 1,
+    total: 0,
+    limit: 8,
+  });
+  const scrollRef = useRef(null);
   const router = useRouter();
   const { addToCart, isInCart } = useCart();
   const { addToWishlist, isInWishlist, removeFromWishlist } =
@@ -39,43 +46,34 @@ export default function ProductsPage() {
   const fetchProducts = useCallback(
     async (currentPage = 1) => {
       try {
-        setLoading(true);
+        if (currentPage === 1) {
+          setLoading(true);
+        } else {
+          setLoadingMore(true);
+        }
 
         const { data } = await axios.get(
-          `/api/products?page=${currentPage}&limit=${limit}`,
+          `/api/products?page=${currentPage}&limit=12&search=${encodeURIComponent(search)}`,
         );
-
         if (data.success) {
-          setProducts(data.data);
-
-          setPagination(data.pagination);
-
-          // price range from products
-
-          const prices = data.data.map((item) =>
-            Number(item.salePrice || item.price),
-          );
-
-          if (prices.length) {
-            const min = Math.min(...prices);
-
-            const max = Math.max(...prices);
-
-            setPriceRange({
-              minPrice: min,
-              maxPrice: max,
-            });
-
-            setValues([min, max]);
+          if (currentPage === 1) {
+            setProducts(data.data);
+          } else {
+            setProducts((prev) => [...prev, ...data.data]);
           }
+
+          console.log('pagination =>', data.pagination);
+          console.log('products length =>', data.data.length);
+          setPagination(data.pagination);
         }
       } catch (error) {
         console.log(error);
       } finally {
         setLoading(false);
+        setLoadingMore(false);
       }
     },
-    [limit],
+    [search],
   );
 
   // Fetch Categories
@@ -93,13 +91,20 @@ export default function ProductsPage() {
   };
 
   const handlePageChange = (newPage) => {
-    setPage(newPage);
+    setPagination((prev) => ({
+      ...prev,
+      page: newPage,
+    }));
   };
+
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
 
   useEffect(() => {
     fetchProducts(page);
     fetchCategories();
-  }, [page]);
+  }, [page, search]);
 
   // Filters
 
@@ -115,8 +120,9 @@ export default function ProductsPage() {
     return priceMatch && categoryMatch;
   });
 
-  const step = Math.ceil(
-    (priceRange.maxPrice - priceRange.minPrice) / 100,
+  const step = Math.max(
+    1,
+    Math.ceil((priceRange.maxPrice - priceRange.minPrice) / 100),
   );
 
   if (sort === 'low') {
@@ -131,13 +137,46 @@ export default function ProductsPage() {
     );
   }
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (
+          entries[0].isIntersecting &&
+          pagination.hasNextPage &&
+          !loadingMore
+        ) {
+          setPage((prev) => prev + 1);
+        }
+      },
+      {
+        root: scrollRef.current,
+        threshold: 0.5,
+      },
+    );
+
+    const element = loaderRef.current;
+
+    if (element) {
+      observer.observe(element);
+    }
+
+    return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
+    };
+  }, [pagination.hasNextPage, loadingMore]);
+
   return (
     <section className="flex h-[calc(100vh-80px)] gap-6 overflow-hidden bg-gray-50 p-4 dark:bg-zinc-950">
       {/* Sidebar Fixed */}
       <aside className="scrollbar-hide hidden h-[calc(100vh-100px)] w-64 shrink-0 overflow-y-auto md:block">
         <div className="space-y-6">
           <PriceRangeFilter
-            values={values}
+            values={[
+              Math.max(values[0], priceRange.minPrice),
+              Math.min(values[1], priceRange.maxPrice),
+            ]}
             setValues={setValues}
             min={priceRange.minPrice}
             max={priceRange.maxPrice}
@@ -153,7 +192,10 @@ export default function ProductsPage() {
       </aside>
 
       {/* Only Products Scroll */}
-      <div className="hide-scrollbar min-w-0 flex-1 overflow-y-auto pr-2">
+      <div
+        ref={scrollRef}
+        className="flex min-w-0 flex-1 flex-col overflow-y-auto pr-2"
+      >
         <CategoryProductList
           filteredProducts={filteredProducts}
           loading={loading}
@@ -166,6 +208,21 @@ export default function ProductsPage() {
           isInCart={isInCart}
           categoryName={selectedCategory?.name}
         />
+
+        <div
+          ref={loaderRef}
+          className="flex h-20 items-center justify-center"
+        >
+          {loadingMore && (
+            <div className="flex w-full items-center justify-center gap-3 py-8">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-black dark:border-gray-700 dark:border-t-white" />
+
+              <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Loading more products...
+              </span>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
