@@ -15,12 +15,13 @@ export default function MainLayout({ children }) {
   const isCategories = pathname.startsWith('/categories');
   const isOrdersuccess = pathname.startsWith('/order-success');
 
-  const hideFooter = isDashboard || isProducts || isCategories || isOrdersuccess;
+  const hideFooter =
+    isDashboard || isProducts || isCategories || isOrdersuccess;
   // const hideFooter = isDashboard || isProducts;
 
   return (
     <div className="flex flex-col">
-      {!isDashboard && <Header />}
+      {!isDashboard || isOrdersuccess && <Header />}
 
       <main className="flex-1">{children}</main>
 
