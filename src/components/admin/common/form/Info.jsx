@@ -9,7 +9,7 @@ export function Info({ label, value }) {
       </p>
 
       {/* Value */}
-      <p className="mt-1 text-sm font-medium text-gray-900 dark:text-white">
+      <p className="mt-1 capitalize text-sm font-medium text-gray-900 dark:text-white">
         {value || '-'}
       </p>
     </div>

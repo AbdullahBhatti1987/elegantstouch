@@ -10,7 +10,6 @@ import {
   BadgeCheck,
 } from 'lucide-react';
 
-import AdminCouponTableSkeleton from '../common/skeleton/tableSkeletons/CouponTableSkeleton';
 import Loader from '../common/loaders/Loader';
 
 export default function AdminCouponTable({ coupons = [], loading }) {
@@ -53,14 +52,14 @@ export default function AdminCouponTable({ coupons = [], loading }) {
 
         <tbody>
           {loading ? (
-            <Loader type='categoryTable' count={8} />
+            <Loader type='couponTable' count={8} />
           ) : (
             coupons.map((coupon, index) => (
               <tr
                 key={coupon._id}
 
                 onClick={() =>
-                  router.push(`/dashboard/coupons/${coupon._id}`)
+                  router.push(`/dashboard/offers/coupons/${coupon._id}`)
                 }
 
                 className="h-14 cursor-pointer border-b transition hover:bg-blue-50 dark:border-gray-800 dark:hover:bg-gray-800"

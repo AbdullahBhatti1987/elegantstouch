@@ -63,7 +63,7 @@ export default function UpdateCouponPage() {
         toast.success('Coupon updated successfully');
 
         setTimeout(() => {
-          router.push(`/dashboard/coupons/${id}`);
+          router.push(`/dashboard/offers/coupons/${id}`);
         }, 1500);
       }
     } catch (error) {

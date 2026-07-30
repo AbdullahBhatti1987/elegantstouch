@@ -28,17 +28,23 @@ export default function FlashSale() {
 
       const { data } = await axios.get('/api/flash-sale/active');
 
-      console.log('PRODUCTS:', data.data.products);
-
-      if (data.success && data.data) {
+      if (
+        data.success &&
+        data.data &&
+        data.data.products &&
+        data.data.products.length > 0
+      ) {
         setSale(data.data);
-        setProducts(data.data.products || []);
+        setProducts(data.data.products);
       } else {
         setSale(null);
         setProducts([]);
       }
     } catch (error) {
       console.error('Flash Sale Error:', error);
+
+      setSale(null);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -87,9 +93,7 @@ export default function FlashSale() {
     return <FlashSaleSkeleton />;
   }
 
-  // No Active Sale
-
-  if (!sale || products.length === 0) {
+  if (!sale || !sale._id || products.length === 0) {
     return null;
   }
 

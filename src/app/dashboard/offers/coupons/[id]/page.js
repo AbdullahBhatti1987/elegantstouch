@@ -1,3 +1,233 @@
+// 'use client';
+
+// import { useEffect, useState } from 'react';
+// import { useParams, useRouter } from 'next/navigation';
+// import axios from 'axios';
+
+// import ConfirmModal from '@/components/admin/common/ConfirmModal';
+// import AdminViewHeader from '@/components/admin/common/header/AdminViewHeader';
+// import ActionButtons from '@/components/admin/common/ActionButtons';
+// import CouponDetailSkeleton from '@/components/admin/common/skeleton/detailSkeletons/CouponDetailSkeleton';
+// import NotFound from '@/components/admin/common/states/NotFound';
+// import { Info } from '@/components/admin/common/form/Info';
+
+// import { useLoading } from '@/context/LoadingContext';
+
+// export default function CouponDetailPage() {
+//   const params = useParams();
+
+//   const id = params?.id;
+
+//   const router = useRouter();
+
+//   const [coupon, setCoupon] = useState(null);
+
+//   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+//   const { loading, startLoading, stopLoading } = useLoading();
+
+//   useEffect(() => {
+//     async function getCoupon() {
+//       startLoading();
+
+//       try {
+//         const { data } = await axios.get(`/api/coupons/${id}`);
+
+//         console.log('coupon==>', data);
+
+//         if (data.success) {
+//           setCoupon(data.data);
+//         }
+//       } catch (error) {
+//         console.log(error);
+//       } finally {
+//         stopLoading();
+//       }
+//     }
+
+//     if (id) {
+//       getCoupon();
+//     }
+//   }, [id]);
+
+//   const handleDelete = async () => {
+//     try {
+//       startLoading();
+
+//       const { data } = await axios.delete(`/api/coupons/${id}`);
+
+//       if (data.success) {
+//         router.push('/dashboard/offers/coupons');
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     } finally {
+//       stopLoading();
+
+//       setShowDeleteModal(false);
+//     }
+//   };
+
+//   if (loading) {
+//     return <CouponDetailSkeleton />;
+//   }
+
+//   if (!coupon) {
+//     return (
+//       <NotFound
+//         title="Coupon Not Found"
+
+//         message="The coupon you are looking for does not exist or has been removed."
+
+//         buttonText="Back to Coupons"
+//       />
+//     );
+//   }
+
+//   return (
+//     <>
+//       <div className="mt-4">
+//         {/* Header */}
+
+//         <AdminViewHeader
+//           title={coupon.name}
+
+//           subtitle="Coupon Details"
+//         />
+
+//         <div className="grid gap-6 md:grid-cols-3">
+//           {/* Coupon Info */}
+
+//           <div className="rounded-xl border bg-white p-6 dark:bg-zinc-900">
+//             <div className="mb-5 flex items-center justify-center rounded-lg bg-zinc-100 p-8 dark:bg-zinc-800">
+//               <div className="text-center">
+//                 <p className="text-sm text-gray-500">Coupon Code</p>
+
+//                 <h2 className="mt-2 text-3xl font-bold tracking-widest">
+//                   {coupon.code}
+//                 </h2>
+//               </div>
+//             </div>
+
+//             <Info
+//               label="Status"
+
+//               value={coupon.status}
+//             />
+//           </div>
+
+//           {/* Details */}
+
+//           <div className="relative space-y-4 rounded-xl border bg-white p-6 md:col-span-2 dark:bg-zinc-900">
+//             <ActionButtons
+//               onEdit={() =>
+//                 router.push(`/dashboard/offers/coupons/update/${id}`)
+//               }
+
+//               onDelete={() => setShowDeleteModal(true)}
+//             />
+
+//             <div className="mb-5 flex items-center justify-between">
+//               <h2 className="text-xl font-semibold">
+//                 Coupon Summary
+//               </h2>
+//             </div>
+
+//             {/* <Info
+//               label="Name"
+
+//               value={coupon.name}
+//             /> */}
+
+//             <Info
+//               label="Code"
+
+//               value={coupon.code}
+//             />
+
+//             <Info
+//               label="Type"
+
+//               value={coupon.applyType}
+//             />
+
+//             <Info
+//               label="Discount Value"
+
+//               value={
+//                 coupon.discountType === 'percentage'
+//                   ? `${coupon.value}%`
+//                   : coupon.value
+//               }
+//             />
+
+//             <Info
+//               label="Minimum Purchase"
+
+//               value={coupon.minPurchase}
+//             />
+
+//             <Info
+//               label="Maximum Discount"
+
+//               value={coupon.maxDiscount}
+//             />
+//           </div>
+//         </div>
+
+//         {/* Extra Information */}
+
+//         <div className="mt-6 space-y-4 rounded-xl border bg-white p-6 dark:bg-zinc-900">
+//           <h2 className="mb-4 text-xl font-semibold">
+//             Additional Information
+//           </h2>
+
+//           <Info
+//             label="Description"
+
+//             value={coupon.description}
+//           />
+
+//           <Info
+//             label="Usage Limit"
+
+//             value={coupon.usageLimit}
+//           />
+
+//           <Info
+//             label="Used Count"
+
+//             value={coupon.usedCount}
+//           />
+
+//           <Info
+//             label="Expiry Date"
+
+//             value={
+//               coupon.expiryDate
+//                 ? new Date(coupon.expiryDate).toLocaleDateString()
+//                 : '-'
+//             }
+//           />
+//         </div>
+//       </div>
+
+//       <ConfirmModal
+//         open={showDeleteModal}
+//         title="Delete Coupon"
+//         message="
+//     This coupon will be permanently deleted.
+//   "
+//         requireText={coupon.code}
+//         confirmText="Delete Coupon"
+//         loading={loading}
+//         onCancel={() => setShowDeleteModal(false)}
+//         onConfirm={handleDelete}
+//       />
+//     </>
+//   );
+// }
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -15,13 +245,11 @@ import { useLoading } from '@/context/LoadingContext';
 
 export default function CouponDetailPage() {
   const params = useParams();
-
   const id = params?.id;
 
   const router = useRouter();
 
   const [coupon, setCoupon] = useState(null);
-
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const { loading, startLoading, stopLoading } = useLoading();
@@ -32,8 +260,6 @@ export default function CouponDetailPage() {
 
       try {
         const { data } = await axios.get(`/api/coupons/${id}`);
-
-        console.log('coupon==>', data);
 
         if (data.success) {
           setCoupon(data.data);
@@ -63,7 +289,6 @@ export default function CouponDetailPage() {
       console.log(error);
     } finally {
       stopLoading();
-
       setShowDeleteModal(false);
     }
   };
@@ -76,9 +301,7 @@ export default function CouponDetailPage() {
     return (
       <NotFound
         title="Coupon Not Found"
-
         message="The coupon you are looking for does not exist or has been removed."
-
         buttonText="Back to Coupons"
       />
     );
@@ -87,16 +310,13 @@ export default function CouponDetailPage() {
   return (
     <>
       <div className="mt-4">
-        {/* Header */}
-
         <AdminViewHeader
-          title={coupon.name}
-
-          subtitle="Coupon Details"
+          title="Coupon Details"
+          subtitle={`Coupon Code: ${coupon.code}`}
         />
 
         <div className="grid gap-6 md:grid-cols-3">
-          {/* Coupon Info */}
+          {/* Coupon Card */}
 
           <div className="rounded-xl border bg-white p-6 dark:bg-zinc-900">
             <div className="mb-5 flex items-center justify-center rounded-lg bg-zinc-100 p-8 dark:bg-zinc-800">
@@ -109,11 +329,7 @@ export default function CouponDetailPage() {
               </div>
             </div>
 
-            <Info
-              label="Status"
-
-              value={coupon.status}
-            />
+            <Info label="Status" value={coupon.status} />
           </div>
 
           {/* Details */}
@@ -127,71 +343,92 @@ export default function CouponDetailPage() {
               onDelete={() => setShowDeleteModal(true)}
             />
 
-            <Info
-              label="Name"
-
-              value={coupon.name}
-            />
+            <h2 className="text-xl font-semibold">Coupon Summary</h2>
 
             <Info
-              label="Code"
-
-              value={coupon.code}
-            />
-
-            <Info
-              label="Type"
-
-              value={coupon.type}
-            />
-
-            <Info
-              label="Discount Value"
-
+              label="Discount Type"
               value={
                 coupon.discountType === 'percentage'
-                  ? `${coupon.value}%`
-                  : coupon.value
+                  ? 'Percentage'
+                  : 'Flat Amount'
               }
             />
 
             <Info
-              label="Minimum Purchase"
-
-              value={coupon.minPurchase}
+              label="Discount Value"
+              value={
+                coupon.discountType === 'percentage'
+                  ? `${coupon.value}%`
+                  : `Rs ${coupon.value}`
+              }
             />
 
             <Info
               label="Maximum Discount"
+              value={
+                coupon.maxDiscount ? `Rs ${coupon.maxDiscount}` : '-'
+              }
+            />
 
-              value={coupon.maxDiscount}
+            <Info label="Apply Type" value={coupon.applyType} />
+
+            <Info
+              label="Minimum Order Amount"
+              value={
+                coupon.minOrderAmount
+                  ? `Rs ${coupon.minOrderAmount}`
+                  : 'No Minimum'
+              }
             />
           </div>
         </div>
 
-        {/* Extra Information */}
+        {/* Target Information */}
 
         <div className="mt-6 space-y-4 rounded-xl border bg-white p-6 dark:bg-zinc-900">
-          <h2 className="mb-4 text-xl font-semibold">
-            Additional Information
-          </h2>
+          <h2 className="text-xl font-semibold">Coupon Target</h2>
 
           <Info
-            label="Description"
+            label="Products"
 
-            value={coupon.description}
+            value={
+              coupon.productIds?.length
+                ? `${coupon.productIds.length} Products`
+                : '-'
+            }
           />
+
+          <Info
+            label="Categories"
+
+            value={
+              coupon.categoryIds?.length
+                ? `${coupon.categoryIds.length} Categories`
+                : '-'
+            }
+          />
+        </div>
+
+        {/* Usage Information */}
+
+        <div className="mt-6 space-y-4 rounded-xl border bg-white p-6 dark:bg-zinc-900">
+          <h2 className="text-xl font-semibold">Usage Information</h2>
 
           <Info
             label="Usage Limit"
-
-            value={coupon.usageLimit}
+            value={coupon.usageLimit ?? 'Unlimited'}
           />
 
-          <Info
-            label="Used Count"
+          <Info label="Used Count" value={coupon.usedCount} />
 
-            value={coupon.usedCount}
+          <Info
+            label="Remaining Usage"
+
+            value={
+              coupon.usageLimit
+                ? coupon.usageLimit - coupon.usedCount
+                : 'Unlimited'
+            }
           />
 
           <Info
@@ -200,7 +437,7 @@ export default function CouponDetailPage() {
             value={
               coupon.expiryDate
                 ? new Date(coupon.expiryDate).toLocaleDateString()
-                : '-'
+                : 'No Expiry'
             }
           />
         </div>
@@ -208,14 +445,19 @@ export default function CouponDetailPage() {
 
       <ConfirmModal
         open={showDeleteModal}
+
         title="Delete Coupon"
-        message="
-    This coupon will be permanently deleted.
-  "
+
+        message="This coupon will be permanently deleted."
+
         requireText={coupon.code}
+
         confirmText="Delete Coupon"
+
         loading={loading}
+
         onCancel={() => setShowDeleteModal(false)}
+
         onConfirm={handleDelete}
       />
     </>

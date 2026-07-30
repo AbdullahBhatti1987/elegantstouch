@@ -17,10 +17,10 @@ export default function SpinnerLoader() {
       {/* Center Spinner */}
       <div className="relative h-16 w-16">
         {/* Outer Ring */}
-        <div className="absolute inset-0 animate-spin rounded-full border-2 border-gray-300 border-t-[var(--primary)]"></div>
+        <div className="absolute inset-0 animate-spin rounded-full border-4 border-gray-300 border-t-[var(--primary)]"></div>
 
         {/* Inner Ring */}
-        <div className="animate-spin-reverse absolute inset-2 rounded-full border-2 border-gray-200 border-b-[var(--primary)]"></div>
+        <div className="animate-spin-reverse absolute inset-2 rounded-full border-4 border-gray-200 border-b-[var(--primary)]"></div>
       </div>
     </div>
   );

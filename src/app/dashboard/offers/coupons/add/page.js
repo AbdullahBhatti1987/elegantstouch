@@ -22,7 +22,7 @@ export default function AddCouponPage() {
         toast.success('Coupon created successfully');
 
         setTimeout(() => {
-          router.push('/dashboard/coupons/offers');
+          router.push('/dashboard/offers/coupons');
         }, 1500);
       }
     } catch (error) {

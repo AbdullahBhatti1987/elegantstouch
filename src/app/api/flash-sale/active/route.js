@@ -36,7 +36,7 @@ export async function GET() {
     return NextResponse.json(
       {
         success: false,
-        message: error.message,
+        message: error.message || 'No active flash sale found',
       },
       {
         status: 500,

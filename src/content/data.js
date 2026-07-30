@@ -50,7 +50,7 @@ export const dashboardSidebar = [
   },
   // {
   //   title: 'Coupons',
-  //   href: '/dashboard/coupons',
+  //   href: '/dashboard/offers/coupons',
   //   icon: TicketPercent,
   // },
 {
