@@ -1,9 +1,9 @@
 'use client';
 
-export default function CategoryTableSkeleton({ count = 8 }) {
+export default function CategoryTableSkeleton({ rows = 8 }) {
   return (
     <div className="w-full space-y-3 px-3 py-3">
-      {Array.from({ length: count }).map((_, index) => (
+      {Array.from({ length: rows }).map((_, index) => (
         <div
           key={index}
           className="flex h-14 w-full items-center gap-3 rounded-lg border-b dark:border-gray-800"

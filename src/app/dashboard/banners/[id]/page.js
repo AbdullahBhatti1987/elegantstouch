@@ -19,6 +19,8 @@ import BannerDetailSkeleton from '@/components/admin/common/skeleton/detailSkele
 import { useLoading } from '@/context/LoadingContext';
 import ActionButtons from '@/components/admin/common/ActionButtons';
 import ConfirmModal from '@/components/admin/common/ConfirmModal';
+import NotFound from '@/components/admin/common/states/NotFound';
+import AdminViewHeader from '@/components/admin/common/header/AdminViewHeader';
 
 export default function BannerDetailPage() {
   const params = useParams();
@@ -75,27 +77,24 @@ export default function BannerDetailPage() {
     return <BannerDetailSkeleton />;
   }
 
+  if (!banner) {
+    return (
+      <NotFound
+        title="Banner Not Found"
+        message="The banner you are looking for does not exist or has been removed."
+        buttonText="Back to Banners"
+      />
+    );
+  }
+
   return (
     <div className="mt-4">
       {/* HEADER */}
 
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Banner Details</h1>
-
-          <p className="mt-1 text-gray-500">
-            View complete banner information
-          </p>
-        </div>
-
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-gray-100"
-        >
-          <ArrowLeft size={18} />
-          Back
-        </button>
-      </div>
+      <AdminViewHeader
+        title={banner.title}
+        subtitle="Banners Details"
+      />
 
       {/* MAIN CARD */}
 
@@ -127,17 +126,16 @@ export default function BannerDetailPage() {
             <h2 className="text-xl font-semibold">
               Basic Information
             </h2>
-
             {/* ACTION ICONS */}
+            <ActionButtons
+              onEdit={() =>
+                router.push(`/dashboard/banners/update/${id}`)
+              }
+              onDelete={() => setShowDeleteModal(true)}
+            />
 
             <div className="relative space-y-4 rounded-xl border p-6 md:col-span-2 dark:bg-zinc-900">
               {/* Action Icons */}
-              <ActionButtons
-                onEdit={() =>
-                  router.push(`/dashboard/banners/update/${id}`)
-                }
-                onDelete={() => setShowDeleteModal(true)}
-              />
 
               <div className="grid gap-5 md:grid-cols-2">
                 <Info label="Subtitle" value={banner.subtitle} />
@@ -224,7 +222,6 @@ export default function BannerDetailPage() {
           </div>
         </div>
       </div>
-
 
       <ConfirmModal
         open={showDeleteModal}

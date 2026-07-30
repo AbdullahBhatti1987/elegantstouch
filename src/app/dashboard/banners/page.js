@@ -100,7 +100,6 @@ export default function BannersPage() {
 
       <Pagination
         pagination={pagination}
-
         onPageChange={handlePageChange}
       />
     </div>

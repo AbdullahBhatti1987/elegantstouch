@@ -12,6 +12,7 @@ import OrderTableSkeleton from '@/components/admin/common/skeleton/tableSkeleton
 import { useLoading } from '@/context/LoadingContext';
 import { useRouter } from 'next/navigation';
 import ConfirmModal from '@/components/admin/common/ConfirmModal';
+import NotFound from '@/components/admin/common/states/NotFound';
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -88,6 +89,16 @@ export default function OrdersPage() {
       stopLoading();
     }
   };
+
+    if (!orders) {
+      return (
+        <NotFound
+          title="Orders Not Found"
+          message="The order you are looking for does not exist or has been removed."
+          buttonText="Back to Orders"
+        />
+      );
+    }
 
   return (
     <div>

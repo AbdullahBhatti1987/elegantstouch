@@ -12,7 +12,7 @@ export default function AdminBannerGrid({
     <div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
         {loading ? (
-          <Loader type="couponGrid" count={8} />
+          <Loader type="bannerGrid" count={8} />
         ) : banners.length > 0 ? (
           banners.map((banner) => (
             <BannerCard key={banner._id} banner={banner} />

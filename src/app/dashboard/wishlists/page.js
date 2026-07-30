@@ -92,21 +92,13 @@ export default function WishlistsPage() {
     <div>
       <AdminPageHeader
         title="Wishlists"
-
         description="Manage customer wishlists"
-
         searchPlaceholder="Search wishlists..."
-
         search={search}
-
         onChange={(value) => setSearch(value)}
-
         onSearch={(value) => getWishlists(value)}
-
         addText={null}
-
         view={view}
-
         setView={setView}
       />
 

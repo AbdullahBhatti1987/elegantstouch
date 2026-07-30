@@ -7,6 +7,8 @@ import {
   Package,
   User,
 } from 'lucide-react';
+import Loader from '../common/loaders/Loader';
+import EmptyState from '../common/emptyState/EmptyState';
 
 export default function AdminCartTable({ carts, loading }) {
   const router = useRouter();
@@ -72,23 +74,33 @@ export default function AdminCartTable({ carts, loading }) {
         <tbody>
           {loading ? (
             <Loader type={'cartTable'} rows={6} />
+          ) : carts.length === 0 ? (
+            <tr>
+              <td colSpan={7} className="p-0">
+                <EmptyState
+                  title="No Carts Found"
+                  description="There are currently no customer carts available. Cart information will appear here when customers add products."
+                  action={
+                    <button className="rounded-lg bg-[#005b96] px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90">
+                      Clear Filters
+                    </button>
+                  }
+                />
+              </td>
+            </tr>
           ) : (
             carts.map((cart, index) => (
               <tr
                 key={cart._id}
-
                 onClick={() =>
                   router.push(`/dashboard/carts/${cart._id}`)
                 }
-
                 className="h-14 cursor-pointer border-b transition hover:bg-blue-50 dark:border-gray-800 dark:hover:bg-gray-800"
               >
                 {/* INDEX */}
-
                 <td className="px-2 text-center">{index + 1}</td>
 
                 {/* CUSTOMER */}
-
                 <td className="px-2 py-2 md:px-4">
                   <div className="flex items-center gap-2">
                     <div className="rounded-lg bg-blue-100 p-2">
@@ -104,50 +116,42 @@ export default function AdminCartTable({ carts, loading }) {
                 </td>
 
                 {/* PRODUCTS */}
-
                 <td className="hidden px-2 md:table-cell md:px-4">
                   <div className="flex items-center gap-1">
                     <Package size={14} />
-
                     <span>{cart.items?.length || 0} Products</span>
                   </div>
                 </td>
 
                 {/* TOTAL ITEMS */}
-
                 <td className="px-2 md:px-4">
                   <div className="flex items-center gap-1">
                     <ShoppingCart size={14} />
-
                     {getTotalQuantity(cart)}
                   </div>
                 </td>
 
                 {/* AMOUNT */}
-
                 <td className="px-2 font-semibold md:px-4">
                   PKR {getCartAmount(cart)}
                 </td>
 
                 {/* CART AGE */}
-
                 <td className="hidden px-2 sm:table-cell md:px-4">
                   <div className="flex items-center gap-1 text-gray-500">
                     <CalendarDays size={13} />
-
                     <span>{cart.cartAge || 0} days</span>
                   </div>
                 </td>
 
                 {/* STATUS */}
-
                 <td className="px-2 md:px-4">
                   <span
                     className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
                       cart.status === 'active'
                         ? 'bg-green-100 text-green-700'
                         : 'bg-gray-100 text-gray-700'
-                    } `}
+                    }`}
                   >
                     {cart.status}
                   </span>

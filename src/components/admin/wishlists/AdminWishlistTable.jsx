@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Heart, CalendarDays, Package, User } from 'lucide-react';
 
 import Loader from '@/components/admin/common/loaders/Loader';
+import EmptyState from '../common/emptyState/EmptyState';
 
 export default function AdminWishlistTable({ wishlists, loading }) {
   const router = useRouter();
@@ -42,28 +43,34 @@ export default function AdminWishlistTable({ wishlists, loading }) {
 
         <tbody>
           {loading ? (
-            <Loader
-              type="wishlistTable"
-
-              rows={6}
-            />
+            <Loader type="wishlistTable" rows={6} />
+          ) : wishlists.length === 0 ? (
+            <tr>
+              <td colSpan={6} className="p-0">
+                <EmptyState
+                  title="No Wishlists Found"
+                  description="There are currently no customer wishlists available. Wishlist information will appear here when customers save products."
+                  action={
+                    <button className="rounded-lg bg-[#005b96] px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90">
+                      Clear Filters
+                    </button>
+                  }
+                />
+              </td>
+            </tr>
           ) : (
             wishlists.map((wishlist, index) => (
               <tr
                 key={wishlist._id}
-
                 onClick={() =>
                   router.push(`/dashboard/wishlists/${wishlist._id}`)
                 }
-
                 className="h-14 cursor-pointer border-b transition hover:bg-pink-50 dark:border-gray-800 dark:hover:bg-gray-800"
               >
                 {/* INDEX */}
-
                 <td className="px-2 text-center">{index + 1}</td>
 
                 {/* CUSTOMER */}
-
                 <td className="px-2 py-2 md:px-4">
                   <div className="flex items-center gap-2">
                     <div className="rounded-lg bg-pink-100 p-2 dark:bg-pink-900/30">
@@ -79,11 +86,9 @@ export default function AdminWishlistTable({ wishlists, loading }) {
                 </td>
 
                 {/* PRODUCTS */}
-
                 <td className="hidden px-2 md:table-cell md:px-4">
                   <div className="flex items-center gap-1">
                     <Package size={14} />
-
                     <span>
                       {wishlist.items?.length || 0} Products
                     </span>
@@ -91,25 +96,17 @@ export default function AdminWishlistTable({ wishlists, loading }) {
                 </td>
 
                 {/* ITEMS */}
-
                 <td className="px-2 md:px-4">
                   <div className="flex items-center gap-1">
-                    <Heart
-                      size={14}
-
-                      className="text-pink-500"
-                    />
-
+                    <Heart size={14} className="text-pink-500" />
                     {wishlist.items?.length || 0}
                   </div>
                 </td>
 
                 {/* CREATED */}
-
                 <td className="hidden px-2 sm:table-cell md:px-4">
                   <div className="flex items-center gap-1 text-gray-500">
                     <CalendarDays size={13} />
-
                     <span>
                       {wishlist.createdAt
                         ? new Date(
@@ -121,7 +118,6 @@ export default function AdminWishlistTable({ wishlists, loading }) {
                 </td>
 
                 {/* STATUS */}
-
                 <td className="px-2 md:px-4">
                   <span className="rounded-full bg-pink-100 px-2 py-1 text-[10px] font-semibold text-pink-700">
                     Wishlist

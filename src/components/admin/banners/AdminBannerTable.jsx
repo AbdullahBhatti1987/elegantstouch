@@ -5,8 +5,8 @@ import Image from 'next/image';
 import { Pencil, Trash2 } from 'lucide-react';
 
 import Link from 'next/link';
-import AdminBannerTableSkeleton from '../common/skeleton/tableSkeletons/BannerTableSkeleton';
 import Loader from '../common/loaders/Loader';
+import EmptyState from '../common/emptyState/EmptyState';
 
 export default function AdminBannerTable({
   banners = [],
@@ -31,7 +31,7 @@ export default function AdminBannerTable({
 
         <tbody>
           {loading ? (
-            <Loader type="bannerTable" count={8} />
+            <Loader type="bannerTable" rows={8} />
           ) : banners.length > 0 ? (
             banners.map((banner) => (
               <tr

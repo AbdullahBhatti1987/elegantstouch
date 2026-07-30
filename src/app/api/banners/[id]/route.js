@@ -3,6 +3,7 @@ import { connectDB } from '@/lib/mongodb';
 import Banner from '@/models/Banner';
 import { singleFileToCloudinary } from '@/lib/singleFileToCloudinary';
 import { deleteFromCloudinary } from '@/lib/deleteFromCloudinary';
+import { bannerFileToCloudinary } from '@/lib/bannerFileToCloudinary';
 
 export async function GET(req, { params }) {
   try {
@@ -72,7 +73,8 @@ export async function PUT(req, context) {
     // New image upload
 
     if (imageFile && typeof imageFile !== 'string') {
-      const uploadedImage = await singleFileToCloudinary(
+      // const uploadedImage = await singleFileToCloudinary(
+      const uploadedImage = await bannerFileToCloudinary(
         imageFile,
         'elegantstouch/banner',
       );
