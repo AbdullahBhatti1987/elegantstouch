@@ -12,10 +12,10 @@ export default function MainLayout({ children }) {
 
   const isDashboard = pathname.startsWith('/dashboard');
   const isProducts = pathname.startsWith('/products');
-  // const isCategories = pathname.startsWith('/categories');
+  const isCategories = pathname.startsWith('/categories');
 
-  // const hideFooter = isDashboard || isProducts || isCategories;
-  const hideFooter = isDashboard || isProducts;
+  const hideFooter = isDashboard || isProducts || isCategories;
+  // const hideFooter = isDashboard || isProducts;
 
   return (
     <div className="flex flex-col">

@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
@@ -37,36 +35,34 @@ export default function HeroCarouselWithCanvas() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-if (!slides.length) {
-  return <HeroCanvasSkeleton />;
-}
+  if (!slides.length) {
+    return <HeroCanvasSkeleton />;
+  }
 
   const slide = slides[current];
 
   return (
-    <section className="relative h-[70vh] min-h-[500px] w-full overflow-hidden md:h-[80vh] lg:h-[85vh]">
-      {/* Hero Image */}
-
-      <div className="absolute inset-0">
+    <section className="relative w-full overflow-hidden">
+      <div className="relative aspect-[8/3] w-full">
         <Image
-          src={slide.image.url  || "/public/placeholder.jpg"}
+          src={slide.image.url || '/images/placeholder.jpg'}
           alt={slide.title || 'Elegant Touch'}
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="object-contain"
         />
 
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/0" />
       </div>
 
       {/* Content */}
 
-      <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+      {/* <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
         <div className="animate-in fade-in max-w-3xl duration-700">
           <HeroBannerContentWithCanvas slide={slide} />
         </div>
-      </div>
+      </div> */}
 
       {/* Dots */}
 
