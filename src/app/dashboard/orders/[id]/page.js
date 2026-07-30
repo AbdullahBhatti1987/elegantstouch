@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
@@ -14,11 +14,13 @@ import {
   User,
 } from 'lucide-react';
 import { Info } from '@/components/admin/common/form/Info';
+import AdminViewHeader from '@/components/admin/common/header/AdminViewHeader';
+import ActionButtons from '@/components/admin/common/ActionButtons';
 
 export default function OrderViewPage() {
   const params = useParams();
   const id = params.id;
-
+  const router = useRouter();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -55,29 +57,12 @@ export default function OrderViewPage() {
   );
 
   return (
-    <div className="mx-auto max-w-6xl space-y-5 p-4">
+    <div className="mx-auto max-w-7xl space-y-5">
       {/* HEADER */}
-
-      <div className="flex items-center justify-between rounded-xl border bg-white p-4 dark:bg-gray-900">
-        <div>
-          <h1 className="text-xl font-bold">Order Details</h1>
-
-          <p className="text-sm text-gray-500">
-            #{order.orderNumber}
-          </p>
-        </div>
-
-        <div className="text-right">
-          <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">
-            {order.orderStatus}
-          </span>
-
-          <p className="mt-2 text-xs text-gray-500">
-            <CalendarDays size={13} className="inline" />{' '}
-            {new Date(order.createdAt).toLocaleDateString()}
-          </p>
-        </div>
-      </div>
+      <AdminViewHeader
+        title="Order Details"
+        subtitle="Customer Order Information"
+      />
 
       <div className="grid gap-5 lg:grid-cols-3">
         {/* LEFT */}
@@ -85,12 +70,32 @@ export default function OrderViewPage() {
         <div className="space-y-5 lg:col-span-2">
           {/* PRODUCTS */}
 
-          <section className="rounded-xl border bg-white p-4 dark:bg-gray-900">
+          <section className="relative space-y-3 py-6 rounded-xl border bg-white px-4 dark:bg-gray-900">
             <h2 className="mb-3 flex items-center gap-2 font-bold">
               <Package size={18} />
               Products
             </h2>
+            <ActionButtons
+              onEdit={() =>
+                router.push(`/dashboard/orders/${order._id}/update`)
+              }
+              showDelete={false}
+            />
+            <div className="flex items-center justify-between rounded-xl border bg-white p-4 dark:bg-gray-900">
+              <p className="text-sm font-bold text-gray-500">
+                Order: {order.orderNumber}
+              </p>
+              <div className="text-right">
+                <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">
+                  {order.orderStatus}
+                </span>
 
+                <p className="mt-2 text-xs text-gray-500">
+                  <CalendarDays size={13} className="inline" />{' '}
+                  {new Date(order.createdAt).toLocaleDateString()}
+                </p>
+              </div>
+            </div>
             <div className="space-y-3">
               {order.items?.map((item, index) => (
                 <div

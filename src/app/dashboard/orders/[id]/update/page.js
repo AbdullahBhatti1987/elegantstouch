@@ -3,17 +3,19 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useLoading } from '@/context/LoadingContext';
+import AdminPageTitle from '@/components/admin/common/header/AdminPageTitle';
+import OrderEditSkeleton from '@/components/admin/orders/OrderEditSkeleton';
+import NotFound from '@/components/admin/common/states/NotFound';
 
 export default function OrderEditPage() {
   const params = useParams();
   const id = params.id;
-
+  const router = useRouter();
   const { loading, startLoading, stopLoading } = useLoading();
 
   const [updating, setUpdating] = useState(false);
-
   const [order, setOrder] = useState(null);
 
   const [orderStatus, setOrderStatus] = useState('');
@@ -49,7 +51,7 @@ export default function OrderEditPage() {
 
   async function updateOrderStatus() {
     try {
-      setUpdating(true);
+      startLoading();
 
       const { data } = await axios.patch(`/api/orders/${id}`, {
         orderStatus,
@@ -60,11 +62,13 @@ export default function OrderEditPage() {
         toast.success('Order updated successfully');
 
         setOrder(data.data);
+        router.push('/dashboard/orders');
+        // router.back();
       }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Update failed');
     } finally {
-      setUpdating(false);
+      stopLoading();
     }
   }
 
@@ -90,16 +94,27 @@ export default function OrderEditPage() {
   }
 
   if (loading) {
-    return <div className="p-6">Loading order...</div>;
+    return <OrderEditSkeleton />;
   }
 
   if (!order) {
-    return <div className="p-6">Order not found</div>;
+    return (
+      <NotFound
+        title="Order Not Found"
+        message="The order you are looking for does not exist or has been removed."
+        buttonText="Back to Orders"
+      />
+    );
   }
-
   return (
-    <div className="p-6">
-      <h1 className="mb-6 text-2xl font-bold">Update Order</h1>
+    <div className="mx-auto">
+      {/* HEADER */}
+
+      <AdminPageTitle
+        title={'Update Order'}
+        description=" Manage order information"
+        backUrl="/dashboard/orders"
+      />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* LEFT SIDE */}
@@ -111,7 +126,6 @@ export default function OrderEditPage() {
             <h2 className="mb-4 font-semibold">Order Information</h2>
 
             <div className="grid gap-3 md:grid-cols-2">
-             
               <p>
                 <b>Order Number:</b>
                 <br />

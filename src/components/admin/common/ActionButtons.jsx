@@ -9,7 +9,7 @@ export default function ActionButtons({
   showDelete = true,
 }) {
   return (
-    <div className="absolute top-4 right-4 flex gap-2">
+    <div className="absolute z-50 top-4 right-4 flex gap-2">
       {/* Edit Button */}
       {showEdit && (
         <button
