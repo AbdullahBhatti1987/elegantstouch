@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import CategoryCard from '@/components/category/CategoryCard';
 import CategoryCardSkeleton from '@/components/category/CategoryCardSkeleton';
+import SectionHeader from '@/components/common/SectionHeader';
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
@@ -89,20 +90,16 @@ export default function CategoriesPage() {
   }, [pagination.hasNextPage, loadingMore]);
 
   return (
-    <section className="flex h-[calc(100vh-80px)] w-full flex-col overflow-hidden bg-white px-6  md:px-12 dark:bg-black">
+    <section className="flex h-[calc(100vh-80px)] w-full flex-col overflow-hidden bg-white px-6 md:px-12 dark:bg-black">
       <div
         ref={scrollRef}
-        className="scrollbar-hide mx-auto flex h-full w-full max-w-7xl  py-4 flex-col overflow-y-auto"
+        className="scrollbar-hide mx-auto flex h-full w-full max-w-7xl flex-col overflow-y-auto py-4"
       >
-        <div className="mb-4 shrink-0">
-          <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
-            Categories
-          </h2>
-
-          <p className="mt-2 text-gray-500">
-            Best collections curated just for you
-          </p>
-        </div>
+        <SectionHeader
+          // icon={Tag}
+          title="Categories"
+          description="Best collections curated just for you."
+        />
 
         <div className="flex-1 pr-2">
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">

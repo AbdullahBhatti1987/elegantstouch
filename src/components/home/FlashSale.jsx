@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 import axios from 'axios';
@@ -10,9 +10,7 @@ import FlashSaleSkeleton from './FlashSaleSkeleton';
 export default function FlashSale() {
   const [sale, setSale] = useState(null);
   const [products, setProducts] = useState([]);
-
   const [loading, setLoading] = useState(true);
-
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -22,36 +20,27 @@ export default function FlashSale() {
 
   // Fetch Active Flash Sale
 
-  const fetchFlashSale = useCallback(async () => {
+  const fetchFlashSale = useCallback(async (page = 1) => {
     try {
       setLoading(true);
 
-      const { data } = await axios.get('/api/flash-sale/active');
+      const { data } = await axios.get(
+        `/api/flash-sale/active?page=${page}&limit=12`,
+      );
 
-      if (
-        data.success &&
-        data.data &&
-        data.data.products &&
-        data.data.products.length > 0
-      ) {
+      if (data.success && data.data) {
         setSale(data.data);
         setProducts(data.data.products);
-      } else {
-        setSale(null);
-        setProducts([]);
       }
     } catch (error) {
       console.error('Flash Sale Error:', error);
-
-      setSale(null);
-      setProducts([]);
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchFlashSale();
+    fetchFlashSale(1);
   }, [fetchFlashSale]);
 
   // Countdown from DB endTime
@@ -70,7 +59,10 @@ export default function FlashSale() {
         clearInterval(timer);
 
         setSale(null);
+
         setProducts([]);
+
+        setVisibleProducts([]);
 
         return;
       }
@@ -129,6 +121,7 @@ export default function FlashSale() {
             ].map(([label, value]) => (
               <div
                 key={label}
+
                 className="flex h-16 w-16 flex-col items-center justify-center rounded-xl bg-white shadow dark:bg-neutral-900"
               >
                 <span className="text-xl font-bold text-rose-600">
@@ -157,6 +150,7 @@ export default function FlashSale() {
             return (
               <div
                 key={product._id}
+
                 className="group overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-neutral-700 dark:bg-neutral-900"
               >
                 {/* Image */}
@@ -169,7 +163,7 @@ export default function FlashSale() {
                       '/images/placeholder.png'
                     }
 
-                    alt={product.name}
+                    alt={product.name || 'Product'}
 
                     fill
 
@@ -220,6 +214,19 @@ export default function FlashSale() {
             );
           })}
         </div>
+
+        {/* Infinite Scroll Loader */}
+
+        {products.length >= 12 && (
+          <div className="mt-10 flex justify-center">
+            <Link
+              href="/offers"
+              className="rounded-full bg-rose-600 px-8 py-3 text-sm font-bold text-white transition hover:bg-rose-700"
+            >
+              More Products
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

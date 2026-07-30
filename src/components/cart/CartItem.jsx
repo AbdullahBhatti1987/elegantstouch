@@ -47,12 +47,12 @@ export default function CartItem({
                 {item.name}
               </h3>
               <p className="text-[11px] tracking-wide text-gray-400 uppercase">
-                {item.category}
+                ({item.category})
               </p>
             </div>
             {/* PRICE */}
 
-            <div className="mt-2 flex flex-wrap items-center gap-2">
+            <div className=" flex flex-wrap items-center gap-2">
               <span className="text-sm font-bold text-pink-600 sm:text-base">
                 Rs. {item.price}
               </span>
@@ -68,7 +68,7 @@ export default function CartItem({
           <div className="mt-1 flex items-center justify-between">
             {/* QUANTITY */}
 
-            <div className="mt-4">
+            <div className="">
               <QuantitySelector
                 quantity={item.quantity}
                 onIncrease={onIncrease}

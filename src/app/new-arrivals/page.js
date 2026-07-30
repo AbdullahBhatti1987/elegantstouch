@@ -109,6 +109,7 @@ import Pagination from '@/components/admin/common/Pagination';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import ProductCardSkeleton from '@/components/products/ProductCardSkeleton';
+import SectionHeader from '@/components/common/SectionHeader';
 
 export default function NewArrivalsPage() {
   const [products, setProducts] = useState([]);
@@ -165,15 +166,12 @@ export default function NewArrivalsPage() {
     <section className="m-auto w-full max-w-7xl bg-white py-4 dark:bg-black">
       {/* Header */}
 
-      <div className="mb-4">
-        <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
-          Products
-        </h2>
 
-        <p className="mt-2 text-gray-500">
-          Best collections curated just for you
-        </p>
-      </div>
+<SectionHeader
+          // icon={Tag}
+          title="Products"
+          description="Best collections curated just for you."
+        />
 
       {/* Product Grid */}
 

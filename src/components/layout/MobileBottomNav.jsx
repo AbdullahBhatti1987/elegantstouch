@@ -8,6 +8,7 @@ import {
   ShoppingBag,
   ShoppingCart,
   Search,
+  Tag,
   Layers,
   Store,
   Menu,
@@ -29,14 +30,14 @@ export default function MobileBottomNav() {
       icon: Home,
     },
     {
-      name: 'Categories',
-      href: '/categories',
-      icon: Layers,
-    },
-    {
       name: 'Shop',
       href: '/products',
       icon: Store,
+    },
+    {
+      name: 'Offers',
+      href: '/offers',
+      icon: Tag,
     },
     {
       name: 'Cart',

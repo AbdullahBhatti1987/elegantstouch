@@ -7,12 +7,14 @@ import { useParams } from 'next/navigation';
 import ProductDetailSkeleton from '@/components/products/ProductDetailSkeleton';
 
 export default function ProductDetailPage() {
+
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const id = params.id;
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
+    
     if (!id) return;
 
     const getProduct = async () => {

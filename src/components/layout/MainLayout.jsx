@@ -15,10 +15,10 @@ export default function MainLayout({ children }) {
   // const isCategories = pathname.startsWith('/categories');
 
   // const hideFooter = isDashboard || isProducts || isCategories;
-  const hideFooter = isDashboard || isProducts ;
+  const hideFooter = isDashboard || isProducts;
 
   return (
-    <div className="flex  flex-col">
+    <div className="flex flex-col">
       {!isDashboard && <Header />}
 
       <main className="flex-1">{children}</main>

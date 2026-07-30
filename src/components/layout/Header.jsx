@@ -59,8 +59,8 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 shadow-sm backdrop-blur-3xl">
-      <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between md:min-h-16 ">
+    <header className="sticky top-0 z-50 shadow-sm backdrop-blur-3xl ">
+      <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between md:min-h-16 px-4">
         {/* Logo */}
         <Link
           href="/dashboard"

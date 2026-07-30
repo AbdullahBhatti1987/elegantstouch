@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { Info } from '../admin/common/form/Info';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
+import QuantitySelector from '../cart/QuantitySelector';
 
 export default function ProductDetails({ product }) {
   const { addToCart, isInCart, updateCartQuantity } = useCart();
@@ -52,7 +53,7 @@ export default function ProductDetails({ product }) {
 
   return (
     <section className="mx-auto max-w-6xl px-3 py-6 sm:px-5 lg:px-8">
-      <div className="grid items-start gap-8 lg:grid-cols-2">
+      <div className="grid items-start gap-8 px-4 md:px-0 lg:grid-cols-2">
         {/* IMAGE SECTION */}
 
         <div className="flex flex-col-reverse gap-3 sm:flex-row">
@@ -72,10 +73,14 @@ export default function ProductDetails({ product }) {
                 }`}
               >
                 <Image
-                  src={img.thumbnail || img.url  || "/public/placeholder.jpg"}
+                  src={
+                    img.thumbnail ||
+                    img.url ||
+                    '/public/placeholder.jpg'
+                  }
                   alt={product.name}
                   fill
-                  
+
                   sizes="80px"
                   className="object-cover"
                 />
@@ -87,7 +92,7 @@ export default function ProductDetails({ product }) {
 
           <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-gray-100 sm:max-w-md">
             <Image
-              src={activeImage  || "/public/placeholder.jpg"}
+              src={activeImage || '/public/placeholder.jpg'}
               alt={product.name}
               fill
               priority
@@ -99,7 +104,7 @@ export default function ProductDetails({ product }) {
 
         {/* PRODUCT INFO */}
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <p className="text-xs tracking-widest text-gray-400 uppercase sm:text-sm">
             {product.brand}
           </p>
@@ -180,64 +185,52 @@ export default function ProductDetails({ product }) {
 
           {/* ACTIONS */}
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            {/* QUANTITY */}
+          <div className="space-y-3">
+            {/* Quantity + Wishlist */}
+            <div className="flex w-full gap-2">
+              {/* Quantity */}
+              <div className="w-1/2">
+                <QuantitySelector
+                  quantity={quantity}
+                  onIncrease={() => changeQuantity(1)}
+                  onDecrease={() => changeQuantity(-1)}
+                  className="w-full"
+                />
+              </div>
 
-            <div className="flex h-12 items-center justify-center rounded-xl border">
-              <button
-                onClick={() => changeQuantity(-1)}
+              {/* Wishlist */}
+              <div className="w-1/2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
 
-                className="p-3"
-              >
-                <Minus size={17} />
-              </button>
+                    const exists = isInWishlist(product._id);
 
-              <span className="w-10 text-center">{quantity}</span>
-
-              <button
-                onClick={() => changeQuantity(1)}
-
-                className="p-3"
-              >
-                <Plus size={17} />
-              </button>
+                    if (exists) {
+                      removeFromWishlist(product._id);
+                    } else {
+                      addToWishlist(product);
+                    }
+                  }}
+                  className="flex h-9 w-full items-center justify-center rounded-md border border-gray-300 bg-gray-50 shadow-sm transition-all duration-200 hover:bg-white hover:shadow-md active:scale-90 sm:h-12 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+                >
+                  <Heart
+                    size={22}
+                    className={`transition-all duration-200 ${
+                      productInWishlist
+                        ? 'fill-primary text-primary'
+                        : 'text-gray-600 dark:text-gray-300'
+                    }`}
+                  />
+                </button>
+              </div>
             </div>
 
-            {/* WISHLIST */}
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-
-                const exists = isInWishlist(product._id);
-
-                if (exists) {
-                  removeFromWishlist(product._id);
-                } else {
-                  addToWishlist(product);
-                }
-              }}
-
-              className="flex h-12 w-full items-center justify-center rounded-xl border sm:w-12"
-            >
-              <Heart
-                size={22}
-                className={
-                  productInWishlist
-                    ? 'fill-primary text-primary'
-                    : 'text-gray-600'
-                }
-              />
-            </button>
-
-            {/* CART */}
-
+            {/* Add To Cart */}
             <button
               onClick={handleAddToCart}
-
               disabled={productInCart}
-
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-black text-white disabled:cursor-not-allowed disabled:opacity-60 sm:flex-1"
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-black text-white transition-all active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-black"
             >
               <ShoppingCart size={18} />
 
