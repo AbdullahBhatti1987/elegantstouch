@@ -73,8 +73,8 @@ export async function PUT(req, context) {
     // New image upload
 
     if (imageFile && typeof imageFile !== 'string') {
-      // const uploadedImage = await singleFileToCloudinary(
-      const uploadedImage = await bannerFileToCloudinary(
+      const uploadedImage = await singleFileToCloudinary(
+      // const uploadedImage = await bannerFileToCloudinary(
         imageFile,
         'elegantstouch/banner',
       );

@@ -14,6 +14,8 @@ export default function ProductCard({
   showRating = true,
   addToCart,
   isInCart,
+  sale,
+  discount
 }) {
   const router = useRouter();
 
@@ -39,6 +41,18 @@ export default function ProductCard({
           "
           className="object-cover transition duration-500 group-hover:scale-105"
         />
+
+        {sale && <span className="absolute top-2 left-2 rounded-lg bg-rose-500 px-2 py-1 text-[10px] font-semibold text-white">
+          SALE
+        </span>}
+
+        {discount > 0 && (
+          <div className="absolute top-2 right-2 rounded-lg bg-white px-2 py-1 shadow-md">
+            <span className="text-xs font-extrabold text-rose-600">
+              {discount}% OFF
+            </span>
+          </div>
+        )}
 
         {/* BADGE */}
 

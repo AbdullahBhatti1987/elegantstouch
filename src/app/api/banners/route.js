@@ -38,8 +38,8 @@ export async function POST(req) {
     let image = null;
 
     if (imageFile && imageFile.size > 0) {
-      // image = await singleFileToCloudinary(
-      image = await bannerFileToCloudinary(
+      image = await singleFileToCloudinary(
+        // image = await bannerFileToCloudinary(
         imageFile,
         'elegantstouch/banner',
       );

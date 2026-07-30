@@ -1,7 +1,7 @@
 export default function FlashSaleSkeleton() {
   return (
-    <section className="bg-neutral-100 px-6 py-8 md:px-12 md:py-16 dark:bg-neutral-800">
-      <div className="mx-auto animate-pulse">
+    <section className="bg-neutral-100 py-8  md:py-16 dark:bg-neutral-800">
+      <div className="mx-auto animate-pulse max-w-7xl px-4">
         {/* Header Skeleton */}
 
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row">

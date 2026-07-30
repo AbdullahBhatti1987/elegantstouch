@@ -40,32 +40,37 @@ export default function CategoriesFeatured() {
   }, [fetchCategories]);
 
   return (
-    <section className="w-full max-w-7xl m-auto bg-white  py-8  md:py-16 dark:bg-black">
-      {/* Header */}
+    <section className="m-auto w-full max-w-7xl bg-white py-8 md:py-16 dark:bg-black">
+      <div className="mx-auto max-w-7xl px-4">
+        {/* Header */}
 
-      <div className="mb-10 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
-          Explore Categories
-        </h2>
+        <div className="mb-10 px-4 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
+            Explore Categories
+          </h2>
 
-        <p className="mt-2 text-gray-500">
-          Best collections curated just for you
-        </p>
-      </div>
+          <p className="mt-2 text-gray-500">
+            Best collections curated just for you
+          </p>
+        </div>
 
-      {/* Grid */}
+        {/* Grid */}
 
-      <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-        {loading
-          ? [...Array(4)].map((_, index) => (
-              <FeatureCardSkeleton key={index} />
-            ))
-          : categories.length > 0 &&
-            categories
-              .slice(0, 4)
-              .map((category) => (
-                <FeatureCard key={category._id} category={category} />
-              ))}
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          {loading
+            ? [...Array(4)].map((_, index) => (
+                <FeatureCardSkeleton key={index} />
+              ))
+            : categories.length > 0 &&
+              categories
+                .slice(0, 4)
+                .map((category) => (
+                  <FeatureCard
+                    key={category._id}
+                    category={category}
+                  />
+                ))}
+        </div>
       </div>
     </section>
   );

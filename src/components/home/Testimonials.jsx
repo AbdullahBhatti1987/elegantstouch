@@ -80,7 +80,7 @@ export default function Testimonials() {
 
   return (
     <section className="bg-gradient-to-br from-[#fffaf5] via-white to-[#fdf2f8] py-14 dark:from-[#111] dark:via-[#171717] dark:to-[#24191f]">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl px-4">
         {/* Heading */}
         <div className="mb-10 text-center">
           <span className="text-sm font-medium text-pink-600 dark:text-pink-400">

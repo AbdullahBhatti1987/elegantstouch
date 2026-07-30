@@ -1,22 +1,22 @@
-
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import ProductCard from '../products/ProductCard';
 import ProductCardSkeleton from '../products/ProductCardSkeleton';
+import { useWishlist } from '@/context/WishlistContext';
+import { useCart } from '@/context/CartContext';
 
 export default function OffersGrid({ onEmpty }) {
   const [products, setProducts] = useState([]);
-
   const [page, setPage] = useState(1);
-
   const [hasMore, setHasMore] = useState(true);
-
   const [loading, setLoading] = useState(false);
+  const { addToWishlist, isInWishlist, removeFromWishlist } =
+    useWishlist();
+  const { addToCart, isInCart } = useCart();
 
   const loaderRef = useRef(null);
-
   const fetchOffers = useCallback(
     async (pageNumber) => {
       try {
@@ -91,7 +91,17 @@ export default function OffersGrid({ onEmpty }) {
               <ProductCardSkeleton key={index} />
             ))
           : products.map((product) => (
-              <ProductCard key={product._id} product={product} />
+              <ProductCard
+                key={product._id}
+                product={product}
+                addToWishlist={addToWishlist}
+                removeFromWishlist={removeFromWishlist}
+                isInWishlist={isInWishlist(product._id)}
+                addToCart={addToCart}
+                isInCart={isInCart(product._id)}
+                loading={loading}
+                // onClick={() => router.push(`/products/${product._id}`)}
+              />
             ))}
       </div>
 
