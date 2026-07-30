@@ -93,7 +93,7 @@ export async function POST(req) {
       );
     }
 
-    console.log('ORDER SHIPPING ADDRESS:', shippingAddress);
+    // console.log('ORDER SHIPPING ADDRESS:', shippingAddress);
 
     const orderItems = items.map((item) => ({
       productId: item.productId._id || item.productId,

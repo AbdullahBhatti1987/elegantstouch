@@ -30,7 +30,7 @@ export default function BannerCard({ banner }) {
           {banner?.image ? (
             <Image
               // src={banner.image.thumbnail || banner.image.url}
-              src={banner.image.thumbnail}
+              src={banner.image.thumbnail  || "/public/placeholder.jpg" }
 
               alt={banner.image.alt || banner.title}
 

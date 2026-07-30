@@ -23,7 +23,9 @@ export default function AdminCategoryCard({ category, counts }) {
         <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
           {category?.image ? (
             <Image
-              src={category.image.thumbnail}
+              src={
+                category.image.thumbnail || '/public/placeholder.jpg'
+              }
               alt={category.alt || category.name}
               fill
               sizes="96px"
@@ -79,7 +81,9 @@ export default function AdminCategoryCard({ category, counts }) {
           <Package size={12} className="text-gray-500" />
 
           <p className="mt-1 text-xs font-bold">
-            {counts.categoryWiseProducts?.categoryId === category._id ? counts.categoryWiseProducts?.productCount : 0}
+            {counts.categoryWiseProducts?.categoryId === category._id
+              ? counts.categoryWiseProducts?.productCount
+              : 0}
           </p>
 
           <p className="mt-1 text-xs font-bold">

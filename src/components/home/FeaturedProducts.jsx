@@ -32,7 +32,7 @@ export default function FeaturedProducts({ title = "Featured Products", products
               {/* Image */}
               <div className="relative w-full h-44 overflow-hidden">
                 <Image
-                  src={product.image}
+                  src={product.image  || "/public/placeholder.jpg"}
                   alt={product.name}
                   fill priority
                   className="object-cover group-hover:scale-110 transition duration-300"

@@ -334,7 +334,7 @@ export default function CheckoutPage() {
                         </div>
                         <div className="">
                           <Image
-                            src="/images/qrcode.jpeg"
+                            src={"/images/qrcode.jpeg" || "/public/placeholder.jpg"}
                             alt="QR Code"
                             width={300}
                             height={300}
@@ -426,7 +426,7 @@ export default function CheckoutPage() {
                 {/* Product Image */}
                 <div className="relative aspect-square w-16 flex-shrink-0 overflow-hidden rounded-lg border sm:w-20 md:w-24">
                   <Image
-                    src={item.productId?.images?.[0]?.thumbnail}
+                    src={item.productId?.images?.[0]?.thumbnail || "/public/placeholder.jpg"}
                     alt={item.productId.name}
                     fill
 

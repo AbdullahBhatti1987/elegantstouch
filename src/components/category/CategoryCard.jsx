@@ -16,7 +16,7 @@ export default function CategoryCard({ category }) {
 
       <div className="relative aspect-square overflow-hidden rounded-xl">
         <Image
-          src={image?.thumbnail}
+          src={image?.thumbnail  || "/public/placeholder.jpg"}
           alt={name}
           fill
           sizes="300px"

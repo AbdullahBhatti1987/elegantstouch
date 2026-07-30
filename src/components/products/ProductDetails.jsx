@@ -72,7 +72,7 @@ export default function ProductDetails({ product }) {
                 }`}
               >
                 <Image
-                  src={img.thumbnail || img.url}
+                  src={img.thumbnail || img.url  || "/public/placeholder.jpg"}
                   alt={product.name}
                   fill
                   
@@ -87,7 +87,7 @@ export default function ProductDetails({ product }) {
 
           <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-gray-100 sm:max-w-md">
             <Image
-              src={activeImage}
+              src={activeImage  || "/public/placeholder.jpg"}
               alt={product.name}
               fill
               priority

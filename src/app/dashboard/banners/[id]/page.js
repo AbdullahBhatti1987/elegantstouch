@@ -104,7 +104,7 @@ export default function BannerDetailPage() {
         <div className="rounded-2xl border bg-white p-5 shadow-sm">
           <div className="relative aspect-square overflow-hidden rounded-xl border">
             <Image
-              src={banner.image?.url || banner.image?.thumbnail}
+              src={banner.image?.url || banner.image?.thumbnail  || "/public/placeholder.jpg"}
 
               alt={banner.image?.alt || banner.title}
               loading="eager"

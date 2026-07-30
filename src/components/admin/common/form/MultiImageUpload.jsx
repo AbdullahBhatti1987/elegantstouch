@@ -34,7 +34,7 @@ function SortableImage({ item, loading, onRemove }) {
       className="group relative overflow-hidden rounded-xl border bg-white"
     >
       <Image
-        src={item.preview || item.url}
+        src={item.preview || item.url  || "/public/placeholder.jpg"}
         alt="product"
         width={300}
         height={300}

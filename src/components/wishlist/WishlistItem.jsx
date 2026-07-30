@@ -13,7 +13,7 @@ export default function WishlistItem({
     <div className="group overflow-hidden rounded-xl border bg-white transition hover:shadow-lg">
       <div className="relative aspect-square overflow-hidden">
         <Image
-          src={item.image}
+          src={item.image  || "/public/placeholder.jpg"}
           alt={item.name}
           fill
           priority

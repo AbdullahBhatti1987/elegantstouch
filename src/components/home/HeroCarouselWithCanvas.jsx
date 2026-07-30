@@ -169,7 +169,7 @@ if (!slides.length) {
 
       <div className="absolute inset-0">
         <Image
-          src={slide.image.url}
+          src={slide.image.url  || "/public/placeholder.jpg"}
           alt={slide.title || 'Elegant Touch'}
           fill
           priority

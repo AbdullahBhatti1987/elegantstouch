@@ -46,7 +46,7 @@ export default function HeroBanner({ slide }) {
 
           <div className="relative h-full overflow-hidden rounded-[30px] border border-white bg-white shadow-xl">
             <Image
-              src={slide.image?.thumbnail || slide.image?.url}
+              src={slide.image?.thumbnail || slide.image?.url  || "/public/placeholder.jpg"}
 
               alt={slide.title}
 

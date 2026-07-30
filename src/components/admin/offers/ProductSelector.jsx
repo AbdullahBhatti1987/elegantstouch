@@ -72,7 +72,7 @@ export default function ProductSelector({
             <Image
               src={
                 product.images?.[0]?.thumbnail ||
-                product.images?.[0]?.url
+                product.images?.[0]?.url || "/public/placeholder.jpg"
               }
 
               alt={product.name}

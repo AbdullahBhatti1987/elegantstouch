@@ -186,28 +186,91 @@ import { useEffect, useState } from 'react';
 import { CheckCircle, ShoppingBag, Printer } from 'lucide-react';
 import Link from 'next/link';
 import axios from 'axios';
+import Image from 'next/image';
+import SpinnerLoader from '@/components/layout/SpinnerLoader';
 
 export default function OrderSuccessPage({ params }) {
   const [order, setOrder] = useState(null);
 
+  const fetchOrder = async () => {
+    const { id } = await params;
+    const { data } = await axios.get(`/api/orders/${id}`);
+
+    if (data.success) {
+      setOrder(data.data);
+    }
+  };
+
   useEffect(() => {
-    const fetchOrder = async () => {
-      const { id } = await params;
-
-      const { data } = await axios.get(`/api/orders/${id}`);
-
-      if (data.success) {
-        setOrder(data.data);
-      }
-    };
-
     fetchOrder();
   }, [params]);
+
+  const handlePrint = () => {
+    const invoice = document.getElementById('invoice');
+
+    const printWindow = window.open('', '', 'width=900,height=700');
+
+    const styles = Array.from(
+      document.querySelectorAll('style, link[rel="stylesheet"]'),
+    )
+      .map((style) => style.outerHTML)
+      .join('');
+
+    printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>ElegantTouch Invoice</title>
+
+        ${styles}
+
+        <style>
+          @page {
+            size: A4;
+            margin: 15mm;
+          }
+
+          body {
+            background: white !important;
+          }
+
+          #invoice {
+            max-width: 800px;
+            margin: auto;
+          }
+
+          img {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+          }
+        </style>
+
+      </head>
+
+      <body>
+
+        ${invoice.outerHTML}
+
+      </body>
+
+    </html>
+  `);
+
+    printWindow.document.close();
+
+    printWindow.onload = () => {
+      printWindow.focus();
+
+      printWindow.print();
+
+      printWindow.close();
+    };
+  };
 
   if (!order) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
-        Loading...
+        <SpinnerLoader />
       </div>
     );
   }
@@ -316,8 +379,11 @@ export default function OrderSuccessPage({ params }) {
                 {order.items?.map((item) => (
                   <tr key={item._id} className="border-t">
                     <td className="flex items-center gap-3 p-3">
-                      <img
-                        src={item.image}
+                      <Image
+                        src={item.image || '/images/placeholder.jpg'}
+                        width={56}
+                        height={56}
+                        alt={item.name}
                         className="h-14 w-14 rounded-lg object-cover"
                       />
 
@@ -371,7 +437,7 @@ export default function OrderSuccessPage({ params }) {
 
       <div className="mx-auto mt-6 flex max-w-[800px] gap-3 print:hidden">
         <button
-          onClick={() => window.print()}
+          onClick={handlePrint}
           className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-black py-3 text-white"
         >
           <Printer size={18} />
@@ -386,19 +452,6 @@ export default function OrderSuccessPage({ params }) {
           Continue Shopping
         </Link>
       </div>
-
-      <style jsx global>{`
-        @media print {
-          @page {
-            size: A4;
-            margin: 15mm;
-          }
-
-          body {
-            background: white;
-          }
-        }
-      `}</style>
     </div>
   );
 }

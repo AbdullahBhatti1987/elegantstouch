@@ -26,7 +26,7 @@ export default function CartItem({
 
         <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-gray-100 sm:h-28 sm:w-28">
           <Image
-            src={item.image}
+            src={item.image  || "/public/placeholder.jpg"}
             alt={item.name}
             fill
             priority

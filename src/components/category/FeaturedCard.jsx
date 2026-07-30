@@ -21,11 +21,11 @@ export default function FeatureCard({ category }) {
           src={
             image?.thumbnail ||
             image?.url ||
-            '/images/default-category.jpg'
+            '/public/placeholder.jpg'
           }
           alt={image?.alt || name || 'Category image'}
           fill
-          loading='eager'
+          loading="eager"
           sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 25vw"
           className="object-cover transition duration-700 group-hover:scale-110"
         />

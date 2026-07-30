@@ -67,7 +67,7 @@
 //                 <td className="w-12 px-2 py-2 md:max-w-16 md:px-4">
 //                   <div className="relative h-9 w-9 overflow-hidden rounded-lg border md:h-10 md:w-10">
 //                     <Image
-//                       src={category.image.url}
+//                       src={category.image.url  || "/public/placeholder.jpg"}
 //                       alt={category.alt || category.name}
 //                       fill
 //                       sizes="40px"

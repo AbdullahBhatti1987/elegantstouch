@@ -132,7 +132,7 @@ export default function ProductDetailPage() {
                       className="group relative aspect-square overflow-hidden rounded-xl border bg-gray-100 transition hover:ring-2 hover:ring-black dark:bg-zinc-800"
                     >
                       <Image
-                        src={img.thumbnail || img.url}
+                        src={img.thumbnail || img.url  || "/public/placeholder.jpg"}
                         alt={`${product.name} image ${index + 1}`}
                         fill
                         sizes="

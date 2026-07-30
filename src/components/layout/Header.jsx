@@ -67,7 +67,7 @@ export default function Header() {
           className="relative block h-10 w-24 md:h-12 md:w-36"
         >
           <Image
-            src="/images/logo2.png"
+            src={"/images/logo2.png"  || "/public/placeholder.jpg"}
             alt="Elegants Touch"
             fill
             sizes="(max-width: 768px) 144px, 176px"
