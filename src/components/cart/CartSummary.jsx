@@ -1,14 +1,15 @@
-'use client';
-
 import Link from 'next/link';
 import CouponInput from './CouponInput';
 import { useCart } from '@/context/CartContext';
 
 export default function CartSummary({ subtotal }) {
   const { coupon, setCoupon, discount, setDiscount } = useCart();
-  
-  const shipping = subtotal >= 2000 ? 0 : 250;
-  const total = Math.round(subtotal + shipping - discount);
+  const discountedSubtotal = subtotal - discount;
+
+  const shipping = discountedSubtotal >= 2000 ? 0 : 250;
+
+  const total = Math.round(discountedSubtotal + shipping);
+  // const total = Math.round(subtotal + shipping - discount);
 
   return (
     <div className="h-fit rounded-2xl border bg-white p-6 shadow-sm">
@@ -59,6 +60,7 @@ export default function CartSummary({ subtotal }) {
         subtotal={subtotal}
         setDiscount={setDiscount}
         setCoupon={setCoupon}
+        disabled={!!coupon}
       />
 
       {coupon && (

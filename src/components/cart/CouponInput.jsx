@@ -9,6 +9,7 @@ export default function CouponInput({
   subtotal,
   setDiscount,
   setCoupon,
+  disabled,
 }) {
   const [code, setCode] = useState('');
   const { loading, startLoading, stopLoading } = useLoading();
@@ -55,9 +56,13 @@ export default function CouponInput({
         type="button"
         onClick={handleApply}
         disabled={loading}
-        className="bg-primary w-full rounded-xl px-4 py-3 text-white transition hover:opacity-90 disabled:opacity-50"
+        className={`bg-primary w-full rounded-xl px-4 py-3 text-white transition hover:opacity-90 disabled:opacity-50 ${
+          disabled
+            ? 'cursor-not-allowed bg-gray-400'
+            : 'bg-black hover:opacity-90'
+        }`}
       >
-        {loading ? 'Applying...' : 'Apply Coupon'}
+        {disabled ? 'Coupon Applied' : 'Apply Coupon'}
       </button>
     </div>
   );

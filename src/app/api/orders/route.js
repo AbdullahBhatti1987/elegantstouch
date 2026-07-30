@@ -118,17 +118,17 @@ export async function POST(req) {
       postalCode,
     } = shippingAddress;
 
-    console.log('ORDER OBJECT:', {
-      firstName,
-      lastName,
-      email,
-      mobile,
-      address,
-      landmark,
-      city,
-      province,
-      postalCode,
-    });
+    // console.log('ORDER OBJECT:', {
+    //   firstName,
+    //   lastName,
+    //   email,
+    //   mobile,
+    //   address,
+    //   landmark,
+    //   city,
+    //   province,
+    //   postalCode,
+    // });
 
     const totalOrders = await Order.countDocuments();
     const orderNumber = generateOrderNumber(totalOrders + 1);

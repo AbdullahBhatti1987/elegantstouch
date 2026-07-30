@@ -5,11 +5,20 @@ import CartSummary from '@/components/cart/CartSummary';
 import EmptyCart from '@/components/cart/EmptyCart';
 import CartSkeleton from '@/components/cart/CartSkeleton';
 import { useCart } from '@/context/CartContext';
+import { useEffect } from 'react';
 
 export default function CartPage() {
-  const { cart, cartCount, initialLoading, updateCartQuantity, removeFromCart } =
-    useCart();
-
+  const {
+    cart,
+    cartCount,
+    initialLoading,
+    updateCartQuantity,
+    removeFromCart,
+    coupon,
+    setCoupon,
+    discount,
+    setDiscount,
+  } = useCart();
   // Loading
   if (initialLoading) {
     return <CartSkeleton />;
@@ -49,11 +58,18 @@ export default function CartPage() {
     updateCartQuantity(id, newQuantity);
   };
 
+  useEffect(() => {
+    if (subtotal < 1000 && coupon) {
+      setCoupon(null);
+      setDiscount(0);
+    }
+  }, [subtotal, coupon, setCoupon, setDiscount]);
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
-      <div className="mb-4 flex flex-col rounded-xl border p-4 ">
+      <div className="mb-4 flex flex-col rounded-xl border p-4">
         <h1 className="text-3xl font-bold">Shopping Cart</h1>
-         <p className="text-gray-500">{cartCount} item(s) in cart</p>
+        <p className="text-gray-500">{cartCount} item(s) in cart</p>
       </div>
       <div className="grid gap-4 lg:grid-cols-3">
         <div className="lg:col-span-2">

@@ -13,8 +13,9 @@ export default function MainLayout({ children }) {
   const isDashboard = pathname.startsWith('/dashboard');
   const isProducts = pathname.startsWith('/products');
   const isCategories = pathname.startsWith('/categories');
+  const isOrdersuccess = pathname.startsWith('/order-success');
 
-  const hideFooter = isDashboard || isProducts || isCategories;
+  const hideFooter = isDashboard || isProducts || isCategories || isOrdersuccess;
   // const hideFooter = isDashboard || isProducts;
 
   return (
