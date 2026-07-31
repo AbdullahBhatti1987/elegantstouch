@@ -21,11 +21,11 @@ export default function MainLayout({ children }) {
 
   return (
     <div className="flex flex-col">
-      {!isDashboard || isOrdersuccess && <Header />}
+      {!(isDashboard || isOrdersuccess) && <Header />}
 
       <main className="flex-1">{children}</main>
 
-      {!isDashboard && <MobileBottomNav />}
+      {!isDashboard && !isOrdersuccess && <MobileBottomNav />}
       {!hideFooter && <Footer />}
     </div>
   );

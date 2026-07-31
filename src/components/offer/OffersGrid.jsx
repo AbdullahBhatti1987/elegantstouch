@@ -1,13 +1,12 @@
-
-
 import { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import ProductCard from '../products/ProductCard';
 import ProductCardSkeleton from '../products/ProductCardSkeleton';
 import { useWishlist } from '@/context/WishlistContext';
 import { useCart } from '@/context/CartContext';
+import EmptyOffersState from './EmptyOffersState';
 
-export default function OffersGrid({ onEmpty }) {
+export default function OffersGrid() {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -17,38 +16,32 @@ export default function OffersGrid({ onEmpty }) {
   const { addToCart, isInCart } = useCart();
 
   const loaderRef = useRef(null);
-  const fetchOffers = useCallback(
-    async (pageNumber) => {
-      try {
-        setLoading(true);
+  const fetchOffers = useCallback(async (pageNumber) => {
+    try {
+      setLoading(true);
 
-        const { data } = await axios.get(
-          `/api/flash-sale/active?page=${pageNumber}&limit=12`,
-        );
+      const { data } = await axios.get(
+        `/api/flash-sale/active?page=${pageNumber}&limit=12`,
+      );
 
-        if (data.success && data.data) {
-          if (data.data.products.length === 0) {
-            onEmpty();
-
-            return;
-          }
-
-          setProducts((prev) =>
-            pageNumber === 1
-              ? data.data.products
-              : [...prev, ...data.data.products],
-          );
-
-          setHasMore(data.data.pagination.hasMore);
+      if (data.success && data.data) {
+        if (data.data.products.length === 0) {
+          setHasMore(false);
+          return;
         }
-      } catch (error) {
-        console.log('Offers Error', error);
-      } finally {
-        setLoading(false);
+        setProducts((prev) =>
+          pageNumber === 1
+            ? data.data.products
+            : [...prev, ...data.data.products],
+        );
+        setHasMore(data.data.pagination.hasMore);
       }
-    },
-    [onEmpty],
-  );
+    } catch (error) {
+      console.log('Offers Error', error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     fetchOffers(1);
@@ -71,17 +64,18 @@ export default function OffersGrid({ onEmpty }) {
         threshold: 0,
       },
     );
-
     const loader = loaderRef.current;
-
     if (loader) {
       observer.observe(loader);
     }
-
     return () => {
       observer.disconnect();
     };
   }, [page, hasMore, loading, fetchOffers]);
+
+  if (!loading && products.length === 0) {
+    return <EmptyOffersState />;
+  }
 
   return (
     <>
