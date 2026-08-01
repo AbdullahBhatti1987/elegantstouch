@@ -10,6 +10,8 @@ import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import Image from 'next/image';
 import axios from 'axios';
+import NavDropdown from './NavDropdown';
+import SupportMegaMenu from './SupportMegaMenu';
 
 export default function Header() {
   const router = useRouter();
@@ -59,15 +61,15 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 shadow-sm backdrop-blur-3xl ">
-      <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between md:min-h-16 px-4">
+    <header className="sticky top-0 z-[100] shadow-sm backdrop-blur-3xl">
+      <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between px-4 md:min-h-16">
         {/* Logo */}
         <Link
           href="/dashboard"
           className="relative block h-10 w-24 md:h-12 md:w-36"
         >
           <Image
-            src={"/images/logo2.png"  || "/public/placeholder.jpg"}
+            src={'/images/logo2.png' || '/public/placeholder.jpg'}
             alt="Elegants Touch"
             fill
             sizes="(max-width: 768px) 144px, 176px"
@@ -79,6 +81,19 @@ export default function Header() {
         {/* Desktop Nav */}
         <nav className="text-textcolor hidden h-full items-center gap-8 text-sm font-medium lg:flex">
           {navLinks.map((link) => {
+            // Support Mega Menu
+            if (link.name === 'Support') {
+              return (
+                <NavDropdown
+                  key={link.name}
+                  label={link.name}
+                  icon={link.icon}
+                >
+                  <SupportMegaMenu />
+                </NavDropdown>
+              );
+            }
+
             const LinkIcon = link.icon;
             const isActive = pathname === link.href;
 
@@ -107,7 +122,6 @@ export default function Header() {
                   {link.name}
                 </span>
 
-                {/* Active underline + Hover underline */}
                 <span
                   className={`bg-primary absolute -bottom-1 left-0 h-0.5 w-full transition-transform duration-300 ${
                     isActive

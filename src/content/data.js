@@ -8,11 +8,13 @@ import {
   LayoutDashboard,
   Grid3X3,
   Package,
+LifeBuoy,
   ShoppingCart,
   Users,
   Settings,
   ClipboardList,
   UserRound,
+  Headset, 
   LogOut,
   TicketPercent,
   MonitorPlay,
@@ -133,6 +135,12 @@ export const navLinks = [
     name: 'Offers',
     href: '/offers',
     icon: Tag,
+  },
+  {
+    id: 6,
+    name: 'Support',
+    href: '#',
+    icon: Headset ,
   },
 ];
 

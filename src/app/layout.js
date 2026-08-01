@@ -9,6 +9,7 @@ import { WishlistProvider } from '@/context/WishlistContext';
 import { CartProvider } from '@/context/CartContext';
 import { LoadingProvider } from '@/context/LoadingContext';
 import SpinnerLoader from '@/components/layout/SpinnerLoader';
+import ToastProvider from '@/components/ToastProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -152,7 +153,6 @@ export default async function RootLayout({ children }) {
                   new Date()
                 );
 
-
                 gtag(
                   'config',
                   '${settings.googleAnalyticsId}'
@@ -210,11 +210,13 @@ export default async function RootLayout({ children }) {
             <WishlistProvider>
               <SpinnerLoader />
               <MainLayout>{children}</MainLayout>
-              <Toaster
+              {/* <Toaster
                 position="top-right"
                 reverseOrder={false}
                 containerClassName="toast-container"
-              />
+              /> */}
+
+              <ToastProvider />
             </WishlistProvider>
           </CartProvider>
         </LoadingProvider>
