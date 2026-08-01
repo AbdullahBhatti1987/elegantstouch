@@ -30,17 +30,14 @@ export default function NavDropdown({
   }, []);
 
   return (
-    <div
-      ref={dropdownRef}
-      className={`relative h-full ${className}`}
-      onMouseLeave={() => setOpen(false)}
-    >
+    <div ref={dropdownRef} className={`relative h-full ${className}`}>
       {/* Nav Item */}
 
       <button
         type="button"
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen((prev) => !prev)}
         onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
 
         className="group text-textcolor hover:text-primary relative flex h-full flex-col items-center justify-center gap-1 text-sm font-medium transition"
       >
