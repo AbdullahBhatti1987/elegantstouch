@@ -12,6 +12,7 @@ import Image from 'next/image';
 import axios from 'axios';
 import NavDropdown from './NavDropdown';
 import SupportMegaMenu from './SupportMegaMenu';
+import CategoryMegaMenu from './CategoryMegaMenu';
 
 export default function Header() {
   const router = useRouter();
@@ -90,6 +91,18 @@ export default function Header() {
                   icon={link.icon}
                 >
                   <SupportMegaMenu />
+                </NavDropdown>
+              );
+            }
+
+            if (link.name === 'Categories') {
+              return (
+                <NavDropdown
+                  key={link.name}
+                  label={link.name}
+                  icon={link.icon}
+                >
+                  <CategoryMegaMenu />
                 </NavDropdown>
               );
             }

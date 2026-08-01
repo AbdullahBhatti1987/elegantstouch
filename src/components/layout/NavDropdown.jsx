@@ -70,7 +70,8 @@ export default function NavDropdown({
       <div
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
-        className={`absolute top-full right-0 pt-4 transition-all duration-300 ${
+
+        className={`absolute top-full left-1/2 -translate-x-1/2 pt-4 transition-all duration-300 ${
           open
             ? 'visible translate-y-0 opacity-100'
             : 'invisible -translate-y-2 opacity-0'
