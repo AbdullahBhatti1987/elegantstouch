@@ -28,7 +28,7 @@ export default function AdminLayout({ children }) {
       }
     } catch (error) {
       console.log('Invalid sidebar storage:', error);
-      // localStorage.removeItem(SIDEBAR_STORAGE_KEY);
+      localStorage.removeItem(SIDEBAR_STORAGE_KEY);
     }
   }, []);
 
@@ -93,16 +93,6 @@ export default function AdminLayout({ children }) {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
 
 // 'use client';
 
