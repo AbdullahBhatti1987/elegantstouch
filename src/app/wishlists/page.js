@@ -9,6 +9,7 @@ import WishlistActions from '@/components/wishlist/WishlistActions';
 import WishlistFilters from '@/components/wishlist/WishlistFilters';
 import WishlistGrid from '@/components/wishlist/WishlistGrid';
 import EmptyWishlist from '@/components/wishlist/EmptyWishlist';
+import ScrollToTopButton from '@/components/common/ScrollToTopButton';
 
 export default function WishlistPage() {
   const {
@@ -23,7 +24,6 @@ export default function WishlistPage() {
 
   const [filter, setFilter] = useState('all');
   const [sort, setSort] = useState('newest');
-
 
   // console.log("wishlist==>", wishlist)
   // console.log("wishlistCount==>", wishlistCount)
@@ -114,6 +114,8 @@ export default function WishlistPage() {
         isInWishlist={isInWishlist}
         isInCart={isInCart}
       />
+
+      <ScrollToTopButton className="right-6 bottom-20 md:right-10 md:bottom-8" />
     </div>
   );
 }

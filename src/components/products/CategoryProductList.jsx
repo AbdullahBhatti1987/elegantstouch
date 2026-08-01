@@ -1,5 +1,6 @@
 'use client';
 
+import ScrollToTopButton from '../common/ScrollToTopButton';
 import ProductCard from './ProductCard';
 
 export default function CategoryProductList({
@@ -13,8 +14,8 @@ export default function CategoryProductList({
   isInCart,
   removeFromWishlist,
   categoryName,
+  scrollRef,
 }) {
-
   return (
     <section className="min-w-0 flex-1">
       {/* Header */}
@@ -72,6 +73,10 @@ export default function CategoryProductList({
           ))
         )}
       </div>
+      <ScrollToTopButton
+        scrollRef={scrollRef}
+        className="right-6 bottom-20 md:right-10 md:bottom-8"
+      />
     </section>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import PriceRangeFilter from '@/components/tools/PriceRangeFilter';
 import CategoryFilter from '@/components/category/CategoryFilter';
@@ -10,7 +9,6 @@ import CategoryFilter from '@/components/category/CategoryFilter';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import CategoryProductList from '@/components/products/CategoryProductList';
-
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -25,7 +23,7 @@ export default function ProductsPage() {
   const [values, setValues] = useState([0, 100000]);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
-
+  const loadingRef = useRef(false);
   const loaderRef = useRef(null);
   const [sort, setSort] = useState('default');
   const [loading, setLoading] = useState(true);
@@ -33,10 +31,10 @@ export default function ProductsPage() {
     page: 1,
     totalPages: 1,
     total: 0,
-    limit: 8,
+    limit: 12,
+    hasNextPage: false,
   });
   const scrollRef = useRef(null);
-  const router = useRouter();
   const { addToCart, isInCart } = useCart();
   const { addToWishlist, isInWishlist, removeFromWishlist } =
     useWishlist();
@@ -45,6 +43,10 @@ export default function ProductsPage() {
 
   const fetchProducts = useCallback(
     async (currentPage = 1) => {
+      if (loadingRef.current) return;
+
+      loadingRef.current = true;
+
       try {
         if (currentPage === 1) {
           setLoading(true);
@@ -55,6 +57,7 @@ export default function ProductsPage() {
         const { data } = await axios.get(
           `/api/products?page=${currentPage}&limit=12&search=${encodeURIComponent(search)}`,
         );
+
         if (data.success) {
           if (currentPage === 1) {
             setProducts(data.data);
@@ -62,13 +65,12 @@ export default function ProductsPage() {
             setProducts((prev) => [...prev, ...data.data]);
           }
 
-          console.log('pagination =>', data.pagination);
-          console.log('products length =>', data.data.length);
           setPagination(data.pagination);
         }
       } catch (error) {
         console.log(error);
       } finally {
+        loadingRef.current = false;
         setLoading(false);
         setLoadingMore(false);
       }
@@ -90,21 +92,16 @@ export default function ProductsPage() {
     }
   };
 
-  const handlePageChange = (newPage) => {
-    setPagination((prev) => ({
-      ...prev,
-      page: newPage,
-    }));
-  };
-
   useEffect(() => {
     setPage(1);
   }, [search]);
 
   useEffect(() => {
     fetchProducts(page);
-    fetchCategories();
-  }, [page, search]);
+    if (page === 1) {
+      fetchCategories();
+    }
+  }, [page, search, fetchProducts]);
 
   // Filters
 
@@ -138,10 +135,14 @@ export default function ProductsPage() {
   }
 
   useEffect(() => {
+    const element = loaderRef.current;
+
+    if (!element) return;
+
     const observer = new IntersectionObserver(
-      (entries) => {
+      ([entry]) => {
         if (
-          entries[0].isIntersecting &&
+          entry.isIntersecting &&
           pagination.hasNextPage &&
           !loadingMore
         ) {
@@ -154,16 +155,10 @@ export default function ProductsPage() {
       },
     );
 
-    const element = loaderRef.current;
-
-    if (element) {
-      observer.observe(element);
-    }
+    observer.observe(element);
 
     return () => {
-      if (element) {
-        observer.unobserve(element);
-      }
+      observer.disconnect();
     };
   }, [pagination.hasNextPage, loadingMore]);
 
@@ -197,6 +192,7 @@ export default function ProductsPage() {
         className="flex min-w-0 flex-1 flex-col overflow-y-auto pr-2"
       >
         <CategoryProductList
+          scrollRef={scrollRef}
           filteredProducts={filteredProducts}
           loading={loading}
           sort={sort}

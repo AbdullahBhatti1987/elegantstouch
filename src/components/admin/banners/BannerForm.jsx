@@ -206,8 +206,8 @@ export default function BannerForm({
 
         {/* IMAGE */}
 
-        <section className="rounded-xl border p-6">
-          <div className="grid gap-8 md:grid-cols-2">
+        <section className="grid grid-cols-1 gap-8 rounded-xl border p-6 md:grid-cols-2">
+          <div className="">
             <FileUpload
               label="Banner Image"
               name="image"
@@ -215,40 +215,31 @@ export default function BannerForm({
               loading={loading}
               onChange={setUploadImage}
             />
-
-            <Input
-              label="Image Alt Text"
-
-              name="alt"
-
-              value={formData.alt}
-
-              loading={loading}
-
-              onChange={handleChange}
-            />
+          </div>
+          <div>
+            <div className="">
+              <Input
+                label="Image Alt Text"
+                name="alt"
+                value={formData.alt}
+                loading={loading}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="">
+              <Textarea
+                label="Banner Description"
+                name="description"
+                value={formData.description}
+                loading={loading}
+                onChange={handleChange}
+                rows={5}
+              />
+            </div>
           </div>
         </section>
 
         {/* DESCRIPTION */}
-
-        <section>
-          <h2 className="mb-5 text-lg font-semibold">Description</h2>
-
-          <Textarea
-            label="Banner Description"
-
-            name="description"
-
-            value={formData.description}
-
-            loading={loading}
-
-            onChange={handleChange}
-
-            rows={5}
-          />
-        </section>
 
         {/* BUTTONS */}
 

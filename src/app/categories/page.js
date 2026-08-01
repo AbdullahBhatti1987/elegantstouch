@@ -6,6 +6,7 @@ import axios from 'axios';
 import CategoryCard from '@/components/category/CategoryCard';
 import CategoryCardSkeleton from '@/components/category/CategoryCardSkeleton';
 import SectionHeader from '@/components/common/SectionHeader';
+import ScrollToTopButton from '@/components/common/ScrollToTopButton';
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
@@ -141,6 +142,7 @@ export default function CategoriesPage() {
           </div>
         </div>
       </div>
+     <ScrollToTopButton className="right-6 bottom-20 md:right-10 md:bottom-8" />
     </section>
   );
 }

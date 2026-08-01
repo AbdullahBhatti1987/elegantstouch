@@ -14,16 +14,26 @@ export default function MainLayout({ children }) {
   const isProducts = pathname.startsWith('/products');
   const isCategories = pathname.startsWith('/categories');
   const isOrdersuccess = pathname.startsWith('/order-success');
+  const isNewArrivals = pathname.startsWith('/new-arrivals');
+  const isOffers = pathname.startsWith('/offers');
 
   const hideFooter =
-    isDashboard || isProducts || isCategories || isOrdersuccess;
+    isDashboard ||
+    isProducts ||
+    isCategories ||
+    isOrdersuccess ||
+    isNewArrivals ||
+    isOffers;
   // const hideFooter = isDashboard || isProducts;
 
   return (
     <div className="flex flex-col">
       {!(isDashboard || isOrdersuccess) && <Header />}
 
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">
+        {children}
+
+      </main>
 
       {!isDashboard && !isOrdersuccess && <MobileBottomNav />}
       {!hideFooter && <Footer />}

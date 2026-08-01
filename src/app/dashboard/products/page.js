@@ -62,7 +62,7 @@ export default function ProductsPage() {
 
   // Get saved view
   useEffect(() => {
-    const savedView = localStorage.getItem('productsView');
+    const savedView = localStorage.getItem('productView');
 
     if (savedView) {
       setView(savedView);

@@ -19,7 +19,7 @@ import {
   Heart,
   ListOrdered,
   BadgePercent,
-  Zap
+  Zap,
 } from 'lucide-react';
 
 export const dashboardSidebar = [
@@ -53,28 +53,28 @@ export const dashboardSidebar = [
   //   href: '/dashboard/offers/coupons',
   //   icon: TicketPercent,
   // },
-{
-  title: "Offers",
-  icon: Tag,
+  {
+    title: 'Offers',
+    icon: Tag,
 
-  children: [
-    {
-      title: "Flash Sale",
-      href: "/dashboard/offers/flash-sale",
-      icon: Zap,
-    },
-    {
-      title: "Deals",
-      href: "/dashboard/offers/deals",
-      icon: BadgePercent,
-    },
-    {
-      title: "Coupons",
-      href: "/dashboard/offers/coupons",
-      icon: TicketPercent,
-    },
-  ],
-},
+    children: [
+      {
+        title: 'Flash Sale',
+        href: '/dashboard/offers/flash-sale',
+        icon: Zap,
+      },
+      {
+        title: 'Deals',
+        href: '/dashboard/offers/deals',
+        icon: BadgePercent,
+      },
+      {
+        title: 'Coupons',
+        href: '/dashboard/offers/coupons',
+        icon: TicketPercent,
+      },
+    ],
+  },
   {
     title: 'Customers',
     href: '/dashboard/customers',
@@ -158,15 +158,15 @@ export const footerLinks = {
     },
     {
       id: 4,
-      name: 'Best Selling',
-      href: '/best-selling',
-      title: 'Best Selling Products',
-    },
-    {
-      id: 5,
       name: 'Categories',
       href: '/categories',
       title: 'Shop by Category',
+    },
+    {
+      id: 5,
+      name: 'Offers',
+      href: '/offers',
+      title: 'Shop by Offers',
     },
   ],
 
@@ -395,50 +395,53 @@ export const dashboardStats = [
   },
 ];
 
-
-
-
 export const heroSlides = [
   {
     id: 1,
-    badge: "New Arrival",
-    discount: "Up to 40% OFF",
-    title: "Ethereal Diamond & Gold Collection",
-    subtitle: "Timeless Elegance",
-    description: "Discover handcrafted pieces designed to elevate your everyday moments with radiant sophistication and brilliant craftsmanship.",
-    primaryBtnText: "Shop Collection",
-    primaryBtnLink: "/shop/jewelry",
-    secondaryBtnText: "Explore Lookbook",
-    secondaryBtnLink: "/lookbook",
-    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1200&auto=format&fit=crop",
-    imageAlt: "Exquisite diamond jewelry piece on display",
+    badge: 'New Arrival',
+    discount: 'Up to 40% OFF',
+    title: 'Ethereal Diamond & Gold Collection',
+    subtitle: 'Timeless Elegance',
+    description:
+      'Discover handcrafted pieces designed to elevate your everyday moments with radiant sophistication and brilliant craftsmanship.',
+    primaryBtnText: 'Shop Collection',
+    primaryBtnLink: '/shop/jewelry',
+    secondaryBtnText: 'Explore Lookbook',
+    secondaryBtnLink: '/lookbook',
+    image:
+      'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1200&auto=format&fit=crop',
+    imageAlt: 'Exquisite diamond jewelry piece on display',
   },
   {
     id: 2,
-    badge: "Exclusive Release",
-    discount: "Limited Edition",
-    title: "Modern Minimalist Timepieces",
-    subtitle: "Precision Meets Style",
-    description: "Engineered with Swiss precision and styled with modern minimalist aesthetics. Make every second count in absolute luxury.",
-    primaryBtnText: "Discover Watches",
-    primaryBtnLink: "/shop/watches",
-    secondaryBtnText: "Watch Story",
-    secondaryBtnLink: "/about-watches",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop",
-    imageAlt: "Modern luxury minimalist watch",
+    badge: 'Exclusive Release',
+    discount: 'Limited Edition',
+    title: 'Modern Minimalist Timepieces',
+    subtitle: 'Precision Meets Style',
+    description:
+      'Engineered with Swiss precision and styled with modern minimalist aesthetics. Make every second count in absolute luxury.',
+    primaryBtnText: 'Discover Watches',
+    primaryBtnLink: '/shop/watches',
+    secondaryBtnText: 'Watch Story',
+    secondaryBtnLink: '/about-watches',
+    image:
+      'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop',
+    imageAlt: 'Modern luxury minimalist watch',
   },
   {
     id: 3,
-    badge: "Sustainable Luxury",
-    discount: "Free Shipping",
-    title: "Artisanal Leather Accessories",
-    subtitle: "Crafted for Generations",
-    description: "Sustainably sourced, meticulously hand-stitched leather goods that develop a rich, beautiful patina over time.",
-    primaryBtnText: "Browse Leather",
-    primaryBtnLink: "/shop/leather",
-    secondaryBtnText: "Our Craft",
-    secondaryBtnLink: "/craftsmanship",
-    image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1200&auto=format&fit=crop",
-    imageAlt: "Luxury leather handbag and accessories",
+    badge: 'Sustainable Luxury',
+    discount: 'Free Shipping',
+    title: 'Artisanal Leather Accessories',
+    subtitle: 'Crafted for Generations',
+    description:
+      'Sustainably sourced, meticulously hand-stitched leather goods that develop a rich, beautiful patina over time.',
+    primaryBtnText: 'Browse Leather',
+    primaryBtnLink: '/shop/leather',
+    secondaryBtnText: 'Our Craft',
+    secondaryBtnLink: '/craftsmanship',
+    image:
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1200&auto=format&fit=crop',
+    imageAlt: 'Luxury leather handbag and accessories',
   },
 ];

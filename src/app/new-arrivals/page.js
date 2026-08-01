@@ -372,6 +372,7 @@ import ProductCardSkeleton from '@/components/products/ProductCardSkeleton';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import SectionHeader from '@/components/common/SectionHeader';
+import ScrollToTopButton from '@/components/common/ScrollToTopButton';
 
 export default function NewArrivalsPage() {
   const [products, setProducts] = useState([]);
@@ -504,6 +505,8 @@ export default function NewArrivalsPage() {
           <div className="border-t-primary h-8 w-8 animate-spin rounded-full border-4 border-gray-300" />
         )}
       </div>
+
+      <ScrollToTopButton className="right-6 bottom-20 md:right-10 md:bottom-8" />
     </section>
   );
 }

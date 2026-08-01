@@ -6,15 +6,10 @@ import Coupon from '@/models/Coupon';
 export async function GET(req) {
   try {
     await connectDB();
-
     const { searchParams } = new URL(req.url);
-
     const search = searchParams.get('search') || '';
-
     const page = Number(searchParams.get('page')) || 1;
-
     const limit = Number(searchParams.get('limit')) || 8;
-
     const skip = (page - 1) * limit;
 
     let query = {};
@@ -37,20 +32,13 @@ export async function GET(req) {
 
     return NextResponse.json({
       success: true,
-
       data: coupons,
-
       pagination: {
         total: totalCoupons,
-
         page,
-
         limit,
-
         totalPages: Math.ceil(totalCoupons / limit),
-
         hasNextPage: page < Math.ceil(totalCoupons / limit),
-
         hasPrevPage: page > 1,
       },
     });
@@ -81,25 +69,15 @@ export async function POST(req) {
 
     const coupon = await Coupon.create({
       code: body.code.trim().toUpperCase(),
-
       discountType: body.discountType,
-
       value: Number(body.value),
-
       minOrderAmount: Number(body.minOrderAmount) || 0,
-
       maxDiscount: body.maxDiscount ? Number(body.maxDiscount) : null,
-
       usageLimit: body.usageLimit ? Number(body.usageLimit) : null,
-
       expiryDate: new Date(body.expiryDate),
-
       applyType: body.applyType,
-
       categoryIds: body.categoryIds,
-
       productIds: body.productIds,
-
       status: body.status || 'active',
     });
     return NextResponse.json(

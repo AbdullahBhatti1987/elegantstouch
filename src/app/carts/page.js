@@ -6,6 +6,7 @@ import EmptyCart from '@/components/cart/EmptyCart';
 import CartSkeleton from '@/components/cart/CartSkeleton';
 import { useCart } from '@/context/CartContext';
 import { useEffect } from 'react';
+import ScrollToTopButton from '@/components/common/ScrollToTopButton';
 
 export default function CartPage() {
   const {
@@ -82,6 +83,7 @@ export default function CartPage() {
 
         <CartSummary subtotal={subtotal} />
       </div>
+      <ScrollToTopButton className="right-6 bottom-20 md:right-10 md:bottom-8" />
     </div>
   );
 }

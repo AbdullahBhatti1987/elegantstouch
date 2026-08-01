@@ -2,6 +2,7 @@
 
 import OffersGrid from '@/components/offer/OffersGrid';
 import SectionHeader from '@/components/common/SectionHeader';
+import ScrollToTopButton from '@/components/common/ScrollToTopButton';
 
 export default function OffersPage() {
   return (
@@ -14,6 +15,7 @@ export default function OffersPage() {
 
         <OffersGrid />
       </div>
+      <ScrollToTopButton className="right-6 bottom-20 md:right-10 md:bottom-8" />
     </section>
   );
 }
