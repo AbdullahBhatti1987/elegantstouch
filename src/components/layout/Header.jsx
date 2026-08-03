@@ -62,7 +62,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-[100] shadow-sm backdrop-blur-3xl">
+    <header className="sticky top-0 z-50 shadow-sm backdrop-blur-3xl">
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between px-4 md:min-h-16">
         {/* Logo */}
         <Link
@@ -211,7 +211,7 @@ export default function Header() {
               />
 
               {wishlistCount >= 0 && (
-                <span className="bg-primary absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-bold text-black">
+                <span className="bg-primary absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-0.75 pl-[0.5px] text-[10px] leading-none font-bold text-black">
                   {wishlistCount}
                 </span>
               )}
@@ -235,7 +235,7 @@ export default function Header() {
               />
 
               {cartCount >= 0 && (
-                <span className="bg-primary absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-[2px] pl-[0.5px] text-[10px] leading-none font-semibold text-black">
+                <span className="bg-primary absolute -top-2.5 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full pt-0.75 pl-[0.5px] text-[10px] leading-none font-semibold text-black">
                   {cartCount}
                 </span>
               )}

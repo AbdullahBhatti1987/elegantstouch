@@ -10,6 +10,7 @@ import { CartProvider } from '@/context/CartContext';
 import { LoadingProvider } from '@/context/LoadingContext';
 import SpinnerLoader from '@/components/layout/SpinnerLoader';
 import ToastProvider from '@/components/ToastProvider';
+import SubscriptionModal from '@/components/modals/SubscriptionModal';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -209,7 +210,10 @@ export default async function RootLayout({ children }) {
           <CartProvider>
             <WishlistProvider>
               <SpinnerLoader />
-              <MainLayout>{children}</MainLayout>
+              <MainLayout>
+                {children}
+                <SubscriptionModal />
+              </MainLayout>
               {/* <Toaster
                 position="top-right"
                 reverseOrder={false}

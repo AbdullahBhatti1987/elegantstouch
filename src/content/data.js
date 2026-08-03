@@ -24,6 +24,13 @@ LifeBuoy,
   Zap,
 } from 'lucide-react';
 
+import {
+  FaInstagram,
+  FaFacebookF,
+  FaTwitter,
+  FaWhatsapp,
+} from 'react-icons/fa';
+
 export const dashboardSidebar = [
   {
     title: 'Dashboard',
@@ -232,26 +239,30 @@ export const footerLinks = {
     },
   ],
 
-  social: [
+   social: [
     {
       id: 1,
       name: 'Instagram',
       href: 'https://instagram.com/elegantstouch',
+      icon: FaInstagram,
     },
     {
       id: 2,
       name: 'Facebook',
       href: 'https://facebook.com/elegantstouch',
+      icon: FaFacebookF,
     },
     {
       id: 3,
       name: 'Twitter',
       href: 'https://twitter.com/elegantstouch',
+      icon: FaTwitter,
     },
     {
       id: 4,
       name: 'WhatsApp',
       href: 'https://wa.me/',
+      icon: FaWhatsapp,
     },
   ],
 };
