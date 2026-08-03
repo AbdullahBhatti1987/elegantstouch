@@ -96,7 +96,7 @@ export default function FlashSale() {
   }
 
   return (
-    <section className="bg-neutral-100 py-8 md:py-16 dark:bg-neutral-800">
+    <section className="bg-white py-8 md:py-16 dark:bg-neutral-800">
       <div className="mx-auto max-w-7xl px-4">
         {/* Header */}
 

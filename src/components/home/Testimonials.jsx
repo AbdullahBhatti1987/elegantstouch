@@ -46,14 +46,20 @@ const testimonials = [
   },
 ];
 
+// Infinite loop ke liye duplicate
+const carouselItems = [...testimonials, ...testimonials];
+
 export default function Testimonials() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(
+    testimonials.length,
+  );
   const [visibleCards, setVisibleCards] = useState(3);
+  const [enableTransition, setEnableTransition] = useState(true);
 
   useEffect(() => {
     const updateVisibleCards = () => {
       if (window.innerWidth >= 1024) {
-        setVisibleCards(3);
+        setVisibleCards(3); // desktop pe 3 visible
       } else if (window.innerWidth >= 768) {
         setVisibleCards(2);
       } else {
@@ -69,18 +75,35 @@ export default function Testimonials() {
   }, []);
 
   useEffect(() => {
-    const maxIndex = testimonials.length - visibleCards;
+    if (currentIndex === 0) {
+      setTimeout(() => {
+        setEnableTransition(false);
+        setCurrentIndex(5);
 
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setEnableTransition(true);
+          });
+        });
+      }, 700);
+    }
+  }, [currentIndex]);
+
+  // Auto slide reverse direction (right to left)
+  useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-    }, 5000);
+      setCurrentIndex((prev) => prev - 1);
+    }, 3000);
 
     return () => clearInterval(interval);
-  }, [visibleCards]);
+  }, []);
+
+  const cardWidth = 100 / visibleCards; // Row me total 5 cards
+  // const cardWidth = 100 / 3; // Row me total 5 cards
 
   return (
     <section className="bg-gradient-to-br from-[#fffaf5] via-white to-[#fdf2f8] py-14 dark:from-[#111] dark:via-[#171717] dark:to-[#24191f]">
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="mx-auto max-w-7xl px-2">
         {/* Heading */}
         <div className="mb-10 text-center">
           <span className="text-sm font-medium text-pink-600 dark:text-pink-400">
@@ -97,23 +120,30 @@ export default function Testimonials() {
           </p>
         </div>
 
-        {/* Slider */}
-        <div className="-mx-3 overflow-hidden">
+        {/* Visible Area (sirf 3 cards dikhenge) */}
+        <div className="mx-auto w-full overflow-hidden py-4 lg:max-w-7xl">
           <div
-            className="flex transition-transform duration-700 ease-in-out"
+            className={`flex ${
+              enableTransition
+                ? 'transition-transform duration-700 ease-in-out'
+                : ''
+            }`}
             style={{
-              transform: `translateX(-${currentIndex * (100 / visibleCards)}%)`,
+              transform: `translateX(-${currentIndex * cardWidth}%)`,
             }}
           >
-            {testimonials.map((item) => (
+            {carouselItems.map((item, index) => (
               <div
-                key={item.id}
-                className="w-full shrink-0 px-3 md:w-1/2 lg:w-1/3"
+                key={`${item.id}-${index}`}
+                className="shrink-0 px-3"
+                style={{
+                  width: `${cardWidth}%`,
+                }}
               >
-                <div className="h-full rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-900">
+                <div className="flex h-[220px] flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-900">
                   {/* Customer */}
                   <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-pink-200 bg-pink-50 text-xl font-bold text-pink-600 dark:border-pink-500 dark:bg-pink-900/30 dark:text-pink-300">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-pink-100 to-pink-200 text-xl font-bold text-pink-600 dark:from-pink-900/40 dark:to-pink-800/40 dark:text-pink-300">
                       {item.name?.charAt(0).toUpperCase()}
                     </div>
 
@@ -129,13 +159,13 @@ export default function Testimonials() {
                   </div>
 
                   {/* Stars */}
-                  <div className="mt-3 flex gap-0.5">
-                    {Array.from({ length: 5 }).map((_, index) => (
+               <div className="mt-4 flex gap-1">
+                    {Array.from({ length: 5 }).map((_, starIndex) => (
                       <Star
-                        key={index}
+                        key={starIndex}
                         size={15}
                         className={
-                          index < item.rating
+                          starIndex < item.rating
                             ? 'fill-yellow-400 text-yellow-400'
                             : 'text-gray-300 dark:text-gray-600'
                         }
@@ -144,7 +174,7 @@ export default function Testimonials() {
                   </div>
 
                   {/* Review */}
-                  <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+                  <p className="mt-4 flex-1 overflow-hidden text-sm leading-relaxed text-gray-600 dark:text-gray-300">
                     "{item.message}"
                   </p>
                 </div>

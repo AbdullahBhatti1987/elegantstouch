@@ -47,8 +47,8 @@ export default function ProductCard({
         </span>}
 
         {discount > 0 && (
-          <div className="absolute top-2 right-2 rounded-lg bg-white px-2 py-1 shadow-md">
-            <span className="text-xs font-extrabold text-rose-600">
+          <div className="absolute top-2 right-2 rounded-lg bg-white px-2 shadow-md">
+            <span className="text-[10px] font-bold text-rose-600">
               {discount}% OFF
             </span>
           </div>
@@ -56,7 +56,7 @@ export default function ProductCard({
 
         {/* BADGE */}
 
-        {product.badge && (
+        {!sale && product.badge && (
           <span className="absolute top-3 left-3 rounded-full border border-white/40 bg-white/30 px-3 py-1 text-[10px] font-semibold text-black shadow-lg backdrop-blur-xl">
             {product.badge}
           </span>
@@ -64,7 +64,7 @@ export default function ProductCard({
 
         {/* WISHLIST */}
 
-        {showWishlistButton && (
+        {!sale && showWishlistButton && (
           <button
             onClick={(e) => {
               e.stopPropagation();
