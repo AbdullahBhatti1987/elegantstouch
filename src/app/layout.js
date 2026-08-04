@@ -12,6 +12,7 @@ import SpinnerLoader from '@/components/layout/SpinnerLoader';
 import ToastProvider from '@/components/ToastProvider';
 import SubscriptionModal from '@/components/modals/SubscriptionModal';
 import WhatsAppButton from '@/components/whatsapp/WhatsAppButton';
+import CartDrawer from '@/components/cart/drawer/CartDrawer';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -214,6 +215,7 @@ export default async function RootLayout({ children }) {
               <MainLayout>
                 {children}
                 <SubscriptionModal />
+                <CartDrawer />
               </MainLayout>
               {/* <Toaster
                 position="top-right"

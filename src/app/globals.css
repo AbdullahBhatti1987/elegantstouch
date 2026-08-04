@@ -3,7 +3,7 @@
 :root {
   --primary: #f8a5c2;
   /* --primary: #1A478A; */
-  
+
   --secondary: #ffd6e7;
   --accent: #c8a2c8;
   --background: #fff9fb;
@@ -180,4 +180,18 @@ body {
   to {
     width: 0%;
   }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
 }

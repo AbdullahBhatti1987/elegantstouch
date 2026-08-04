@@ -23,7 +23,7 @@ export function CartProvider({ children }) {
   const [discount, setDiscount] = useState(0);
   const [initialLoading, setInitialLoading] = useState(true);
   const { loading, startLoading, stopLoading } = useLoading();
-
+  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   // Get Guest Id
   useEffect(() => {
     const id = generateGuestId();
@@ -117,7 +117,9 @@ export function CartProvider({ children }) {
       });
 
       if (data.success) {
-        toast.success(data.message);
+        // toast.success(data.message);
+        // toast.success(`${product.name} added to cart`);
+        toast.success(`${product.name} has been added to your cart`);
         // toast.success(`${product.name} added to cart successfully`);
         // Refresh Context Cart
         await fetchCart(currentGuestId);
@@ -158,7 +160,7 @@ export function CartProvider({ children }) {
 
         setCart(null);
         setCartCount(0);
-
+        toast.success('Item removed from cart');
         return {
           success: true,
         };
@@ -174,6 +176,7 @@ export function CartProvider({ children }) {
       if (updatedItems.length === 0) {
         setCart(null);
         setCartCount(0);
+        toast.success('Item removed from cart');
         return {
           success: true,
         };
@@ -181,13 +184,16 @@ export function CartProvider({ children }) {
 
       await fetchCart(guestId);
       await fetchCartCount(guestId);
-
+      toast.success('Item removed from cart');
       return {
         success: true,
       };
     } catch (error) {
       console.error('REMOVE CART ERROR:', error);
-
+      toast.error(
+        error.response?.data?.message ||
+          'Failed to remove item from cart',
+      );
       return {
         success: false,
       };
@@ -221,13 +227,15 @@ export function CartProvider({ children }) {
       await fetchCart(guestId);
 
       await fetchCartCount(guestId);
-
+      toast.success('Cart updated successfully');
       return {
         success: true,
       };
     } catch (error) {
       console.error('UPDATE CART ERROR:', error);
-
+      toast.error(
+        error.response?.data?.message || 'Failed to update cart',
+      );
       return {
         success: false,
       };
@@ -248,13 +256,15 @@ export function CartProvider({ children }) {
 
       setCart(null);
       setCartCount(0);
-
+      toast.success('Cart cleared successfully');
       return {
         success: true,
       };
     } catch (error) {
       console.error('CLEAR CART ERROR:', error);
-
+      toast.error(
+        error.response?.data?.message || 'Failed to clear cart',
+      );
       return {
         success: false,
       };
@@ -287,6 +297,8 @@ export function CartProvider({ children }) {
         isInCart,
         coupon,
         setCoupon,
+        cartDrawerOpen,
+        setCartDrawerOpen,
         discount,
         setDiscount,
       }}

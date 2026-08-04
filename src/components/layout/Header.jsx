@@ -17,7 +17,7 @@ import CategoryMegaMenu from './CategoryMegaMenu';
 export default function Header() {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { cartCount } = useCart();
+  const { cartCount, setCartDrawerOpen } = useCart();
   const { wishlistCount } = useWishlist();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -221,7 +221,8 @@ export default function Header() {
           {/* Cart */}
           <button
             type="button"
-            onClick={() => router.push('/carts')}
+            // onClick={() => router.push('/carts')}
+            onClick={() => setCartDrawerOpen(true)}
             className="group hover:text-primary relative cursor-pointer transition"
           >
             <div className="relative">

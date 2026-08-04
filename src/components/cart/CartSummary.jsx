@@ -2,7 +2,7 @@ import Link from 'next/link';
 import CouponInput from './CouponInput';
 import { useCart } from '@/context/CartContext';
 
-export default function CartSummary({ subtotal }) {
+export default function CartSummary({ subtotal, setCartDrawerOpen }) {
   const { coupon, setCoupon, discount, setDiscount } = useCart();
   const discountedSubtotal = subtotal - discount;
 
@@ -71,6 +71,7 @@ export default function CartSummary({ subtotal }) {
       )}
       <div className="mt-3 border-t">
         <Link
+          onClick={() => setCartDrawerOpen(false)}
           href={`/checkout`}
           className="mt-3 flex w-full items-center justify-center rounded-xl bg-black px-6 py-4 text-sm font-semibold text-white transition hover:opacity-90 active:scale-[0.98]"
         >
