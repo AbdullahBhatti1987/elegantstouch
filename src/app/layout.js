@@ -11,6 +11,7 @@ import { LoadingProvider } from '@/context/LoadingContext';
 import SpinnerLoader from '@/components/layout/SpinnerLoader';
 import ToastProvider from '@/components/ToastProvider';
 import SubscriptionModal from '@/components/modals/SubscriptionModal';
+import WhatsAppButton from '@/components/whatsapp/WhatsAppButton';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -219,7 +220,7 @@ export default async function RootLayout({ children }) {
                 reverseOrder={false}
                 containerClassName="toast-container"
               /> */}
-
+              <WhatsAppButton />
               <ToastProvider />
             </WishlistProvider>
           </CartProvider>
